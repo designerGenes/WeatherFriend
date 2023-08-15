@@ -1,0 +1,21 @@
+{
+  "images" : [
+    {
+      "filename" : "historyrhymes3d_smartphone_wallpaper_sunny_mountain_running_pat_8a2a5486-63ae-483c-9f2a-ec9da3743935.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
