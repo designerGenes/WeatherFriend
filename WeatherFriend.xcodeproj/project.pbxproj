@@ -24,6 +24,8 @@
 		A881FC102A85479500410CF8 /* WeatherAdvice.swift in Sources */ = {isa = PBXBuildFile; fileRef = A881FC0F2A85479500410CF8 /* WeatherAdvice.swift */; };
 		A891B1202A8291CA00A1C5F8 /* Color+Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = A891B11F2A8291CA00A1C5F8 /* Color+Design.swift */; };
 		A8B2E2522A8292A400A1B0EE /* Image+Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B2E2512A8292A400A1B0EE /* Image+Design.swift */; };
+		A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */; };
+		A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,8 +46,10 @@
 		A858C4B02A828F98004A5373 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A881FC0F2A85479500410CF8 /* WeatherAdvice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAdvice.swift; sourceTree = "<group>"; };
 		A891B11F2A8291CA00A1C5F8 /* Color+Design.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Design.swift"; sourceTree = "<group>"; };
-		A893EB3F2A87CC0D00C9E6D2 /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
 		A8B2E2512A8292A400A1B0EE /* Image+Design.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Design.swift"; sourceTree = "<group>"; };
+		A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherKitController.swift; sourceTree = "<group>"; };
+		A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherFriend.entitlements; sourceTree = "<group>"; };
+		A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackboneTabView.swift; sourceTree = "<group>"; };
 		A8FC09742A8541A40018FA45 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
@@ -105,7 +109,6 @@
 		A858C49D2A828F97004A5373 = {
 			isa = PBXGroup;
 			children = (
-				A893EB3E2A87CBF600C9E6D2 /* ci_scripts */,
 				A858C4A82A828F97004A5373 /* WeatherFriend */,
 				A858C4A72A828F97004A5373 /* Products */,
 			);
@@ -122,6 +125,8 @@
 		A858C4A82A828F97004A5373 /* WeatherFriend */ = {
 			isa = PBXGroup;
 			children = (
+				A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */,
+				A8E927C32A8C0AB800450C52 /* Controllers */,
 				A812DA9E2A8A897B00AF5B07 /* Extensions */,
 				A812DA9D2A8A896F00AF5B07 /* Enums */,
 				A8FC09742A8541A40018FA45 /* Info.plist */,
@@ -145,17 +150,18 @@
 		A858C4B72A82919C004A5373 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */,
 				A812DAA12A8A89F300AF5B07 /* WeatherView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		A893EB3E2A87CBF600C9E6D2 /* ci_scripts */ = {
+		A8E927C32A8C0AB800450C52 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A893EB3F2A87CC0D00C9E6D2 /* ci_pre_xcodebuild.sh */,
+				A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */,
 			);
-			path = ci_scripts;
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -233,6 +239,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A858C4AC2A828F97004A5373 /* WeatherView.swift in Sources */,
+				A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */,
+				A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */,
 				A812DAAE2A8A8D5600AF5B07 /* CurrentTemperatureView.swift in Sources */,
 				A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */,
 				A812DAA32A8A8B1E00AF5B07 /* String+Convenience.swift in Sources */,
@@ -378,6 +386,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = WeatherFriend/WeatherFriend.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -419,6 +428,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CODE_SIGN_ENTITLEMENTS = WeatherFriend/WeatherFriend.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;

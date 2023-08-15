@@ -21,6 +21,12 @@
 import SwiftUI
 import Combine
 
+struct DynamicBackgroundView: View {
+    var body: some View {
+        Image.mountains_cold
+            .resizable()
+    }
+}
 
 struct WeatherView: View {
     @StateObject var viewModel: WeatherViewViewModel = WeatherViewViewModel()
@@ -30,16 +36,12 @@ struct WeatherView: View {
         GeometryReader { geo in
             
             ZStack {
-                Image.city_dark
-                    .resizable()
+                DynamicBackgroundView()
                 
                 
                 VStack(alignment: .center, spacing: 12) {
                     Spacer()
-                        .frame(height: 30)
-                    CommandBar()
-                        .frame(height: 30)
-                        .padding()
+                        .frame(height: 60)
                     if viewModel.weatherMoment != nil {
                         HStack {
                             CurrentTemperatureView(weatherMoment: viewModel.weatherMoment, usesFahrenheit: $viewModel.usesFahrenheit)

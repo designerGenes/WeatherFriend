@@ -8,10 +8,10 @@
 import SwiftUI
 
 @main
-struct WeatherFriendApp: App {
+struct WeatherFriend: App {
     var body: some Scene {
         WindowGroup {
-            WeatherView()
+            BackboneTabView()
             
         }
     }
