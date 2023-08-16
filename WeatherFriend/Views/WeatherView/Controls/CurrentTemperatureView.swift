@@ -1,14 +1,15 @@
 import UIKit
 import SwiftUI
+import WeatherKit
 
 struct CurrentTemperatureView: View {
-    @State var weatherMoment: WeatherMoment?
+    @State var weatherSnapshot: Weather?
     @Binding var usesFahrenheit: Bool
     private var temperatureText: String {
-        guard let weatherMoment = weatherMoment else {
+        guard let weatherSnapshot = weatherSnapshot else {
             return "-/-"
         }
-        let temp = Int(usesFahrenheit ? weatherMoment.current.tempF : weatherMoment.current.tempC)
+        let temp = Int(weatherSnapshot.currentWeather.temperature.converted(to: usesFahrenheit ? .fahrenheit : .celsius).value)
         return "\(String(temp))°\(usesFahrenheit ? "F" : "C")"
     }
     

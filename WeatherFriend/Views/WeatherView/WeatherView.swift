@@ -42,9 +42,9 @@ struct WeatherView: View {
                 VStack(alignment: .center, spacing: 12) {
                     Spacer()
                         .frame(height: 60)
-                    if viewModel.weatherMoment != nil {
+                    if viewModel.weatherSnapshot != nil {
                         HStack {
-                            CurrentTemperatureView(weatherMoment: viewModel.weatherMoment, usesFahrenheit: $viewModel.usesFahrenheit)
+                            CurrentTemperatureView(weatherSnapshot: viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
                                 .frame(width: 150, height: 150)
                             Spacer()
                         }
@@ -61,11 +61,11 @@ struct WeatherView: View {
                         .padding()
                         .background(Color.white)
                         .cornerRadius(8)
-                        .offset(y: viewModel.weatherMoment == nil ? -keyboardHeight : 0)
+                        .offset(y: viewModel.weatherSnapshot == nil ? -keyboardHeight : 0)
                         .animation(.easeOut, value: 0.25)
                         
                     
-                    if viewModel.weatherMoment == nil {
+                    if viewModel.weatherSnapshot == nil {
                         Spacer()
                             .frame(height: 24)
                     } else {
@@ -73,7 +73,7 @@ struct WeatherView: View {
                             WeatherAdviceView(weatherAdvice: $viewModel.weatherAdvice)
                                 .frame(width: geo.size.width, height: 160)
                         }
-                        SaddleCommandBar(weatherMoment: $viewModel.weatherMoment, usesFahrenheit: $viewModel.usesFahrenheit)
+                        SaddleCommandBar(weatherSnapshot: $viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
                             .frame(width: geo.size.width, height: 100)
                         
                     }

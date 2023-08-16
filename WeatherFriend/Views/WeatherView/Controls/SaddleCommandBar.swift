@@ -1,18 +1,19 @@
 import UIKit
 import SwiftUI
+import WeatherKit
 
 struct SaddleCommandBar: View {
-    @Binding var weatherMoment: WeatherMoment?
+    @Binding var weatherSnapshot: Weather?
     @Binding var usesFahrenheit: Bool
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .center) {
                 Color.darkBlue
-                if let weatherMoment = weatherMoment {
+                if let weatherSnapshot = weatherSnapshot {
                     HStack {
-                        StackText(bigText: "\(Int(usesFahrenheit ? weatherMoment.current.feelslikeF : weatherMoment.current.feelslikeC))", smallText: "Feels Like")
+                        StackText(bigText: "\(Int(weatherSnapshot.currentWeather.apparentTemperature.converted(to: usesFahrenheit ? .fahrenheit : .celsius).value))", smallText: "Feels Like")
                             .frame(width: geo.size.width / 3)
-                        StackText(bigText: "\(weatherMoment.current.windDir)", smallText: "Wind Direction")
+                        StackText(bigText: "\(weatherSnapshot.currentWeather.wind.direction.description)", smallText: "Wind Direction")
                             .frame(width: geo.size.width / 3)
                         StackText(bigText: "02", smallText: "AQI")
                             .frame(width: geo.size.width / 3)

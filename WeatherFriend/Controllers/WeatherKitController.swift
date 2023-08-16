@@ -2,7 +2,6 @@ import Foundation
 import WeatherKit
 import CoreLocation
 
-
 class WeatherKitController {
     private func zipcodeToLocation(_ zipcode: String) async -> CLLocation? {
         let geocoder = CLGeocoder()
@@ -21,7 +20,7 @@ class WeatherKitController {
         }
         let service = WeatherService()
         let weather = try await service.weather(for: location)
-        
+    
         return weather
       }
 }
