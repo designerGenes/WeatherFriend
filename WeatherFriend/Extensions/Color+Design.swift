@@ -53,5 +53,17 @@ extension Color {
     static var lighterDarkBlue: Color {
         return Color(hex: "525E74")
     }
+    
+    static var blueGradient1: Color {
+        return Color(hex: "13192A")
+    }
+    
+    static var blueGradient2: Color {
+        return Color(hex: "0D1426")
+    }
+    
+    static var blueGradient3: Color {
+        return Color(hex: "1A1F2E")
+    }
 }
 

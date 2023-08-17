@@ -3,13 +3,13 @@ import SwiftUI
 import WeatherKit
 
 struct CurrentTemperatureView: View {
-    @State var weatherSnapshot: Weather?
+    @State var weatherSnapshot: WeatherType?
     @Binding var usesFahrenheit: Bool
     private var temperatureText: String {
         guard let weatherSnapshot = weatherSnapshot else {
             return "-/-"
         }
-        let temp = Int(weatherSnapshot.currentWeather.temperature.converted(to: usesFahrenheit ? .fahrenheit : .celsius).value)
+        let temp = Int(weatherSnapshot.temperature.converted(to: usesFahrenheit ? .fahrenheit : .celsius).value)
         return "\(String(temp))°\(usesFahrenheit ? "F" : "C")"
     }
     

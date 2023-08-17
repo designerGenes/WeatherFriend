@@ -14,14 +14,14 @@ class WeatherKitController {
     
     }
     
-    func getWeather(forZipCode zip: String) async throws -> Weather? {
+    func getWeather(forZipCode zip: String) async throws -> WeatherType? {
         guard let location = await zipcodeToLocation(zip) else {
             return nil
         }
         let service = WeatherService()
         let weather = try await service.weather(for: location)
     
-        return weather
+        return weather.currentWeather
       }
 }
 

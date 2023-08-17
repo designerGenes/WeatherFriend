@@ -28,20 +28,69 @@ struct DynamicBackgroundView: View {
     }
 }
 
+//struct ShelfView: View {
+//    var body: some View {
+//
+//    }
+//}
+
+struct MainTextField: View {
+    @State var colorScheme: ColorScheme
+    private var numberFormatter: NumberFormatter {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.allowsFloats = false
+        return numberFormatter
+    }
+    
+    @Binding var textFieldValue: String
+    var body: some View {
+        TextField("Enter zip code", value: $textFieldValue, formatter: numberFormatter)
+            .foregroundColor(Color.primary)
+            .lineLimit(1)
+            .keyboardType(.numberPad)
+            .textInputAutocapitalization(.never)
+            .autocorrectionDisabled(true)
+            
+            .frame(height: 44)
+            .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
+            .background(Color(UIColor.secondarySystemBackground))
+            .cornerRadius(12)
+    }
+}
+
 struct WeatherView: View {
-    @StateObject var viewModel: WeatherViewViewModel = WeatherViewViewModel()
+    @StateObject var viewModel: WeatherViewViewModel
     @State var keyboardHeight: CGFloat = 0
+    @State var trayHeight: CGFloat = 270
+    @Environment(\.colorScheme) var colorScheme
+    
+    
+    private func addKeyboardNotificationListeners() {
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
+            withAnimation {
+                keyboardHeight = notification.keyboardHeight
+            }
+        }
+        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
+            withAnimation {
+                keyboardHeight = 0
+            }
+        }
+    }
     
     var body: some View {
-        GeometryReader { geo in
-            
+        
             ZStack {
-                DynamicBackgroundView()
-                
-                
+                GeometryReader { geo in
+            
+
+                LinearGradient(colors: [Color.blueGradient1, Color.blueGradient3, Color.blueGradient2], startPoint: UnitPoint(x: 0.4, y: 0), endPoint: UnitPoint(x: 0.7, y: 1))
+                if viewModel.weatherSnapshot != nil {
+                    DynamicBackgroundView()
+                }
                 VStack(alignment: .center, spacing: 12) {
-                    Spacer()
-                        .frame(height: 60)
+                    
                     if viewModel.weatherSnapshot != nil {
                         HStack {
                             CurrentTemperatureView(weatherSnapshot: viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
@@ -50,54 +99,33 @@ struct WeatherView: View {
                         }
                     }
                     
-                    Spacer()
+                    MainTextField(colorScheme: colorScheme, textFieldValue: $viewModel.zipCode)
+                        .position(x: geo.size.width / 2, y: geo.size.height / 2 - (viewModel.weatherSnapshot == nil ? 0 : 150))
                     
-                    TextField("Enter zip code", text: $viewModel.zipCode)
-                        .lineLimit(1)
-                        .keyboardType(.numberPad)
-                        .textInputAutocapitalization(.never)
-                        .autocorrectionDisabled(true)
-                        .frame(width: geo.size.width * 0.9, height: 16)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(8)
-                        .offset(y: viewModel.weatherSnapshot == nil ? -keyboardHeight : 0)
-                        .animation(.easeOut, value: 0.25)
                         
-                    
-                    if viewModel.weatherSnapshot == nil {
-                        Spacer()
-                            .frame(height: 24)
-                    } else {
-                        if viewModel.weatherAdvice != nil {
-                            WeatherAdviceView(weatherAdvice: $viewModel.weatherAdvice)
-                                .frame(width: geo.size.width, height: 160)
-                        }
+                }
+
+                
+                if (viewModel.weatherAdvice != nil) {
+                    VStack {
+                        WeatherAdviceView(weatherAdvice: $viewModel.weatherAdvice)
+                            .frame(width: geo.size.width, height: 260)
+                            .opacity(0.8)
                         SaddleCommandBar(weatherSnapshot: $viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
                             .frame(width: geo.size.width, height: 100)
-                        
+                            
                     }
-                    
-                }
-                .onAppear {
-                    // Register to receive notification
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
-                        withAnimation {
-                            keyboardHeight = notification.keyboardHeight
-                        }
-                    }
-                    NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-                        withAnimation {
-                            keyboardHeight = 0
-                        }
-                    }
+                    .offset(y: viewModel.weatherSnapshot == nil ? geo.size.height : geo.size.height - 370)
                 }
             }
-            .gesture(TapGesture().onEnded({ _ in
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }))
-            .ignoresSafeArea()
+            .onAppear {
+                addKeyboardNotificationListeners()
+            }
+            
+            
         }
+        .ignoresSafeArea()
+        
         
         
     }
@@ -107,7 +135,7 @@ struct WeatherView: View {
 
 #if DEBUG
 #Preview {
-    WeatherView()
+    WeatherView(viewModel: WeatherViewViewModel(usesFahrenheit: true, weatherSnapshot: MockWeatherType.mock(), weatherAdvice: MockWeatherAdvice.mock()))
 }
 #endif
 

@@ -7,24 +7,54 @@
 
 import Foundation
 
-struct WeatherAdvice: Codable {
+protocol WeatherAdviceType {
+    var advice: String { get set }
+}
+
+struct MockWeatherAdvice: WeatherAdviceType {
     var advice: String
+    
+    static func mock() -> Self {
+        return MockWeatherAdvice(advice: "Here is some damn fine weather advice")
+    }
+}
+
+struct WeatherAdvice: Codable, WeatherAdviceType {
+    var advice: String
+    
 }
 
 
-struct OpenAIResponse: Decodable {
-    let id: String
-    let object: String
-    let created: Int
-    let model: String
-    let choices: [Choice]
-    let usage: Usage
+protocol OpenAIResponseType {
+    var choices: [Choice] { get set }
 }
 
-struct Choice: Decodable {
-    let index: Int
-    let message: Message
-    let finishReason: String
+protocol ChoiceType {
+    var message: Message { get set }
+}
+
+struct MockOpenAIResponse: OpenAIResponseType {
+    var choices: [Choice]
+    
+    static func mock() -> Self {
+        let message = Message(role: "agent", content: "This is a mock OpenAI Response Message")
+        return MockOpenAIResponse(choices: [Choice(index: 0, message: message, finishReason: "finished")])
+    }
+}
+
+struct OpenAIResponse: Decodable, OpenAIResponseType {
+    var id: String
+    var object: String
+    var created: Int
+    var model: String
+    var choices: [Choice]
+    var usage: Usage
+}
+
+struct Choice: Decodable, ChoiceType {
+    var index: Int
+    var message: Message
+    var finishReason: String
 
     enum CodingKeys: String, CodingKey {
         case index, message

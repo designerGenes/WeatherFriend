@@ -5,7 +5,7 @@ struct BackboneTabView: View {
     var body: some View {
         ZStack(alignment: .top) {
             TabView {
-                WeatherView()
+                WeatherView(viewModel: WeatherViewViewModel(usesFahrenheit: true, weatherSnapshot: MockWeatherType.mock()))
             }
             CommandBar()
                 .frame(height: 30)
