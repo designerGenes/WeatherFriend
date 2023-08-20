@@ -28,12 +28,6 @@ struct DynamicBackgroundView: View {
     }
 }
 
-//struct ShelfView: View {
-//    var body: some View {
-//
-//    }
-//}
-
 struct MainTextField: View {
     @State var colorScheme: ColorScheme
     private var numberFormatter: NumberFormatter {
@@ -51,7 +45,7 @@ struct MainTextField: View {
             .keyboardType(.numberPad)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled(true)
-            
+        
             .frame(height: 44)
             .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
             .background(Color(UIColor.secondarySystemBackground))
@@ -81,30 +75,29 @@ struct WeatherView: View {
     
     var body: some View {
         
-            ZStack {
-                GeometryReader { geo in
+        ZStack {
             
-
-                LinearGradient(colors: [Color.blueGradient1, Color.blueGradient3, Color.blueGradient2], startPoint: UnitPoint(x: 0.4, y: 0), endPoint: UnitPoint(x: 0.7, y: 1))
+            GeometryReader { geo in
+                
+                
+                
                 if viewModel.weatherSnapshot != nil {
                     DynamicBackgroundView()
+                } else {
+                    LinearGradient(colors: [Color.blueGradient1, Color.blueGradient3, Color.blueGradient2], startPoint: UnitPoint(x: 0.4, y: 0), endPoint: UnitPoint(x: 0.7, y: 1))
                 }
-                VStack(alignment: .center, spacing: 12) {
+                VStack(alignment: .leading, spacing: 12) {
                     
-                    if viewModel.weatherSnapshot != nil {
-                        HStack {
-                            CurrentTemperatureView(weatherSnapshot: viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
-                                .frame(width: 150, height: 150)
-                            Spacer()
-                        }
-                    }
+                    
                     
                     MainTextField(colorScheme: colorScheme, textFieldValue: $viewModel.zipCode)
-                        .position(x: geo.size.width / 2, y: geo.size.height / 2 - (viewModel.weatherSnapshot == nil ? 0 : 150))
+                        .frame(width: geo.size.width * 0.95)
+                        .position(x: geo.size.width / 2, y: geo.size.height / 2)
                     
-                        
+                    
+                    
                 }
-
+                
                 
                 if (viewModel.weatherAdvice != nil) {
                     VStack {
@@ -113,7 +106,7 @@ struct WeatherView: View {
                             .opacity(0.8)
                         SaddleCommandBar(weatherSnapshot: $viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
                             .frame(width: geo.size.width, height: 100)
-                            
+                        
                     }
                     .offset(y: viewModel.weatherSnapshot == nil ? geo.size.height : geo.size.height - 370)
                 }
@@ -121,7 +114,19 @@ struct WeatherView: View {
             .onAppear {
                 addKeyboardNotificationListeners()
             }
-            
+            if viewModel.weatherSnapshot != nil {
+                VStack(alignment: .leading) {
+                    Spacer()
+                        .frame(height: 80)
+                    HStack {
+                        CurrentTemperatureView(weatherSnapshot: viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
+                            .frame(width: 150, height: 150)
+                        Spacer()
+                    }
+                    .padding([.leading], 16)
+                    Spacer()
+                }
+            }
             
         }
         .ignoresSafeArea()
