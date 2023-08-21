@@ -53,33 +53,17 @@ struct MainTextField: View {
     }
 }
 
-struct WeatherView: View {
-    @StateObject var viewModel: WeatherViewViewModel
-    @State var keyboardHeight: CGFloat = 0
-    @State var trayHeight: CGFloat = 270
+struct WeatherView<ViewModel: WeatherViewModelType>: View {
+    @StateObject var viewModel: ViewModel
     @Environment(\.colorScheme) var colorScheme
-    
-    private func addKeyboardNotificationListeners() {
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
-            withAnimation {
-                keyboardHeight = notification.keyboardHeight
-            }
-        }
-        NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillHideNotification, object: nil, queue: .main) { _ in
-            withAnimation {
-                keyboardHeight = 0
-            }
-        }
-    }
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
-
-                if viewModel.weatherSnapshot != nil {
-                    DynamicBackgroundView()
-                } else {
+                if viewModel.weatherSnapshot == nil {
                     LinearGradient(colors: [Color.blueGradient1, Color.blueGradient3, Color.blueGradient2], startPoint: UnitPoint(x: 0.4, y: 0), endPoint: UnitPoint(x: 0.7, y: 1))
+                } else {
+                    DynamicBackgroundView()
                 }
                 VStack(alignment: .leading, spacing: 12) {
                     MainTextField(colorScheme: colorScheme, textFieldValue: $viewModel.zipCode)
@@ -114,9 +98,6 @@ struct WeatherView: View {
             }
         }
         .ignoresSafeArea()
-        .onAppear {
-            addKeyboardNotificationListeners()
-        }
     }
 }
 
@@ -124,7 +105,7 @@ struct WeatherView: View {
 
 #if DEBUG
 #Preview {
-    WeatherView(viewModel: WeatherViewViewModel(usesFahrenheit: true, weatherSnapshot: MockWeatherType.mock(), weatherAdvice: MockWeatherAdvice.mock()))
+    WeatherView(viewModel: MockWeatherViewModel.mock())
 }
 #endif
 

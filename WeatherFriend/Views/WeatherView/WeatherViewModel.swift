@@ -12,8 +12,41 @@ import WeatherKit
 
 typealias FullWeatherResponse = (advice: WeatherAdviceType?, snapshot: WeatherType?)
 
+protocol WeatherViewModelType: ObservableObject {
+    var usesFahrenheit: Bool { get set }
+    var zipCode: String { get set }
+    var weatherSnapshot: WeatherType? { get set }
+    var weatherAdvice: WeatherAdviceType? { get set }
+    var isShowingShelf: Bool { get set }
+    
+//    func getWeatherAdviceFromAWS(weatherSnapshot: WeatherType) async throws -> WeatherAdvice
+//    func getCurrentAppleWeather() async throws -> WeatherType?
+}
 
-class WeatherViewViewModel: ObservableObject {
+class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
+    @Published var usesFahrenheit: Bool = true
+    @Published var zipCode: String = "90210"
+    @Published var weatherSnapshot: WeatherType?
+    @Published var weatherAdvice: WeatherAdviceType?
+    @Published var isShowingShelf: Bool = false
+    
+    static func mock() -> MockWeatherViewModel {
+        let out = MockWeatherViewModel()
+        out.weatherSnapshot = MockWeatherType.mock()
+        out.weatherAdvice = MockWeatherAdvice.mock()
+        return out
+    }
+    
+//    func getWeatherAdviceFromAWS(weatherSnapshot: WeatherType) async throws -> WeatherAdvice {
+//        return MockWeatherAdvice.mock()
+//    }
+//    
+//    func getCurrentAppleWeather() async throws -> WeatherType? {
+//        return MockWeatherType.mock()
+//    }
+}
+
+class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = ""
     @Published var weatherSnapshot: WeatherType?
