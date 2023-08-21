@@ -20,8 +20,16 @@ enum KeychainKey: String {
 
 
 class UserDefaultsController {
-    static func get(key: UserDefaultsKey) -> Any? {
-        UserDefaults.standard.object(forKey: key.rawValue)
+    static func get<T>(key: UserDefaultsKey, default: T? = nil, conversionFunction: ((Any) -> T)? = nil) -> T? {
+        guard let rawSavedDefault = UserDefaults.standard.object(forKey: key.rawValue) else {
+            return nil
+        }
+        if let typedDefault = rawSavedDefault as? T {
+            return typedDefault
+        } else if let conversionFunction = conversionFunction {
+            return conversionFunction(rawSavedDefault)
+        }
+        return nil
     }
     
     static func set(key: UserDefaultsKey, value: Any) {

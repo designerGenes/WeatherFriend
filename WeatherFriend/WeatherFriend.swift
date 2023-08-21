@@ -12,7 +12,9 @@ struct WeatherFriend: App {
     var body: some Scene {
         WindowGroup {
             BackboneTabView()
-            
         }
     }
 }
+
+
+
