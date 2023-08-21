@@ -23,6 +23,11 @@
 		A881FC102A85479500410CF8 /* WeatherAdvice.swift in Sources */ = {isa = PBXBuildFile; fileRef = A881FC0F2A85479500410CF8 /* WeatherAdvice.swift */; };
 		A891B1202A8291CA00A1C5F8 /* Color+Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = A891B11F2A8291CA00A1C5F8 /* Color+Design.swift */; };
 		A8B2E2522A8292A400A1B0EE /* Image+Design.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8B2E2512A8292A400A1B0EE /* Image+Design.swift */; };
+		A8D152032A92D31F0081C962 /* Screen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D152022A92D31F0081C962 /* Screen.swift */; };
+		A8D152072A92D36F0081C962 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D152062A92D36F0081C962 /* SettingsView.swift */; };
+		A8D152092A92D3740081C962 /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D152082A92D3740081C962 /* ChartsView.swift */; };
+		A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520A2A92E2090081C962 /* OpenAIModel.swift */; };
+		A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */; };
 		A8E539B52A8D4B7600BC16FF /* PlistKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E539B42A8D4B7600BC16FF /* PlistKey.swift */; };
 		A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */; };
 		A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */; };
@@ -47,6 +52,11 @@
 		A881FC0F2A85479500410CF8 /* WeatherAdvice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAdvice.swift; sourceTree = "<group>"; };
 		A891B11F2A8291CA00A1C5F8 /* Color+Design.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Design.swift"; sourceTree = "<group>"; };
 		A8B2E2512A8292A400A1B0EE /* Image+Design.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Design.swift"; sourceTree = "<group>"; };
+		A8D152022A92D31F0081C962 /* Screen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Screen.swift; sourceTree = "<group>"; };
+		A8D152062A92D36F0081C962 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		A8D152082A92D3740081C962 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
+		A8D1520A2A92E2090081C962 /* OpenAIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIModel.swift; sourceTree = "<group>"; };
+		A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		A8E539B42A8D4B7600BC16FF /* PlistKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistKey.swift; sourceTree = "<group>"; };
 		A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherKitController.swift; sourceTree = "<group>"; };
 		A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherFriend.entitlements; sourceTree = "<group>"; };
@@ -70,7 +80,10 @@
 			isa = PBXGroup;
 			children = (
 				A812DA9F2A8A89B800AF5B07 /* CommandButtonIcon.swift */,
+				A8D1520A2A92E2090081C962 /* OpenAIModel.swift */,
 				A8E539B42A8D4B7600BC16FF /* PlistKey.swift */,
+				A8D152022A92D31F0081C962 /* Screen.swift */,
+				A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -149,6 +162,8 @@
 		A858C4B72A82919C004A5373 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A8D152052A92D3650081C962 /* Charts */,
+				A8D152042A92D3600081C962 /* Settings */,
 				A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */,
 				A812DAA12A8A89F300AF5B07 /* WeatherView */,
 			);
@@ -165,6 +180,22 @@
 				A812DAA62A8A8D5600AF5B07 /* WeatherAdviceView.swift */,
 			);
 			path = Controls;
+			sourceTree = "<group>";
+		};
+		A8D152042A92D3600081C962 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A8D152062A92D36F0081C962 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A8D152052A92D3650081C962 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				A8D152082A92D3740081C962 /* ChartsView.swift */,
+			);
+			path = Charts;
 			sourceTree = "<group>";
 		};
 		A8E927C32A8C0AB800450C52 /* Controllers */ = {
@@ -262,19 +293,24 @@
 				A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */,
 				A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */,
 				A812DAAE2A8A8D5600AF5B07 /* CurrentTemperatureView.swift in Sources */,
+				A8D152072A92D36F0081C962 /* SettingsView.swift in Sources */,
 				A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */,
+				A8D152032A92D31F0081C962 /* Screen.swift in Sources */,
 				A812DAA32A8A8B1E00AF5B07 /* String+Convenience.swift in Sources */,
 				A812DAAF2A8A8D5600AF5B07 /* StackText.swift in Sources */,
 				A8B2E2522A8292A400A1B0EE /* Image+Design.swift in Sources */,
 				A812DAAD2A8A8D5600AF5B07 /* SaddleCommandBar.swift in Sources */,
 				A812DAAB2A8A8D5600AF5B07 /* WeatherAdviceView.swift in Sources */,
 				A858C4AA2A828F97004A5373 /* WeatherFriend.swift in Sources */,
+				A8D152092A92D3740081C962 /* ChartsView.swift in Sources */,
 				A812DAA52A8A8D4900AF5B07 /* Notification+Custom.swift in Sources */,
 				A812DAAC2A8A8D5600AF5B07 /* CommandBar.swift in Sources */,
 				A881FC102A85479500410CF8 /* WeatherAdvice.swift in Sources */,
 				A812DAA02A8A89B800AF5B07 /* CommandButtonIcon.swift in Sources */,
 				A891B1202A8291CA00A1C5F8 /* Color+Design.swift in Sources */,
+				A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */,
 				A8FBF0832A8EC6390072B9E6 /* WeatherType.swift in Sources */,
+				A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

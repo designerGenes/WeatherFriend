@@ -59,7 +59,6 @@ struct WeatherView: View {
     @State var trayHeight: CGFloat = 270
     @Environment(\.colorScheme) var colorScheme
     
-    
     private func addKeyboardNotificationListeners() {
         NotificationCenter.default.addObserver(forName: UIResponder.keyboardWillShowNotification, object: nil, queue: .main) { notification in
             withAnimation {
@@ -74,33 +73,23 @@ struct WeatherView: View {
     }
     
     var body: some View {
-        
-        ZStack {
-            
-            GeometryReader { geo in
-                
-                
-                
+        GeometryReader { geo in
+            ZStack {
+
                 if viewModel.weatherSnapshot != nil {
                     DynamicBackgroundView()
                 } else {
                     LinearGradient(colors: [Color.blueGradient1, Color.blueGradient3, Color.blueGradient2], startPoint: UnitPoint(x: 0.4, y: 0), endPoint: UnitPoint(x: 0.7, y: 1))
                 }
                 VStack(alignment: .leading, spacing: 12) {
-                    
-                    
-                    
                     MainTextField(colorScheme: colorScheme, textFieldValue: $viewModel.zipCode)
                         .frame(width: geo.size.width * 0.95)
                         .position(x: geo.size.width / 2, y: geo.size.height / 2)
-                    
-                    
-                    
                 }
-                
                 
                 if (viewModel.weatherAdvice != nil) {
                     VStack {
+                        Spacer()
                         WeatherAdviceView(weatherAdvice: $viewModel.weatherAdvice)
                             .frame(width: geo.size.width, height: 260)
                             .opacity(0.8)
@@ -108,31 +97,26 @@ struct WeatherView: View {
                             .frame(width: geo.size.width, height: 100)
                         
                     }
-                    .offset(y: viewModel.weatherSnapshot == nil ? geo.size.height : geo.size.height - 370)
                 }
-            }
-            .onAppear {
-                addKeyboardNotificationListeners()
-            }
-            if viewModel.weatherSnapshot != nil {
-                VStack(alignment: .leading) {
-                    Spacer()
-                        .frame(height: 80)
-                    HStack {
-                        CurrentTemperatureView(weatherSnapshot: viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
-                            .frame(width: 150, height: 150)
+                if viewModel.weatherSnapshot != nil {
+                    VStack(alignment: .leading) {
+                        Spacer()
+                            .frame(height: 80)
+                        HStack {
+                            CurrentTemperatureView(weatherSnapshot: viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
+                                .frame(width: 150, height: 150)
+                            Spacer()
+                        }
+                        .padding([.leading], 16)
                         Spacer()
                     }
-                    .padding([.leading], 16)
-                    Spacer()
                 }
             }
-            
         }
         .ignoresSafeArea()
-        
-        
-        
+        .onAppear {
+            addKeyboardNotificationListeners()
+        }
     }
 }
 

@@ -65,5 +65,9 @@ extension Color {
     static var blueGradient3: Color {
         return Color(hex: "1A1F2E")
     }
+    
+    static var formGray: Color {
+        return Color(hex: "F2F2F7")
+    }
 }
 
