@@ -13,7 +13,9 @@ struct CommandBar: View {
                     print(selectedScreen.rawValue)
                 }, label: {
                     Image(systemName: icon.rawValue)
+                        
                         .resizable()
+                        .shadow(radius: 5)
                 })
                 .buttonStyle(.borderless)
                 .frame(width: 32, height: 32)
@@ -29,6 +31,6 @@ struct CommandBar: View {
 #if DEBUG
 #Preview {
     CommandBar(selectedScreen: .constant(.main))
-        .background(Color.black)
+        .background(Color.formGray)
 }
 #endif

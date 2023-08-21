@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 
 struct BackboneTabView: View {
-    // environment var for color theme
     @Environment(\.colorScheme) var colorScheme
     
     

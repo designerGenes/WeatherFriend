@@ -28,6 +28,7 @@
 		A8D152092A92D3740081C962 /* ChartsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D152082A92D3740081C962 /* ChartsView.swift */; };
 		A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520A2A92E2090081C962 /* OpenAIModel.swift */; };
 		A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */; };
+		A8D1520F2A938D400081C962 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520E2A938D400081C962 /* UserDefaultsController.swift */; };
 		A8E539B52A8D4B7600BC16FF /* PlistKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E539B42A8D4B7600BC16FF /* PlistKey.swift */; };
 		A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */; };
 		A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */; };
@@ -57,6 +58,7 @@
 		A8D152082A92D3740081C962 /* ChartsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsView.swift; sourceTree = "<group>"; };
 		A8D1520A2A92E2090081C962 /* OpenAIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIModel.swift; sourceTree = "<group>"; };
 		A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
+		A8D1520E2A938D400081C962 /* UserDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		A8E539B42A8D4B7600BC16FF /* PlistKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistKey.swift; sourceTree = "<group>"; };
 		A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherKitController.swift; sourceTree = "<group>"; };
 		A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherFriend.entitlements; sourceTree = "<group>"; };
@@ -202,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */,
+				A8D1520E2A938D400081C962 /* UserDefaultsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				A8D152032A92D31F0081C962 /* Screen.swift in Sources */,
 				A812DAA32A8A8B1E00AF5B07 /* String+Convenience.swift in Sources */,
 				A812DAAF2A8A8D5600AF5B07 /* StackText.swift in Sources */,
+				A8D1520F2A938D400081C962 /* UserDefaultsController.swift in Sources */,
 				A8B2E2522A8292A400A1B0EE /* Image+Design.swift in Sources */,
 				A812DAAD2A8A8D5600AF5B07 /* SaddleCommandBar.swift in Sources */,
 				A812DAAB2A8A8D5600AF5B07 /* WeatherAdviceView.swift in Sources */,
