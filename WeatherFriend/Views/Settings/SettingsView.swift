@@ -1,57 +1,6 @@
 import SwiftUI
 
 
-struct MaxTokensRow: View {
-    @Binding var maxTokens: Int
-    var body: some View {
-        HStack {
-            Text("Max Tokens")
-            TextField("\(maxTokens)", text: Binding(
-                get: {
-                    "\(maxTokens)"
-                },
-                set: { newValue in
-                    maxTokens = Int(newValue) ?? maxTokens
-                }
-            ))
-            .keyboardType(.numberPad)
-        }
-    }
-}
-
-protocol SettingsViewModelType: ObservableObject {
-    var theme: ColorTheme { get set }
-    var gptModel: OpenAIModel { get set }
-    var maxTokens: Int { get set }
-    var customOpenAPIKey: String { get set }
-}
-
-class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
-    @Published var theme: ColorTheme = .system
-    @Published var gptModel: OpenAIModel = .three_five
-    @Published var maxTokens = 124
-    @Published var customOpenAPIKey = ""
-    
-    static func mock() -> MockSettingsViewModel {
-        let viewModel = MockSettingsViewModel()
-        viewModel.theme = .system
-        viewModel.gptModel = .three_five
-        viewModel.maxTokens = 124
-        viewModel.customOpenAPIKey = ""
-        return viewModel
-    }
-    
-}
-
-
-class SettingsViewModel: ObservableObject, SettingsViewModelType {
-    @Published var theme: ColorTheme = .system
-    @Published var gptModel: OpenAIModel = .three_five
-    @Published var maxTokens = 124
-    @Published var customOpenAPIKey = ""
-    let apikeyRegexString = #"sk-[a-zA-Z0-9]{42}\b"#
-}
-
 struct SettingsView<ViewModel: SettingsViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     
@@ -71,10 +20,12 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
         
         viewModel.customOpenAPIKey = KeychainController.get(key: .openAPIKey) ?? ""
     }
-    
+
     var body: some View {
         ZStack {
-            Color.formGray.ignoresSafeArea()
+            Color(uiColor: UIColor.settingsBackgroundMain)
+                .ignoresSafeArea()
+            
             VStack {
                 Spacer()
                     .frame(height: 42)
@@ -100,6 +51,8 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
         }
     }
 }
+
+
 #Preview {
     SettingsView<MockSettingsViewModel>(viewModel: MockSettingsViewModel.mock())
 }

@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 
 struct BackboneTabView: View {
-    @Environment(\.colorScheme) var colorScheme
     @State var activeScreen: Screen = .main
     
     var body: some View {

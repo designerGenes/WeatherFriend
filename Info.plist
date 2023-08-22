@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>AWS_BASE_URL</key>
-	<string>http://weatheradviceendpoint-env.eba-a4cqsq7q.us-west-2.elasticbeanstalk.com/weather</string>
+	<string>https://cbmyp2xokohqxajyz7srzvld3e0nbrei.lambda-url.us-west-2.on.aws/</string>
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

@@ -26,6 +26,54 @@ extension UIColor {
         
         self.init(red: r, green: g, blue: b, alpha: 1.0)
     }
+    
+    static var formBackgroundLight: UIColor {
+        UIColor(hex: "F2F2F7")
+    }
+    
+    static var darkModeBackground: UIColor {
+        UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 1)
+    }
+    
+    static var backgroundMain: UIColor {
+        guard let theme = UserDefaultsController.get(key: .theme, default: .system, conversionFunction: { rawTheme in
+            ColorTheme(rawValue: rawTheme as! String) ?? .system
+        }) else {
+            return UIColor.systemBackground
+        }
+        switch theme {
+        case .dark: return UIColor.darkModeBackground
+        case .light: return UIColor.white
+        case .system: return UIColor.systemBackground
+        }
+    }
+    
+    static var settingsBackgroundMain: UIColor {
+        guard let theme = UserDefaultsController.get(key: .theme, default: .system, conversionFunction: { rawTheme in
+            ColorTheme(rawValue: rawTheme as! String) ?? .system
+        }) else {
+            return UIColor.systemBackground
+        }
+        switch theme {
+        case .dark: return UIColor.darkModeBackground
+        case .light: return UIColor.formBackgroundLight
+        case .system: return UIColor.systemBackground
+        }
+    }
+    
+//    static var textMain: UIColor {
+//        guard let theme = UserDefaultsController.get(key: .theme, default: .system, conversionFunction: { rawTheme in
+//            ColorTheme(rawValue: rawTheme as! String) ?? .system
+//        }) else {
+//            return Color.label
+//        }
+//        switch theme {
+//        case .dark: return UIColor.white
+//        case .light: return UIColor.black
+//        case .system: return UIColor.systemBackground
+//        
+//        }
+//    }
 }
 
 
@@ -67,7 +115,8 @@ extension Color {
     }
     
     static var formGray: Color {
-        return Color(hex: "F2F2F7")
+        return Color(uiColor: UIColor.formBackgroundLight)
     }
+    
 }
 
