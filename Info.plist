@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AWS_EMAIL_URL</key>
+	<string>https://s053xxlgvg.execute-api.us-west-2.amazonaws.com/default/EmailLambda</string>
 	<key>AWS_BASE_URL</key>
-	<string>https://cbmyp2xokohqxajyz7srzvld3e0nbrei.lambda-url.us-west-2.on.aws/</string>
+	<string>https://xmt09qg36i.execute-api.us-west-2.amazonaws.com/default/WeatherFriend</string>
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

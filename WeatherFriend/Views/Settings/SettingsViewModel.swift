@@ -14,6 +14,7 @@ protocol SettingsViewModelType: ObservableObject {
     var gptModel: OpenAIModel { get set }
     var maxTokens: Int { get set }
     var customOpenAPIKey: String { get set }
+    var namedError: NamedError? { get set }
 }
 
 class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
@@ -21,6 +22,7 @@ class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
     @Published var gptModel: OpenAIModel = .three_five
     @Published var maxTokens = 124
     @Published var customOpenAPIKey = ""
+    @Published var namedError: NamedError? = .settings_email_error
     
     static func mock() -> MockSettingsViewModel {
         let viewModel = MockSettingsViewModel()
@@ -34,10 +36,12 @@ class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
 }
 
 
+
 class SettingsViewModel: ObservableObject, SettingsViewModelType {
     @Published var theme: ColorTheme = .system
     @Published var gptModel: OpenAIModel = .three_five
     @Published var maxTokens = 124
     @Published var customOpenAPIKey = ""
+    @Published var namedError: NamedError? = nil
     let apikeyRegexString = #"sk-[a-zA-Z0-9]{42}\b"#
 }

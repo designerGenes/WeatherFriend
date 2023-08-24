@@ -6,26 +6,7 @@
 //
 
 import SwiftUI
-
-protocol EmailUsViewModelType: ObservableObject {
-    var text: String { get set }
-
-}
-
-class MockEmailUsViewModel: EmailUsViewModelType {
-    var text: String
-    
-    static func mock() -> MockEmailUsViewModel() {
-        return MockEmailUsViewModel(
-    }
-    
-
-}
-
-
-class EmailUsViewModel: ObservableObject, EmailUsViewModelType {
-    @Published var text = ""
-}
+import Combine
 
 struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     @StateObject var viewModel: ViewModel
@@ -34,9 +15,11 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     var body: some View {
         
         ZStack {
-            Color.primary
+            Color.gray
                 .blur(radius: 20)
+                .animation(.easeInOut, value: 0.25)
                 .ignoresSafeArea()
+            
             
             VStack {
                 
@@ -49,12 +32,12 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
                         .padding()
                         .background(Color(UIColor.secondarySystemBackground))
                         .cornerRadius(10)
-//                        .focused($isShowing)
+                    //                        .focused($isShowing)
                     
                     HStack {
                         Spacer()
                         Button("Submit") {
-                            // Submit action
+                            viewModel.sendEmail()
                         }
                         .font(.headline)
                         
@@ -74,14 +57,13 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
                 .cornerRadius(10)
                 .frame(maxHeight: UIScreen.main.bounds.height / 2)
                 
+                Spacer()
             }
+            .padding()
+            
             
         }
         .ignoresSafeArea()
-        .sheet(isPresented: $isShowing) {
-            // Show view
-        }
-        
     }
     
 }
