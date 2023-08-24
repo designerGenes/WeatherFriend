@@ -36,44 +36,29 @@ extension UIColor {
     }
     
     static var backgroundMain: UIColor {
+        themedColor(colorIfLight: .white, colorIfDark: .darkModeBackground, defaultColor: .systemBackground)
+    }
+    
+    static var buttonTextMain: UIColor {
+        themedColor(colorIfLight: .systemBlue, colorIfDark: .white)
+    }
+    
+    static func themedColor(colorIfLight: UIColor, colorIfDark: UIColor, defaultColor: UIColor = .systemBackground) -> UIColor {
         guard let theme = UserDefaultsController.get(key: .theme, default: .system, conversionFunction: { rawTheme in
             ColorTheme(rawValue: rawTheme as! String) ?? .system
         }) else {
-            return UIColor.systemBackground
+            return defaultColor // TODO: better handling if this is reachable
         }
-        switch theme {
-        case .dark: return UIColor.darkModeBackground
-        case .light: return UIColor.white
-        case .system: return UIColor.systemBackground
-        }
+        return theme == .dark ? colorIfDark : colorIfLight
     }
     
     static var settingsBackgroundMain: UIColor {
-        guard let theme = UserDefaultsController.get(key: .theme, default: .system, conversionFunction: { rawTheme in
-            ColorTheme(rawValue: rawTheme as! String) ?? .system
-        }) else {
-            return UIColor.systemBackground
-        }
-        switch theme {
-        case .dark: return UIColor.darkModeBackground
-        case .light: return UIColor.formBackgroundLight
-        case .system: return UIColor.systemBackground
-        }
+        themedColor(colorIfLight: .formBackgroundLight, colorIfDark: .darkModeBackground, defaultColor: .formBackgroundLight)
     }
     
-//    static var textMain: UIColor {
-//        guard let theme = UserDefaultsController.get(key: .theme, default: .system, conversionFunction: { rawTheme in
-//            ColorTheme(rawValue: rawTheme as! String) ?? .system
-//        }) else {
-//            return Color.label
-//        }
-//        switch theme {
-//        case .dark: return UIColor.white
-//        case .light: return UIColor.black
-//        case .system: return UIColor.systemBackground
-//        
-//        }
-//    }
+    static var textForegroundMain: UIColor {
+        themedColor(colorIfLight: .black, colorIfDark: .white, defaultColor: .black)
+    }
 }
 
 

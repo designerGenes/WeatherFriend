@@ -12,6 +12,7 @@ import SwiftUI
 protocol EmailUsViewModelType: ObservableObject {
     var text: String { get set }
     func sendEmail() -> AnyPublisher<Void, Error>
+    var isShowing: Bool { get set }
 }
 
 enum HTTPError: Error {
@@ -19,7 +20,13 @@ enum HTTPError: Error {
 }
 
 class MockEmailUsViewModel: EmailUsViewModelType {
+    @Binding var isShowing: Bool
     var text: String = "Here is a mock email us view model."
+    
+    init(isShowing: Bool, text: String) {
+        self.isShowing = isShowing
+        self.text = text
+    }
     
     func sendEmail() -> AnyPublisher<Void, Error> {
         return Future<Void, Error> { promise in
@@ -29,7 +36,7 @@ class MockEmailUsViewModel: EmailUsViewModelType {
     }
     
     static func mock() -> MockEmailUsViewModel {
-        return MockEmailUsViewModel()
+        return MockEmailUsViewModel(isShowing: true, text: "some email text")
     }
 }
 
@@ -41,10 +48,15 @@ enum EmailBodyKey: String {
 
 class EmailUsViewModel: ObservableObject, EmailUsViewModelType {
     @Published var text = ""
+    @Binding var isShowing: Bool
     private let emailEndpoint = Bundle.main.object(forInfoDictionaryKey: "AWS_EMAIL_URL") as! String
-    private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
+    private var cancellables: Set<AnyCancellable>
 
-    
+    init(text: String = "", isShowing: Binding<Bool>, cancellables: Set<AnyCancellable> = Set<AnyCancellable>()) {
+        self.text = text
+        self._isShowing = isShowing
+        self.cancellables = cancellables
+    }
     
     func sendEmail() -> AnyPublisher<Void, Error> {
         let publisher = Future<Void, Error> { promise in
@@ -78,7 +90,6 @@ class EmailUsViewModel: ObservableObject, EmailUsViewModelType {
         }
         .receive(on: RunLoop.main)
         .eraseToAnyPublisher()
-        
 
         return publisher
     }

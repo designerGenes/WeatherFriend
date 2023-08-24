@@ -10,8 +10,7 @@ import Combine
 
 struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     @StateObject var viewModel: ViewModel
-    @Binding var isShowing: Bool
-    
+
     var body: some View {
         
         ZStack {
@@ -38,11 +37,17 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
                         Spacer()
                         Button("Submit") {
                             viewModel.sendEmail()
+                                .sink { completion in
+                                    
+                                } receiveValue: { _ in
+                                    //
+                                }
+
                         }
                         .font(.headline)
                         
                         Button("Cancel") {
-                            isShowing = false
+                            viewModel.isShowing = false
                         }
                         .font(.headline)
                     }
@@ -65,12 +70,11 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
         }
         .ignoresSafeArea()
     }
-    
 }
 
 #Preview {
     VStack {
-        EmailUsView(viewModel: MockEmailUsViewModel.mock(), isShowing: .constant(true))
+        EmailUsView(viewModel: MockEmailUsViewModel.mock())
     }
     .background(Color.black)
     
