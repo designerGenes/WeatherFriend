@@ -30,22 +30,14 @@ struct DynamicBackgroundView: View {
 
 struct MainTextField: View {
     @State var colorScheme: ColorScheme
-    private var numberFormatter: NumberFormatter {
-        let numberFormatter = NumberFormatter()
-        numberFormatter.numberStyle = .decimal
-        numberFormatter.allowsFloats = false
-        return numberFormatter
-    }
-    
     @Binding var textFieldValue: String
+    
     var body: some View {
-        TextField("Enter zip code", value: $textFieldValue, formatter: numberFormatter)
+        TextField("Enter zip code", text: $textFieldValue)
             .foregroundColor(Color.primary)
             .lineLimit(1)
             .keyboardType(.numberPad)
-            .textInputAutocapitalization(.never)
-            .autocorrectionDisabled(true)
-        
+            .disableAutocorrection(true)
             .frame(height: 44)
             .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
             .background(Color(UIColor.secondarySystemBackground))
@@ -61,37 +53,32 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
         GeometryReader { geo in
             ZStack {
                 if viewModel.weatherSnapshot == nil {
-                    LinearGradient(colors: [Color.blueGradient1, Color.blueGradient3, Color.blueGradient2], startPoint: UnitPoint(x: 0.4, y: 0), endPoint: UnitPoint(x: 0.7, y: 1))
+                    LinearGradient(colors: [Color.blue, Color.blue, Color.blue], startPoint: .top, endPoint: .bottom)
                 } else {
                     DynamicBackgroundView()
                 }
+                
                 VStack(alignment: .leading, spacing: 12) {
                     MainTextField(colorScheme: colorScheme, textFieldValue: $viewModel.zipCode)
                         .frame(width: geo.size.width * 0.95)
                         .position(x: geo.size.width / 2, y: geo.size.height / 2)
                 }
                 
-                if (viewModel.weatherAdvice != nil) {
+                if viewModel.weatherAdvice != nil {
                     VStack {
                         Spacer()
-                        WeatherAdviceView(weatherAdvice: $viewModel.weatherAdvice)
+                        WeatherAdviceView(viewModel: WeatherAdviceViewModel())
                             .frame(width: geo.size.width, height: 260)
                             .opacity(0.8)
-                        SaddleCommandBar(weatherSnapshot: $viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
-                            .frame(width: geo.size.width, height: 100)
-                        
                     }
                 }
+                
                 if viewModel.weatherSnapshot != nil {
                     VStack(alignment: .leading) {
-                        Spacer()
-                            .frame(height: 80)
+                        Spacer().frame(height: 80)
                         HStack {
-                            CurrentTemperatureView(weatherSnapshot: viewModel.weatherSnapshot, usesFahrenheit: $viewModel.usesFahrenheit)
-                                .frame(width: 150, height: 150)
                             Spacer()
-                        }
-                        .padding([.leading], 16)
+                        }.padding([.leading], 16)
                         Spacer()
                     }
                 }
