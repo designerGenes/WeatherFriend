@@ -10,6 +10,7 @@ import Combine
 
 struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     @StateObject var viewModel: ViewModel
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         
@@ -19,9 +20,7 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
                 .animation(.easeInOut, value: 0.25)
                 .ignoresSafeArea()
             
-            
             VStack {
-                
                 Spacer()
                 
                 VStack(spacing: 20) {
@@ -31,18 +30,12 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
                         .padding()
                         .background(Color(UIColor.secondarySystemBackground))
                         .cornerRadius(10)
-                    //                        .focused($isShowing)
                     
                     HStack {
                         Spacer()
+                        
                         Button("Submit") {
                             viewModel.sendEmail()
-                                .sink { completion in
-                                    
-                                } receiveValue: { _ in
-                                    //
-                                }
-
                         }
                         .font(.headline)
                         
@@ -50,6 +43,7 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
                             viewModel.isShowing = false
                         }
                         .font(.headline)
+                        
                     }
                     .padding()
                     .background(Color.primary)
@@ -66,15 +60,23 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
             }
             .padding()
             
-            
         }
         .ignoresSafeArea()
+        .onReceive(viewModel.objectWillChange) { _ in
+            if !viewModel.isShowing {
+                dismiss()
+            }
+            if viewModel.namedError != nil {
+                dismiss()
+            }
+        }
     }
 }
 
+
 #Preview {
     VStack {
-        EmailUsView(viewModel: MockEmailUsViewModel.mock())
+        EmailUsView(viewModel: MockEmailUsViewModel(namedError: .settings_email_error, isShowing: true, text: "This is a test email"))
     }
     .background(Color.black)
     

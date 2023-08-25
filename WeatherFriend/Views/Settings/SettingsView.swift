@@ -76,7 +76,7 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
             }
         }
         .sheet(isPresented: $showingEmailUs) {
-            EmailUsView(viewModel: EmailUsViewModel(), isShowing: $showingEmailUs)
+            EmailUsView(viewModel: EmailUsViewModel())
         }
     }
 }

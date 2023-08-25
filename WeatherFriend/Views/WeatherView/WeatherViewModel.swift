@@ -56,7 +56,7 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     
     
     private func aiWeatherAdviceURL(weatherSnapshot: WeatherType) -> URL? {
-        let urlBase = Bundle.main.object(forInfoDictionaryKey: PlistKey.awsBaseURL.rawValue) as! String
+        let urlBase: String = Bundle.main.plistValue(for: .awsBaseURL)
         var urlComponents = URLComponents(string: urlBase)
         
         let weatherTempDescription = String(describing: weatherSnapshot.temperature.converted(to: self.usesFahrenheit ? .fahrenheit : .celsius))
