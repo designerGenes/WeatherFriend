@@ -37,6 +37,14 @@
 		A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520A2A92E2090081C962 /* OpenAIModel.swift */; };
 		A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */; };
 		A8D1520F2A938D400081C962 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520E2A938D400081C962 /* UserDefaultsController.swift */; };
+		A8E262142A9E02AE0048E95E /* personalities.json in Resources */ = {isa = PBXBuildFile; fileRef = A8E262122A9E02AE0048E95E /* personalities.json */; };
+		A8E262172A9E07CA0048E95E /* clarifiers.json in Resources */ = {isa = PBXBuildFile; fileRef = A8E262162A9E07CA0048E95E /* clarifiers.json */; };
+		A8E2621B2A9E08190048E95E /* OpenAIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E2621A2A9E08190048E95E /* OpenAIController.swift */; };
+		A8E2621E2A9E62830048E95E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A8E2621D2A9E62830048E95E /* Realm */; };
+		A8E262202A9E62830048E95E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A8E2621F2A9E62830048E95E /* RealmSwift */; };
+		A8E262222A9E636C0048E95E /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262212A9E636C0048E95E /* RealmController.swift */; };
+		A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262232A9E64030048E95E /* OpenAIRole.swift */; };
+		A8E262262A9E67620048E95E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262252A9E67620048E95E /* Repository.swift */; };
 		A8E539B52A8D4B7600BC16FF /* PlistKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E539B42A8D4B7600BC16FF /* PlistKey.swift */; };
 		A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */; };
 		A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */; };
@@ -75,6 +83,12 @@
 		A8D1520A2A92E2090081C962 /* OpenAIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIModel.swift; sourceTree = "<group>"; };
 		A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		A8D1520E2A938D400081C962 /* UserDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
+		A8E262122A9E02AE0048E95E /* personalities.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = personalities.json; sourceTree = "<group>"; };
+		A8E262162A9E07CA0048E95E /* clarifiers.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = clarifiers.json; sourceTree = "<group>"; };
+		A8E2621A2A9E08190048E95E /* OpenAIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIController.swift; sourceTree = "<group>"; };
+		A8E262212A9E636C0048E95E /* RealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
+		A8E262232A9E64030048E95E /* OpenAIRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIRole.swift; sourceTree = "<group>"; };
+		A8E262252A9E67620048E95E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		A8E539B42A8D4B7600BC16FF /* PlistKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistKey.swift; sourceTree = "<group>"; };
 		A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherKitController.swift; sourceTree = "<group>"; };
 		A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherFriend.entitlements; sourceTree = "<group>"; };
@@ -88,6 +102,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8E262202A9E62830048E95E /* RealmSwift in Frameworks */,
+				A8E2621E2A9E62830048E95E /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,6 +115,7 @@
 			children = (
 				A812DA9F2A8A89B800AF5B07 /* CommandButtonIcon.swift */,
 				A822D1422A99602E0012BA74 /* OpenAICommand.swift */,
+				A8E262232A9E64030048E95E /* OpenAIRole.swift */,
 				A8D1520A2A92E2090081C962 /* OpenAIModel.swift */,
 				A8E539B42A8D4B7600BC16FF /* PlistKey.swift */,
 				A8D152022A92D31F0081C962 /* Screen.swift */,
@@ -165,6 +182,7 @@
 		A858C4A82A828F97004A5373 /* WeatherFriend */ = {
 			isa = PBXGroup;
 			children = (
+				A8E262112A9E021B0048E95E /* Assets */,
 				A8FBF0812A8EC6310072B9E6 /* Protocols */,
 				A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */,
 				A8E927C32A8C0AB800450C52 /* Controllers */,
@@ -248,11 +266,22 @@
 			path = Charts;
 			sourceTree = "<group>";
 		};
+		A8E262112A9E021B0048E95E /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				A8E262122A9E02AE0048E95E /* personalities.json */,
+				A8E262162A9E07CA0048E95E /* clarifiers.json */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		A8E927C32A8C0AB800450C52 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */,
 				A8D1520E2A938D400081C962 /* UserDefaultsController.swift */,
+				A8E2621A2A9E08190048E95E /* OpenAIController.swift */,
+				A8E262212A9E636C0048E95E /* RealmController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -261,6 +290,7 @@
 			isa = PBXGroup;
 			children = (
 				A8FBF0822A8EC6390072B9E6 /* WeatherType.swift */,
+				A8E262252A9E67620048E95E /* Repository.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -282,6 +312,8 @@
 			);
 			name = WeatherFriend;
 			packageProductDependencies = (
+				A8E2621D2A9E62830048E95E /* Realm */,
+				A8E2621F2A9E62830048E95E /* RealmSwift */,
 			);
 			productName = 08_08_23_WeatherChallenge;
 			productReference = A858C4A62A828F97004A5373 /* WeatherFriend.app */;
@@ -312,6 +344,7 @@
 			);
 			mainGroup = A858C49D2A828F97004A5373;
 			packageReferences = (
+				A8E2621C2A9E62830048E95E /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = A858C4A72A828F97004A5373 /* Products */;
 			projectDirPath = "";
@@ -329,6 +362,8 @@
 			files = (
 				A858C4B12A828F98004A5373 /* Preview Assets.xcassets in Resources */,
 				A858C4AE2A828F98004A5373 /* Assets.xcassets in Resources */,
+				A8E262142A9E02AE0048E95E /* personalities.json in Resources */,
+				A8E262172A9E07CA0048E95E /* clarifiers.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +379,7 @@
 				A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */,
 				A822D13C2A97EAA50012BA74 /* NamedError.swift in Sources */,
 				A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */,
+				A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */,
 				A812DAAE2A8A8D5600AF5B07 /* CurrentTemperatureView.swift in Sources */,
 				A8D152072A92D36F0081C962 /* SettingsView.swift in Sources */,
 				A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */,
@@ -363,14 +399,17 @@
 				A812DAAC2A8A8D5600AF5B07 /* CommandBar.swift in Sources */,
 				A822D1412A994E350012BA74 /* Bundle+Assets.swift in Sources */,
 				A881FC102A85479500410CF8 /* WeatherAdvice.swift in Sources */,
+				A8E2621B2A9E08190048E95E /* OpenAIController.swift in Sources */,
 				A812DAA02A8A89B800AF5B07 /* CommandButtonIcon.swift in Sources */,
 				A8C617432A942C1E004DC600 /* AboutView.swift in Sources */,
 				A891B1202A8291CA00A1C5F8 /* Color+Design.swift in Sources */,
 				A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */,
+				A8E262222A9E636C0048E95E /* RealmController.swift in Sources */,
 				A8FBF0832A8EC6390072B9E6 /* WeatherType.swift in Sources */,
 				A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */,
 				A8C617452A942E3D004DC600 /* EmailUsView.swift in Sources */,
 				A822D13F2A97EDD20012BA74 /* EmailUsViewModel.swift in Sources */,
+				A8E262262A9E67620048E95E /* Repository.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +640,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A8E2621C2A9E62830048E95E /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A8E2621D2A9E62830048E95E /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A8E2621C2A9E62830048E95E /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		A8E2621F2A9E62830048E95E /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A8E2621C2A9E62830048E95E /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A858C49E2A828F97004A5373 /* Project object */;
 }

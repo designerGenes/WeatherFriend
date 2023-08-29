@@ -23,7 +23,7 @@ import Combine
 
 struct DynamicBackgroundView: View {
     var body: some View {
-        Image.mountains_cold
+        Image.city_dark
             .resizable()
     }
 }
@@ -53,7 +53,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
         GeometryReader { geo in
             ZStack {
                 if viewModel.weatherSnapshot == nil {
-                    LinearGradient(colors: [Color.blue, Color.blue, Color.blue], startPoint: .top, endPoint: .bottom)
+                    LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
                 } else {
                     DynamicBackgroundView()
                 }
@@ -67,7 +67,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                 if viewModel.weatherAdvice != nil {
                     VStack {
                         Spacer()
-                        WeatherAdviceView(viewModel: WeatherAdviceViewModel())
+                        WeatherAdviceView(viewModel: WeatherAdviceViewModel(weatherAdvice: viewModel.weatherAdvice))
                             .frame(width: geo.size.width, height: 260)
                             .opacity(0.8)
                     }

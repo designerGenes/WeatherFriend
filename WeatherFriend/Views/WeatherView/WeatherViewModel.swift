@@ -36,14 +36,6 @@ class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
         out.weatherAdvice = MockWeatherAdvice.mock()
         return out
     }
-    
-//    func getWeatherAdviceFromAWS(weatherSnapshot: WeatherType) async throws -> WeatherAdvice {
-//        return MockWeatherAdvice.mock()
-//    }
-//    
-//    func getCurrentAppleWeather() async throws -> WeatherType? {
-//        return MockWeatherType.mock()
-//    }
 }
 
 class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
@@ -62,7 +54,7 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
         let weatherTempDescription = String(describing: weatherSnapshot.temperature.converted(to: self.usesFahrenheit ? .fahrenheit : .celsius))
         
         urlComponents?.queryItems = [
-            "zipCode".queryItem(self.zipCode),
+            "zipCode".queryItem(zipCode),
             "weatherTemp".queryItem(weatherTempDescription),
             "weatherCondition".queryItem(weatherSnapshot.buildWeatherCondition()),
         ]

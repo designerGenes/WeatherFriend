@@ -3,17 +3,23 @@ import SwiftUI
 
 class WeatherAdviceViewModel: ObservableObject, WeatherAdviceViewModelType {
     @Published var weatherAdvice: WeatherAdviceType?
-    var titleText: String = "Your AI Weather Advice "
+    var titleText: String {
+        return "Your AI Weather Advice "
+    }
     
     func submitCommand(command: OpenAICommand) {
         // Implement your logic here
     }
+    
+    init(weatherAdvice: WeatherAdviceType? = nil) {
+        self.weatherAdvice = weatherAdvice
+    }
 }
 
 protocol WeatherAdviceViewModelType: ObservableObject {
-    var weatherAdvice: WeatherAdviceType? { get }
-    var titleText: String { get }
+    var weatherAdvice: WeatherAdviceType? { get set }
     func submitCommand(command: OpenAICommand)
+    var titleText: String { get }
 }
 
 struct OpenAIControlView<ViewModel: WeatherAdviceViewModelType>: View {

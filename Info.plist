@@ -2,10 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>AWS_EMAIL_URL</key>
-	<string>https://s053xxlgvg.execute-api.us-west-2.amazonaws.com/default/EmailLambda</string>
-	<key>AWS_BASE_URL</key>
-	<string>https://xmt09qg36i.execute-api.us-west-2.amazonaws.com/default/WeatherFriend</string>
+	<key>ContentUrls</key>
+	<dict>
+		<key>AWS_BASE_URL</key>
+		<string>https://xmt09qg36i.execute-api.us-west-2.amazonaws.com/default/WeatherFriend</string>
+		<key>AWS_EMAIL_URL</key>
+		<string>https://s053xxlgvg.execute-api.us-west-2.amazonaws.com/default/EmailLambda</string>
+	</dict>
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
@@ -27,9 +30,5 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>WEATHERAPI_BASE_URL</key>
-	<string>https://api.weatherapi.com/v1/current.json</string>
-	<key>WEATHERAPI_KEY</key>
-	<string>35c81d7ef4a94893993170611230808</string>
 </dict>
 </plist>
