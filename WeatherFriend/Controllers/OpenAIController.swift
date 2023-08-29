@@ -7,13 +7,15 @@
 
 import Foundation
 
-class OpenAIController {
-    static let shared = OpenAIController()
-    
-    
-    
-    
-    
+protocol OpenAIControllerType {
+    func sendMessage(message: OpenAIConversationMessage) async
+}
 
+final class OpenAIController: OpenAIControllerType {
+    func sendMessage(message: OpenAIConversationMessage) async {
+        <#code#>
+    }
+    
+    static let shared = OpenAIController()
     
 }

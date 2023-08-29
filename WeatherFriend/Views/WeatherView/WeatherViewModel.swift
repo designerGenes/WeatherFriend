@@ -117,9 +117,7 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
                                 promise(.success(nil))
                                 return
                             }
-                            print("got weather with temp of \(weather)° Fahrenheit")
                             let adviceResponse = try await self.getWeatherAdviceFromAWS(weatherSnapshot: weather)
-                            print("got advice of: \(adviceResponse.advice)")
                             promise(.success((advice: adviceResponse, snapshot: weather)))
                         } catch {
                             print("error: \(error.localizedDescription)")
