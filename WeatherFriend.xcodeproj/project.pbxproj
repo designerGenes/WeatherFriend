@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A80EE9A22AA1258500C5618E /* AppleWeatherController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80EE9A12AA1258500C5618E /* AppleWeatherController.swift */; };
 		A812DAA02A8A89B800AF5B07 /* CommandButtonIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DA9F2A8A89B800AF5B07 /* CommandButtonIcon.swift */; };
 		A812DAA32A8A8B1E00AF5B07 /* String+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA22A8A8B1E00AF5B07 /* String+Convenience.swift */; };
 		A812DAA52A8A8D4900AF5B07 /* Notification+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA42A8A8D4900AF5B07 /* Notification+Custom.swift */; };
@@ -41,10 +42,10 @@
 		A8E2621B2A9E08190048E95E /* OpenAIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E2621A2A9E08190048E95E /* OpenAIController.swift */; };
 		A8E2621E2A9E62830048E95E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A8E2621D2A9E62830048E95E /* Realm */; };
 		A8E262202A9E62830048E95E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A8E2621F2A9E62830048E95E /* RealmSwift */; };
-		A8E262222A9E636C0048E95E /* RealmController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262212A9E636C0048E95E /* RealmController.swift */; };
 		A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262232A9E64030048E95E /* OpenAIRole.swift */; };
 		A8E262262A9E67620048E95E /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262252A9E67620048E95E /* Repository.swift */; };
 		A8E262282A9E704B0048E95E /* OpenAIConversationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262272A9E704B0048E95E /* OpenAIConversationMessage.swift */; };
+		A8E2622A2A9E857E0048E95E /* URLRequest+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262292A9E857E0048E95E /* URLRequest+Convenience.swift */; };
 		A8E539B52A8D4B7600BC16FF /* PlistKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E539B42A8D4B7600BC16FF /* PlistKey.swift */; };
 		A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */; };
 		A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */; };
@@ -52,6 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A80EE9A12AA1258500C5618E /* AppleWeatherController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleWeatherController.swift; sourceTree = "<group>"; };
 		A812DA9F2A8A89B800AF5B07 /* CommandButtonIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandButtonIcon.swift; sourceTree = "<group>"; };
 		A812DAA22A8A8B1E00AF5B07 /* String+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Convenience.swift"; sourceTree = "<group>"; };
 		A812DAA42A8A8D4900AF5B07 /* Notification+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Custom.swift"; sourceTree = "<group>"; };
@@ -85,10 +87,10 @@
 		A8D1520E2A938D400081C962 /* UserDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		A8E262122A9E02AE0048E95E /* OpenAI.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OpenAI.json; sourceTree = "<group>"; };
 		A8E2621A2A9E08190048E95E /* OpenAIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIController.swift; sourceTree = "<group>"; };
-		A8E262212A9E636C0048E95E /* RealmController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmController.swift; sourceTree = "<group>"; };
 		A8E262232A9E64030048E95E /* OpenAIRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIRole.swift; sourceTree = "<group>"; };
 		A8E262252A9E67620048E95E /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		A8E262272A9E704B0048E95E /* OpenAIConversationMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIConversationMessage.swift; sourceTree = "<group>"; };
+		A8E262292A9E857E0048E95E /* URLRequest+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Convenience.swift"; sourceTree = "<group>"; };
 		A8E539B42A8D4B7600BC16FF /* PlistKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistKey.swift; sourceTree = "<group>"; };
 		A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherKitController.swift; sourceTree = "<group>"; };
 		A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherFriend.entitlements; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				A8B2E2512A8292A400A1B0EE /* Image+Design.swift */,
 				A891B11F2A8291CA00A1C5F8 /* Color+Design.swift */,
 				A822D1402A994E350012BA74 /* Bundle+Assets.swift */,
+				A8E262292A9E857E0048E95E /* URLRequest+Convenience.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -281,7 +284,7 @@
 				A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */,
 				A8D1520E2A938D400081C962 /* UserDefaultsController.swift */,
 				A8E2621A2A9E08190048E95E /* OpenAIController.swift */,
-				A8E262212A9E636C0048E95E /* RealmController.swift */,
+				A80EE9A12AA1258500C5618E /* AppleWeatherController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -400,11 +403,12 @@
 				A822D1412A994E350012BA74 /* Bundle+Assets.swift in Sources */,
 				A881FC102A85479500410CF8 /* WeatherAdvice.swift in Sources */,
 				A8E2621B2A9E08190048E95E /* OpenAIController.swift in Sources */,
+				A8E2622A2A9E857E0048E95E /* URLRequest+Convenience.swift in Sources */,
 				A812DAA02A8A89B800AF5B07 /* CommandButtonIcon.swift in Sources */,
+				A80EE9A22AA1258500C5618E /* AppleWeatherController.swift in Sources */,
 				A8C617432A942C1E004DC600 /* AboutView.swift in Sources */,
 				A891B1202A8291CA00A1C5F8 /* Color+Design.swift in Sources */,
 				A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */,
-				A8E262222A9E636C0048E95E /* RealmController.swift in Sources */,
 				A8FBF0832A8EC6390072B9E6 /* WeatherType.swift in Sources */,
 				A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */,
 				A8C617452A942E3D004DC600 /* EmailUsView.swift in Sources */,

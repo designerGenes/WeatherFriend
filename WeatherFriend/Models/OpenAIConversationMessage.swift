@@ -7,8 +7,11 @@
 
 import Foundation
 import RealmSwift
+import RealmSwift
 
-class OpenAIConversationMessage: Object {
+
+class OpenAIConversationMessage: Object, Codable {
+    
     @Persisted var timestamp: String
     @Persisted var content: String
     @Persisted var roleString: String
@@ -21,11 +24,39 @@ class OpenAIConversationMessage: Object {
             roleString = newValue.rawValue
         }
     }
+    enum CodingKeys: String, CodingKey {
+        case timestamp
+        case content
+        case role
+    }
+    
+    // Decode
+    required convenience init(from decoder: Decoder) throws {
+        self.init()
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        timestamp = try container.decode(String.self, forKey: .timestamp)
+        content = try container.decode(String.self, forKey: .content)
+        roleString = try container.decode(String.self, forKey: .role)
+    }
+    
+    // Encode
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(timestamp, forKey: .timestamp)
+        try container.encode(content, forKey: .content)
+        try container.encode(role.rawValue, forKey: .role)
+    }
 }
+
 
 class OpenAIConversationMessageRepository: Repository {
     typealias T = OpenAIConversationMessage
     let realm: Realm
+    
+    static let shared: OpenAIConversationMessageRepository = OpenAIConversationMessageRepository(realm: try! Realm())
     
     init(realm: Realm) {
         self.realm = try! Realm()
