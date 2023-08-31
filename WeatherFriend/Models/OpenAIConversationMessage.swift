@@ -30,6 +30,12 @@ class OpenAIConversationMessage: Object, Codable {
         case role
     }
     
+    convenience init(content: String, timestamp: String = Date().timeIntervalSince1970.description) {
+        self.init()
+        self.content = content
+        self.timestamp = timestamp
+    }
+    
     // Decode
     required convenience init(from decoder: Decoder) throws {
         self.init()

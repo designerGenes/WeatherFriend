@@ -47,7 +47,6 @@
 		A8E262282A9E704B0048E95E /* OpenAIConversationMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262272A9E704B0048E95E /* OpenAIConversationMessage.swift */; };
 		A8E2622A2A9E857E0048E95E /* URLRequest+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262292A9E857E0048E95E /* URLRequest+Convenience.swift */; };
 		A8E539B52A8D4B7600BC16FF /* PlistKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E539B42A8D4B7600BC16FF /* PlistKey.swift */; };
-		A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */; };
 		A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */; };
 		A8FBF0832A8EC6390072B9E6 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8FBF0822A8EC6390072B9E6 /* WeatherType.swift */; };
 /* End PBXBuildFile section */
@@ -92,7 +91,6 @@
 		A8E262272A9E704B0048E95E /* OpenAIConversationMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIConversationMessage.swift; sourceTree = "<group>"; };
 		A8E262292A9E857E0048E95E /* URLRequest+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLRequest+Convenience.swift"; sourceTree = "<group>"; };
 		A8E539B42A8D4B7600BC16FF /* PlistKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlistKey.swift; sourceTree = "<group>"; };
-		A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherKitController.swift; sourceTree = "<group>"; };
 		A8E927C62A8C0C5500450C52 /* WeatherFriend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WeatherFriend.entitlements; sourceTree = "<group>"; };
 		A8E927C72A8C0F8F00450C52 /* BackboneTabView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackboneTabView.swift; sourceTree = "<group>"; };
 		A8FBF0822A8EC6390072B9E6 /* WeatherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
@@ -281,7 +279,6 @@
 		A8E927C32A8C0AB800450C52 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A8E927C42A8C0ACE00450C52 /* WeatherKitController.swift */,
 				A8D1520E2A938D400081C962 /* UserDefaultsController.swift */,
 				A8E2621A2A9E08190048E95E /* OpenAIController.swift */,
 				A80EE9A12AA1258500C5618E /* AppleWeatherController.swift */,
@@ -378,7 +375,6 @@
 			files = (
 				A8E539B52A8D4B7600BC16FF /* PlistKey.swift in Sources */,
 				A858C4AC2A828F97004A5373 /* WeatherView.swift in Sources */,
-				A8E927C52A8C0ACE00450C52 /* WeatherKitController.swift in Sources */,
 				A822D13C2A97EAA50012BA74 /* NamedError.swift in Sources */,
 				A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */,
 				A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */,

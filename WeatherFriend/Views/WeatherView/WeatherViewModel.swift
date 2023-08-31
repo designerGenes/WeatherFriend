@@ -15,117 +15,77 @@ typealias FullWeatherResponse = (advice: WeatherAdviceType?, snapshot: WeatherTy
 protocol WeatherViewModelType: ObservableObject {
     var usesFahrenheit: Bool { get set }
     var zipCode: String { get set }
-    var weatherSnapshot: WeatherType? { get set }
-    var weatherAdvice: WeatherAdviceType? { get set }
+    var messages: [OpenAIConversationMessage] { get set }
     var isShowingShelf: Bool { get set }
-    
-//    func getWeatherAdviceFromAWS(weatherSnapshot: WeatherType) async throws -> WeatherAdvice
-//    func getCurrentAppleWeather() async throws -> WeatherType?
+
 }
 
 class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = "90210"
-    @Published var weatherSnapshot: WeatherType?
-    @Published var weatherAdvice: WeatherAdviceType?
+    @Published var messages: [OpenAIConversationMessage] = []
     @Published var isShowingShelf: Bool = false
     
     static func mock() -> MockWeatherViewModel {
-        let out = MockWeatherViewModel()
-        out.weatherSnapshot = MockWeatherType.mock()
-        out.weatherAdvice = MockWeatherAdvice.mock()
-        return out
+        return MockWeatherViewModel()
     }
 }
 
 class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = ""
-    @Published var weatherSnapshot: WeatherType?
-    @Published var weatherAdvice: WeatherAdviceType?
+    @Published var messages: [OpenAIConversationMessage] = []
     @Published var isShowingShelf: Bool = false
-    private let controller = WeatherKitController()
-    
-    
-    private func aiWeatherAdviceURL(weatherSnapshot: WeatherType) -> URL? {
-        let urlBase: String = Bundle.main.plistValue(for: .awsBaseURL)
-        var urlComponents = URLComponents(string: urlBase)
-        
-        let weatherTempDescription = String(describing: weatherSnapshot.temperature.converted(to: self.usesFahrenheit ? .fahrenheit : .celsius))
-        
-        urlComponents?.queryItems = [
-            "zipCode".queryItem(zipCode),
-            "weatherTemp".queryItem(weatherTempDescription),
-            "weatherCondition".queryItem(weatherSnapshot.buildWeatherCondition()),
-        ]
-
-        return urlComponents?.url
-    }
+    @Published var conversationCommand: OpenAICommand = .whatToDo
+    private let debounce = Debounce(seconds: 0.5)
+    private let messageRepository = OpenAIConversationMessageRepository.shared
     
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
-    func getWeatherAdviceFromAWS(weatherSnapshot: WeatherType) async throws -> WeatherAdvice {
-        
-        guard let url = aiWeatherAdviceURL(weatherSnapshot: weatherSnapshot) else {
-            throw URLError(.badURL)
+    private func submitZipcodeAndInitConversation() async -> Future<OpenAIConversationMessage?, Error> {
+        let task = Task {
+            let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode)
+            guard let weather = weather else {
+                return // error handling
+            }
+            let message = try? await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather, zipCode: zipCode, command: conversationCommand)
+            // TODO: refresh list based on database query
         }
         
-        var openAIResponse: OpenAIResponseType?
-        #if DEBUG
-            openAIResponse = MockOpenAIResponse.mock()
-        #else
-        
-            let (data, _) = try await URLSession.shared.data(from: url)
-            openAIResponse = try JSONDecoder().decode(OpenAIResponse.self, from: data)
-        #endif
-
-        let responseString = openAIResponse?.choices.first?.message.content
-        return WeatherAdvice(advice: responseString ?? "No advice, sorry")
-    }
-        
-    func getCurrentAppleWeather() async throws -> WeatherType? {
-        print("getting current weather")
-        var weather: WeatherType?
-        #if DEBUG
-            weather = MockWeatherType.mock()
-        #else
-            weather = try await controller.getWeather(forZipCode: zipCode)
-        #endif
-        
-        return weather
+        return Future { _ in
+            task()
+        }
     }
     
-    init(usesFahrenheit: Bool = true, weatherSnapshot: WeatherType? = nil, weatherAdvice: WeatherAdviceType? = nil) {
+    private func submitMessage() async -> Future<[OpenAIConversationMessage], Error> {
+        
+    }
+    
+    init(usesFahrenheit: Bool = true) {
         self.usesFahrenheit = usesFahrenheit
-        self.weatherSnapshot = weatherSnapshot
-        self.weatherAdvice = weatherAdvice
+        
+        messageRepository.getAll(timestamp: /*<#T##String#>*/)
         
         $zipCode
             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-            .removeDuplicates()
-            .flatMap { [weak self] debouncedZipCode -> AnyPublisher<FullWeatherResponse?, Never> in
+            .
+        
+            .flatMap{ debouncedZipCode in
+                
+            }
+            .flatMap { [weak self] debouncedZipCode -> AnyPublisher<OpenAIConversationMessage?, Error> in
                 guard let self = self, debouncedZipCode.count == 5 else {
-                    self?.weatherSnapshot = nil
+                    
                     return Just(nil).eraseToAnyPublisher()
                 }
-                return Future { promise in
-                    Task {
-                        do {
-                            let weather = try await self.getCurrentAppleWeather()
-                            guard let weather = weather else {
-                                print("failed to retrieve weather")
-                                promise(.success(nil))
-                                return
-                            }
-                            let adviceResponse = try await self.getWeatherAdviceFromAWS(weatherSnapshot: weather)
-                            promise(.success((advice: adviceResponse, snapshot: weather)))
-                        } catch {
-                            print("error: \(error.localizedDescription)")
-                            promise(.success(nil))
-                        }
-                    }
-                }
-                .eraseToAnyPublisher()
+                
+                return submitZipcodeAndInitConversation()
+                    .eraseToAnyPublisher()
+                    
+                
+                
+                    
+                
             }
             .sink { [weak self] fullResponse in
                 DispatchQueue.main.async {

@@ -30,6 +30,7 @@ final class OpenAIController: OpenAIControllerType {
     }
     
     func sendMessage(message: OpenAIConversationMessage) async throws {
+        OpenAIConversationMessageRepository.shared.add(message)
         let timestamp = message.timestamp
         var request = URLRequest(url: lambdaURL)
         request.setHTTPMethod(.POST)
@@ -46,6 +47,17 @@ final class OpenAIController: OpenAIControllerType {
         } catch {
             
         }
+    }
+    
+    func sendOpeningMessage(weather: WeatherType, zipCode: String, command: OpenAICommand) async throws {
+        // personality : prime D : set scene : command
+        let personality = OpenAIPersonality.jim.fullText()
+        let primeDirective = OpenAIClarifier.primeDirective.fullText()
+        let command = command.fullText()
+        let scene = weather.setScene()
+        let messageText = "\(personality)  \(primeDirective) \(scene) in the zipcode of \(zipCode).  \(command)"
+        var message = OpenAIConversationMessage(content: messageText)
         
+        return try await sendMessage(message: message)
     }
 }

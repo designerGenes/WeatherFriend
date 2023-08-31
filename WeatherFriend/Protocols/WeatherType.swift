@@ -18,6 +18,20 @@ protocol WeatherType {
     
 }
 
+extension WeatherType {
+    func setScene() -> String {
+        let tempUnit: String
+        switch temperature.unit {
+        case .celsius: tempUnit = "celsius"
+        case .fahrenheit: tempUnit = "fahrenheit"
+        case .kelvin: tempUnit = "kelvin"
+        default:
+            return "" // error handling
+        }
+        return "It is \(temperature.value) degrees \(tempUnit) and \(condition.description)"
+    }
+}
+
 struct MockWeatherType: WeatherType {
     var condition: WeatherCondition
     var humidity: Double
