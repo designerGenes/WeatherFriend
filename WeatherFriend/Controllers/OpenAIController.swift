@@ -49,14 +49,14 @@ final class OpenAIController: OpenAIControllerType {
         }
     }
     
-    func sendOpeningMessage(weather: WeatherType, zipCode: String, command: OpenAICommand) async throws {
+    func sendOpeningMessage(weather: WeatherType, zipCode: String, command: OpenAICommand, timestamp: String) async throws {
         // personality : prime D : set scene : command
         let personality = OpenAIPersonality.jim.fullText()
         let primeDirective = OpenAIClarifier.primeDirective.fullText()
         let command = command.fullText()
         let scene = weather.setScene()
         let messageText = "\(personality)  \(primeDirective) \(scene) in the zipcode of \(zipCode).  \(command)"
-        var message = OpenAIConversationMessage(content: messageText)
+        var message = OpenAIConversationMessage(content: messageText, timestamp: timestamp) // auto generate timestamp
         
         return try await sendMessage(message: message)
     }

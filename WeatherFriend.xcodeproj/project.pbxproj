@@ -110,6 +110,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A80EE9A32AA2011600C5618E /* ConversationHistory */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ConversationHistory;
+			sourceTree = "<group>";
+		};
 		A812DA9D2A8A896F00AF5B07 /* Enums */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +218,7 @@
 		A858C4B72A82919C004A5373 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A80EE9A32AA2011600C5618E /* ConversationHistory */,
 				A8C617412A942C03004DC600 /* EmailUs */,
 				A8C617402A942BF2004DC600 /* About */,
 				A8D152052A92D3650081C962 /* Charts */,

@@ -52,7 +52,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                if viewModel.weatherSnapshot == nil {
+                if viewModel.messages.isEmpty {
                     LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
                 } else {
                     DynamicBackgroundView()
@@ -64,7 +64,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                         .position(x: geo.size.width / 2, y: geo.size.height / 2)
                 }
                 
-                if viewModel.weatherAdvice != nil {
+                if !viewModel.messages.isEmpty {
                     VStack {
                         Spacer()
                         WeatherAdviceView(viewModel: WeatherAdviceViewModel(weatherAdvice: viewModel.weatherAdvice))
