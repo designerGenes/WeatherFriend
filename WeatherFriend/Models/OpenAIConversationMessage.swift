@@ -10,7 +10,7 @@ import RealmSwift
 import RealmSwift
 
 
-class OpenAIConversationMessage: Object, Codable {
+class OpenAIConversationMessage: Object, Codable, Identifiable {
     
     @Persisted var timestamp: String
     @Persisted var content: String

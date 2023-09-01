@@ -11,7 +11,7 @@
 		A812DAA02A8A89B800AF5B07 /* CommandButtonIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DA9F2A8A89B800AF5B07 /* CommandButtonIcon.swift */; };
 		A812DAA32A8A8B1E00AF5B07 /* String+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA22A8A8B1E00AF5B07 /* String+Convenience.swift */; };
 		A812DAA52A8A8D4900AF5B07 /* Notification+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA42A8A8D4900AF5B07 /* Notification+Custom.swift */; };
-		A812DAAB2A8A8D5600AF5B07 /* WeatherAdviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA62A8A8D5600AF5B07 /* WeatherAdviceView.swift */; };
+		A812DAAB2A8A8D5600AF5B07 /* OpenAIConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA62A8A8D5600AF5B07 /* OpenAIConversationView.swift */; };
 		A812DAAC2A8A8D5600AF5B07 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA72A8A8D5600AF5B07 /* CommandBar.swift */; };
 		A812DAAD2A8A8D5600AF5B07 /* SaddleCommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA82A8A8D5600AF5B07 /* SaddleCommandBar.swift */; };
 		A812DAAE2A8A8D5600AF5B07 /* CurrentTemperatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA92A8A8D5600AF5B07 /* CurrentTemperatureView.swift */; };
@@ -56,7 +56,7 @@
 		A812DA9F2A8A89B800AF5B07 /* CommandButtonIcon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandButtonIcon.swift; sourceTree = "<group>"; };
 		A812DAA22A8A8B1E00AF5B07 /* String+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Convenience.swift"; sourceTree = "<group>"; };
 		A812DAA42A8A8D4900AF5B07 /* Notification+Custom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Notification+Custom.swift"; sourceTree = "<group>"; };
-		A812DAA62A8A8D5600AF5B07 /* WeatherAdviceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherAdviceView.swift; sourceTree = "<group>"; };
+		A812DAA62A8A8D5600AF5B07 /* OpenAIConversationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenAIConversationView.swift; sourceTree = "<group>"; };
 		A812DAA72A8A8D5600AF5B07 /* CommandBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		A812DAA82A8A8D5600AF5B07 /* SaddleCommandBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaddleCommandBar.swift; sourceTree = "<group>"; };
 		A812DAA92A8A8D5600AF5B07 /* CurrentTemperatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentTemperatureView.swift; sourceTree = "<group>"; };
@@ -236,7 +236,7 @@
 				A812DAA92A8A8D5600AF5B07 /* CurrentTemperatureView.swift */,
 				A812DAA82A8A8D5600AF5B07 /* SaddleCommandBar.swift */,
 				A812DAAA2A8A8D5600AF5B07 /* StackText.swift */,
-				A812DAA62A8A8D5600AF5B07 /* WeatherAdviceView.swift */,
+				A812DAA62A8A8D5600AF5B07 /* OpenAIConversationView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -399,7 +399,7 @@
 				A8B2E2522A8292A400A1B0EE /* Image+Design.swift in Sources */,
 				A8C6173F2A942AB1004DC600 /* MaxTokensRow.swift in Sources */,
 				A812DAAD2A8A8D5600AF5B07 /* SaddleCommandBar.swift in Sources */,
-				A812DAAB2A8A8D5600AF5B07 /* WeatherAdviceView.swift in Sources */,
+				A812DAAB2A8A8D5600AF5B07 /* OpenAIConversationView.swift in Sources */,
 				A858C4AA2A828F97004A5373 /* WeatherFriend.swift in Sources */,
 				A8D152092A92D3740081C962 /* ChartsView.swift in Sources */,
 				A812DAA52A8A8D4900AF5B07 /* Notification+Custom.swift in Sources */,

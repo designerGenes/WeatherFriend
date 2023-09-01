@@ -52,10 +52,10 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                if viewModel.messages.isEmpty {
-                    LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
-                } else {
+                if !viewModel.messages.isEmpty {
                     DynamicBackgroundView()
+                } else {
+                    LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {
@@ -67,13 +67,10 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                 if !viewModel.messages.isEmpty {
                     VStack {
                         Spacer()
-                        WeatherAdviceView(viewModel: WeatherAdviceViewModel(weatherAdvice: viewModel.weatherAdvice))
+                        OpenAIConversationView(messages: $viewModel.messages)
                             .frame(width: geo.size.width, height: 260)
                             .opacity(0.8)
                     }
-                }
-                
-                if viewModel.weatherSnapshot != nil {
                     VStack(alignment: .leading) {
                         Spacer().frame(height: 80)
                         HStack {

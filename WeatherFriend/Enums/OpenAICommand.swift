@@ -51,8 +51,9 @@ enum OpenAIPersonality: String {
         case .pirate: key = "PERSONALITY_PIRATE"
         case .abuelita: key = "PERSONALITY_YOUR_ABUELITA"
         case .kev: key = "PERSONALITY_KEV"
-            return OpenAIPersonality.dictionary[key]!
+            
         }
+        return OpenAIPersonality.dictionary[key]!
     }
 }
 
