@@ -7,3 +7,4 @@ DerivedData/
 .swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
 .netrc
 /supportingfiles
+WeatherFriend.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
