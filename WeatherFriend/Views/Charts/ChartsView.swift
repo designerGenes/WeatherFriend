@@ -13,6 +13,8 @@ struct ChartsView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ChartsView()
 }
+#endif

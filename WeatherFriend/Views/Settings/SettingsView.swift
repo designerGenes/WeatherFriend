@@ -82,9 +82,11 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
 }
 
 
+#if DEBUG
 #Preview {
     SettingsView<MockSettingsViewModel>(viewModel: MockSettingsViewModel.mock())
 }
+#endif
 
 // for later...
 //                    Section("API") {

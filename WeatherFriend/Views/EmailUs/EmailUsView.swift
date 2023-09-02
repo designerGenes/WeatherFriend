@@ -74,6 +74,7 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
 }
 
 
+#if DEBUG
 #Preview {
     VStack {
         EmailUsView(viewModel: MockEmailUsViewModel(namedError: .settings_email_error, isShowing: true, text: "This is a test email"))
@@ -81,3 +82,4 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     .background(Color.black)
     
 }
+#endif

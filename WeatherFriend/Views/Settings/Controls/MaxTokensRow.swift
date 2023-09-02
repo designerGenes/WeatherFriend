@@ -25,9 +25,11 @@ struct MaxTokensRow: View {
     }
 }
 
+#if DEBUG
 #Preview {
     VStack {
         MaxTokensRow(maxTokens: .constant(124))
     }
     .background(Color(uiColor: .settingsBackgroundMain))
 }
+#endif
