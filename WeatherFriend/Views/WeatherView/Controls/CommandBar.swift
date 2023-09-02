@@ -29,8 +29,10 @@ struct CommandBar: View {
 
 
 #if DEBUG
-#Preview {
-    CommandBar(selectedScreen: .constant(.main))
-        .background(Color.formGray)
+struct CommandBar_Previews: PreviewProvider {
+    static var previews: some View {
+        CommandBar(selectedScreen: .constant(.main))
+            .background(Color.formGray)
+    }
 }
 #endif

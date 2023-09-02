@@ -21,7 +21,9 @@ struct BackboneTabView: View {
 
 
 #if DEBUG
-#Preview {
-    BackboneTabView(activeScreen: .main)
+struct BackboneTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        BackboneTabView(activeScreen: .main)
+    }
 }
 #endif

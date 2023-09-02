@@ -75,11 +75,13 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
 
 
 #if DEBUG
-#Preview {
-    VStack {
-        EmailUsView(viewModel: MockEmailUsViewModel(namedError: .settings_email_error, isShowing: true, text: "This is a test email"))
+struct EmailUsView_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            EmailUsView(viewModel: MockEmailUsViewModel(namedError: .settings_email_error, isShowing: true, text: "This is a test email"))
+        }
+        .background(Color.black)
     }
-    .background(Color.black)
     
 }
 #endif

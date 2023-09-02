@@ -14,7 +14,9 @@ struct ChartsView: View {
 }
 
 #if DEBUG
-#Preview {
-    ChartsView()
+struct ChartsView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChartsView()
+    }
 }
 #endif

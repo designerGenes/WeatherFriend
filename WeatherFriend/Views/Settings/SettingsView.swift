@@ -83,8 +83,10 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
 
 
 #if DEBUG
-#Preview {
-    SettingsView<MockSettingsViewModel>(viewModel: MockSettingsViewModel.mock())
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingsView<MockSettingsViewModel>(viewModel: MockSettingsViewModel.mock())
+    }
 }
 #endif
 

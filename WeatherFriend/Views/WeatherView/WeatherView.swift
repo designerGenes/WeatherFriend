@@ -88,8 +88,10 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
 
 
 #if DEBUG
-#Preview {
-    WeatherView(viewModel: MockWeatherViewModel.mock())
+struct WeatherView_Previews: PreviewProvider {
+    static var previews: some View {
+        WeatherView(viewModel: MockWeatherViewModel.mock())
+    }
 }
 #endif
 

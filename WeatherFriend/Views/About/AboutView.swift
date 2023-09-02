@@ -14,7 +14,9 @@ struct AboutView: View {
 }
 
 #if DEBUG
-#Preview {
-    AboutView()
+struct AboutView_Previews: PreviewProvider {
+    static var previews: some View {
+        AboutView()
+    }
 }
 #endif
