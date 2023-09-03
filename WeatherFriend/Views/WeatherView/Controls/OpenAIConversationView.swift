@@ -27,6 +27,10 @@ struct OpenAIConversationView: View {
             }
             .padding()
         }
-    }    
+        .background {
+            Color.white
+        }
+        
+    }
 }
 

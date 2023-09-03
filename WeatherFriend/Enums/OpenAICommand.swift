@@ -12,7 +12,8 @@ enum OpenAICommand: String {
     static var dictionary: [String: String] {
         let commandsObjectURL = Bundle.main.url(forResource: "OpenAI", withExtension: "json")!
         let commandsObjectData = try! Data(contentsOf: commandsObjectURL)
-        return try! JSONDecoder().decode(Dictionary<String, String>.self, from: commandsObjectData)
+        let entireObject: [String: Dictionary<String, String>] = try! JSONDecoder().decode([String: Dictionary<String, String>].self, from: commandsObjectData)
+        return entireObject["commands"]!
     }
     
     case yes, no, tryAgain, whatToDo, whatToWear, whatToEat
@@ -37,7 +38,8 @@ enum OpenAIPersonality: String {
     static var dictionary: [String: String] {
         let personalityObjectURL = Bundle.main.url(forResource: "OpenAI", withExtension: "json")!
         let personalityObjectData = try! Data(contentsOf: personalityObjectURL)
-        return try! JSONDecoder().decode(Dictionary<String, String>.self, from: personalityObjectData)
+        let entireObject: [String: Dictionary<String, String>] = try! JSONDecoder().decode([String: Dictionary<String, String>].self, from: personalityObjectData)
+        return entireObject["personalities"]!
     }
     
     case jim, pam, kev, pirate, cowboy, abuelita
@@ -61,7 +63,8 @@ enum OpenAIClarifier: String {
     static var dictionary: [String: String] {
         let clarifierObjectURL = Bundle.main.url(forResource: "OpenAI", withExtension: "json")!
         let clarifierObjectData = try! Data(contentsOf: clarifierObjectURL)
-        return try! JSONDecoder().decode(Dictionary<String, String>.self, from: clarifierObjectData)
+        let entireObject: [String: Dictionary<String, String>] = try! JSONDecoder().decode([String: Dictionary<String, String>].self, from: clarifierObjectData)
+        return entireObject["clarifiers"]!
     }
     
     case primeDirective, setScene

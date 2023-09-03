@@ -8,7 +8,7 @@ struct BackboneTabView: View {
         ZStack(alignment: .top) {
                 switch activeScreen {
                 case .main:
-                    WeatherView(viewModel: MockWeatherViewModel.mock())
+                    WeatherView(viewModel: WeatherViewViewModel())
                 case .settings:
                     SettingsView(viewModel: MockSettingsViewModel.mock())
                 }

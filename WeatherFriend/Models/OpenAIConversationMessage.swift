@@ -9,6 +9,15 @@ import Foundation
 import RealmSwift
 import RealmSwift
 
+struct SendableOpenAIConversationMessage: Codable {
+    var content: String
+    var role: String
+    
+    init(conversationMessage: OpenAIConversationMessage) {
+        self.content = conversationMessage.content
+        self.role = conversationMessage.roleString
+    }
+}
 
 class OpenAIConversationMessage: Object, Codable, Identifiable {
     
@@ -30,9 +39,14 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
         case role
     }
     
-    convenience init(content: String, timestamp: String = Date().timeIntervalSince1970.description) {
+    func toSendable() -> SendableOpenAIConversationMessage {
+        return SendableOpenAIConversationMessage(conversationMessage: self)
+    }
+    
+    convenience init(content: String, role: OpenAIRole, timestamp: String = Date().timeIntervalSince1970.description) {
         self.init()
         self.content = content
+        self.role = role
         self.timestamp = timestamp
     }
     
@@ -53,68 +67,87 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
         
         try container.encode(timestamp, forKey: .timestamp)
         try container.encode(content, forKey: .content)
-        try container.encode(role.rawValue, forKey: .role)
+        try container.encode(roleString, forKey: .role)
     }
 }
 
 
 class OpenAIConversationMessageRepository: Repository {
     typealias T = OpenAIConversationMessage
-    let realm: Realm
-    
-    static let shared: OpenAIConversationMessageRepository = OpenAIConversationMessageRepository(realm: try! Realm())
-    
-    init(realm: Realm) {
-        self.realm = try! Realm()
+
+    static let shared: OpenAIConversationMessageRepository = OpenAIConversationMessageRepository()
+
+    init() {
+        // Initialization can be empty if you're using the default Realm
     }
+
     func get(id: String) -> OpenAIConversationMessage? {
-        let message = realm.object(ofType: OpenAIConversationMessage.self, forPrimaryKey: id)
-        return message
+        autoreleasepool {
+            let realm = try! Realm()
+            let message = realm.object(ofType: OpenAIConversationMessage.self, forPrimaryKey: id)
+            return message?.detached() // Assuming you have a method to detach the object
+        }
     }
-    
+
     func getAll(timestamp: String, role: OpenAIRole? = nil) -> [OpenAIConversationMessage] {
-        let messages = realm.objects(OpenAIConversationMessage.self).filter("timestamp == %@", timestamp)
-        if let role = role {
-            return Array(messages).filter({$0.role == role})
+        autoreleasepool {
+            let realm = try! Realm()
+            let messages = realm.objects(OpenAIConversationMessage.self).filter("timestamp == %@", timestamp)
+            if let role = role {
+                return Array(messages).filter({$0.role == role}).map { $0.detached() }
+            }
+            return Array(messages).map { $0.detached() }
         }
-        return Array(messages)
     }
-    
+
     func getAll() -> [OpenAIConversationMessage] {
-        let messages = realm.objects(OpenAIConversationMessage.self)
-        return Array(messages)
+        autoreleasepool {
+            let realm = try! Realm()
+            let messages = realm.objects(OpenAIConversationMessage.self)
+            return Array(messages).map { $0.detached() }
+        }
     }
-    
+
     func add(_ value: OpenAIConversationMessage) {
-        do {
-            try realm.write {
-                realm.add(value)
+        autoreleasepool {
+            do {
+                let realm = try! Realm()
+                try realm.write {
+                    realm.add(value)
+                }
+            } catch {
+                // error handling
             }
-        } catch {
-            // error handling
         }
     }
-    
+
     func update(_ value: OpenAIConversationMessage) {
-        do {
-            try realm.write {
-                realm.add(value, update: .modified)
+        autoreleasepool {
+            do {
+                let realm = try! Realm()
+                try realm.write {
+                    realm.add(value, update: .modified)
+                }
+            } catch {
+                print("Error updating user: \(error)")
             }
-        } catch {
-            print("Error updating user: \(error)")
         }
     }
-    
+
     func delete(id: String) {
-        guard let message = get(id: id) else {
-            return // error handling
-        }
-        do {
-            try realm.write {
-                realm.delete(message)
+        autoreleasepool {
+            let realm = try! Realm()
+            guard let message = realm.object(ofType: OpenAIConversationMessage.self, forPrimaryKey: id) else {
+                return // error handling
             }
-        } catch {
-            
+            do {
+                try realm.write {
+                    realm.delete(message)
+                }
+            } catch {
+                // error handling
+            }
         }
     }
 }
+

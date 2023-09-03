@@ -24,6 +24,8 @@
 		A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85122AA3DA53000EDEB7 /* Realm */; };
 		A84E85152AA3DA53000EDEB7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85142AA3DA53000EDEB7 /* RealmSwift */; };
 		A84E85362AA50C8B000EDEB7 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */; };
+		A84E85382AA53187000EDEB7 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85372AA53187000EDEB7 /* UserSettings.swift */; };
+		A84E853A2AA536BA000EDEB7 /* Realm+Detached.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85392AA536BA000EDEB7 /* Realm+Detached.swift */; };
 		A858C4AA2A828F97004A5373 /* WeatherFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A858C4A92A828F97004A5373 /* WeatherFriend.swift */; };
 		A858C4AC2A828F97004A5373 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A858C4AB2A828F97004A5373 /* WeatherView.swift */; };
 		A858C4AE2A828F98004A5373 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A858C4AD2A828F98004A5373 /* Assets.xcassets */; };
@@ -68,6 +70,8 @@
 		A822D1422A99602E0012BA74 /* OpenAICommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAICommand.swift; sourceTree = "<group>"; };
 		A84362812A8538A900B26935 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
+		A84E85372AA53187000EDEB7 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		A84E85392AA536BA000EDEB7 /* Realm+Detached.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Realm+Detached.swift"; sourceTree = "<group>"; };
 		A858C4A62A828F97004A5373 /* WeatherFriend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherFriend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A858C4A92A828F97004A5373 /* WeatherFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFriend.swift; sourceTree = "<group>"; };
 		A858C4AB2A828F97004A5373 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
@@ -143,6 +147,7 @@
 				A891B11F2A8291CA00A1C5F8 /* Color+Design.swift */,
 				A822D1402A994E350012BA74 /* Bundle+Assets.swift */,
 				A8E262292A9E857E0048E95E /* URLRequest+Convenience.swift */,
+				A84E85392AA536BA000EDEB7 /* Realm+Detached.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -171,6 +176,7 @@
 			children = (
 				A881FC0F2A85479500410CF8 /* WeatherAdvice.swift */,
 				A8E262272A9E704B0048E95E /* OpenAIConversationMessage.swift */,
+				A84E85372AA53187000EDEB7 /* UserSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -388,6 +394,8 @@
 				A858C4AC2A828F97004A5373 /* WeatherView.swift in Sources */,
 				A822D13C2A97EAA50012BA74 /* NamedError.swift in Sources */,
 				A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */,
+				A84E85382AA53187000EDEB7 /* UserSettings.swift in Sources */,
+				A84E853A2AA536BA000EDEB7 /* Realm+Detached.swift in Sources */,
 				A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */,
 				A812DAAE2A8A8D5600AF5B07 /* CurrentTemperatureView.swift in Sources */,
 				A8D152072A92D36F0081C962 /* SettingsView.swift in Sources */,
@@ -480,6 +488,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -537,6 +546,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;

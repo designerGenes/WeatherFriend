@@ -20,8 +20,8 @@ final class OpenAIController: OpenAIControllerType {
     }
     
     private var lambdaURL: URL {
-        let urlString: String = Bundle.main.plistValue(for: .awsBaseURL)
-        return URL(string: urlString)!
+        let contentUrls: [String: String] = Bundle.main.plistValue(for: .contentURLs)
+        return URL(string: contentUrls[PlistKey.awsBaseURL.rawValue]!)!
     }
     
     func handleReceivedMessage(message: OpenAIConversationMessage) {
@@ -35,7 +35,7 @@ final class OpenAIController: OpenAIControllerType {
         var request = URLRequest(url: lambdaURL)
         request.setHTTPMethod(.POST)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        var messages: [OpenAIConversationMessage] = [message] + compressedMessageHistory(timestamp: currentConversationTimestamp)
+        var messages: [SendableOpenAIConversationMessage] = [[message], compressedMessageHistory(timestamp: currentConversationTimestamp)].flatMap({$0}).map({$0.toSendable()})
         request.httpBody = try? JSONEncoder().encode(messages)
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
@@ -56,7 +56,7 @@ final class OpenAIController: OpenAIControllerType {
         let command = command.fullText()
         let scene = weather.setScene()
         let messageText = "\(personality)  \(primeDirective) \(scene) in the zipcode of \(zipCode).  \(command)"
-        var message = OpenAIConversationMessage(content: messageText, timestamp: timestamp) // auto generate timestamp
+        var message = OpenAIConversationMessage(content: messageText, role: .system, timestamp: timestamp) // auto generate timestamp
         
         return try await sendMessage(message: message)
     }
