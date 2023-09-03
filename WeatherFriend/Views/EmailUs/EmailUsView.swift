@@ -10,63 +10,68 @@ import Combine
 
 struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     @StateObject var viewModel: ViewModel
+    @Binding var isShowing: Bool
     @Environment(\.dismiss) var dismiss
-
+    @ObservedObject var keyboardObserver = KeyboardObserver()
+    
+    var BlurredBackground: some View {
+        Color.gray
+            .blur(radius: 20)
+            .animation(.easeInOut, value: 0.25)
+            .ignoresSafeArea()
+            .onTapGesture {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+            }
+    }
+    
+    var ControlRow: some View {
+        HStack {
+            Spacer()
+            
+            Button("Submit") {
+                viewModel.sendEmail()
+                isShowing = false
+            }
+            .font(.headline)
+            
+            Button("Cancel") {
+                isShowing = false
+            }
+            .font(.headline)
+            
+        }
+        .padding()
+        .cornerRadius(10)
+        .foregroundColor(.white)
+    }
+    
     var body: some View {
         
         ZStack {
-            Color.gray
-                .blur(radius: 20)
-                .animation(.easeInOut, value: 0.25)
-                .ignoresSafeArea()
-            
-            VStack {
-                Spacer()
-                
-                VStack(spacing: 20) {
-                    TextEditor(text: $viewModel.text)
-                        .foregroundColor(.primary)
-                        .font(.body)
-                        .padding()
-                        .background(Color(UIColor.secondarySystemBackground))
-                        .cornerRadius(10)
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Button("Submit") {
-                            viewModel.sendEmail()
-                        }
-                        .font(.headline)
-                        
-                        Button("Cancel") {
-                            viewModel.isShowing = false
-                        }
-                        .font(.headline)
-                        
-                    }
+            BlurredBackground
+            VStack(spacing: 20) {
+                TextEditor(text: $viewModel.text)
+                    .foregroundColor(.primary)
+                    .font(.body)
                     .padding()
-                    .background(Color.primary)
+                    .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(10)
-                    .foregroundColor(.white)
-                    
-                }
-                .padding()
-                .background(Color.primary)
-                .cornerRadius(10)
-                .frame(maxHeight: UIScreen.main.bounds.height / 2)
                 
-                Spacer()
+                
+                ControlRow
             }
-            .padding()
+            
+            .background(Color.primary)
+            .cornerRadius(10)
+            .frame(maxHeight: UIScreen.main.bounds.height / 2)
+            .offset(y: -keyboardObserver.keyboardHeight)
+            .animation(.easeInOut, value: keyboardObserver.keyboardHeight)
             
         }
+        
         .ignoresSafeArea()
         .onReceive(viewModel.objectWillChange) { _ in
-            if !viewModel.isShowing {
-                dismiss()
-            }
-            if viewModel.namedError != nil {
+            if !isShowing || viewModel.namedError != nil {
                 dismiss()
             }
         }
@@ -78,7 +83,7 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
 struct EmailUsView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            EmailUsView(viewModel: MockEmailUsViewModel(namedError: .settings_email_error, isShowing: true, text: "This is a test email"))
+            EmailUsView(viewModel: MockEmailUsViewModel(namedError: .settings_email_error, isShowing: true, text: "This is a test email"), isShowing: .constant(true))
         }
         .background(Color.black)
     }

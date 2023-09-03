@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SettingsView<ViewModel: SettingsViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @ObservedObject var keyboardObserver = KeyboardObserver()
     @State var showingEmailUs: Bool = false
     
     init(viewModel: ViewModel) {
@@ -75,8 +76,14 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
                 
             }
         }
-        .sheet(isPresented: $showingEmailUs) {
-            EmailUsView(viewModel: EmailUsViewModel())
+        .overlay {
+            if showingEmailUs {
+                EmailUsView(viewModel: EmailUsViewModel(), isShowing: $showingEmailUs)
+            }
+                
+        }
+        .onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
 }
@@ -89,32 +96,3 @@ struct SettingsView_Previews: PreviewProvider {
     }
 }
 #endif
-
-// for later...
-//                    Section("API") {
-//
-//                        if customOpenAPIKey ~= apikeyRegexString {
-//
-//                            TextField("API Key", text: $customOpenAPIKey)
-//                                .autocapitalization(.none)
-//                                .disableAutocorrection(true)
-//
-//                            MaxTokensRow(maxTokens: $maxTokens)
-//                            Picker("Model", selection: $gptModel) {
-//                                Text(OpenAIModel.three_five.rawValue).tag(OpenAIModel.three_five)
-//                                Text(OpenAIModel.four.rawValue).tag(OpenAIModel.four)
-//                                Text(OpenAIModel.three_five_turbo.rawValue).tag(OpenAIModel.three_five_turbo)
-//                            }
-//                            .pickerStyle(.menu)
-//
-//                        } else {
-//
-//                            HStack {
-//                                TextField("API Key", text: $customOpenAPIKey)
-//                                Button("Submit") {
-//
-//                                }
-//                            }
-//
-//                        }
-//                    }

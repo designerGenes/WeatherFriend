@@ -22,7 +22,7 @@ class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
     @Published var gptModel: OpenAIModel = .three_five
     @Published var maxTokens = 124
     @Published var customOpenAPIKey = ""
-    @Published var namedError: NamedError? = .settings_email_error
+    @Published var namedError: NamedError? = nil
     
     static func mock() -> MockSettingsViewModel {
         let viewModel = MockSettingsViewModel()
@@ -34,6 +34,8 @@ class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
     }
     
 }
+
+
 
 
 

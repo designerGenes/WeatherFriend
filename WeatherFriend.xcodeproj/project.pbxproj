@@ -23,6 +23,7 @@
 		A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362812A8538A900B26935 /* WeatherViewModel.swift */; };
 		A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85122AA3DA53000EDEB7 /* Realm */; };
 		A84E85152AA3DA53000EDEB7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85142AA3DA53000EDEB7 /* RealmSwift */; };
+		A84E85362AA50C8B000EDEB7 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */; };
 		A858C4AA2A828F97004A5373 /* WeatherFriend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A858C4A92A828F97004A5373 /* WeatherFriend.swift */; };
 		A858C4AC2A828F97004A5373 /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A858C4AB2A828F97004A5373 /* WeatherView.swift */; };
 		A858C4AE2A828F98004A5373 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A858C4AD2A828F98004A5373 /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		A822D1402A994E350012BA74 /* Bundle+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Assets.swift"; sourceTree = "<group>"; };
 		A822D1422A99602E0012BA74 /* OpenAICommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAICommand.swift; sourceTree = "<group>"; };
 		A84362812A8538A900B26935 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
+		A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		A858C4A62A828F97004A5373 /* WeatherFriend.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherFriend.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A858C4A92A828F97004A5373 /* WeatherFriend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherFriend.swift; sourceTree = "<group>"; };
 		A858C4AB2A828F97004A5373 /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
@@ -159,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				A8C6173E2A942AB1004DC600 /* MaxTokensRow.swift */,
+				A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				A822D1412A994E350012BA74 /* Bundle+Assets.swift in Sources */,
 				A881FC102A85479500410CF8 /* WeatherAdvice.swift in Sources */,
 				A8E2621B2A9E08190048E95E /* OpenAIController.swift in Sources */,
+				A84E85362AA50C8B000EDEB7 /* KeyboardObserver.swift in Sources */,
 				A8E2622A2A9E857E0048E95E /* URLRequest+Convenience.swift in Sources */,
 				A812DAA02A8A89B800AF5B07 /* CommandButtonIcon.swift in Sources */,
 				A80EE9A22AA1258500C5618E /* AppleWeatherController.swift in Sources */,
