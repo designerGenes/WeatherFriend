@@ -7,7 +7,7 @@
 	<key>ContentUrls</key>
 	<dict>
 		<key>AWS_BASE_URL</key>
-		<string>https://xmt09qg36i.execute-api.us-west-2.amazonaws.com/default/WeatherFriend</string>
+		<string>https://su6ww0a8yj.execute-api.us-west-2.amazonaws.com/prod/WeatherFriend</string>
 		<key>AWS_EMAIL_URL</key>
 		<string>https://s053xxlgvg.execute-api.us-west-2.amazonaws.com/default/EmailLambda</string>
 	</dict>

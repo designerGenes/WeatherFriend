@@ -10,7 +10,7 @@ struct OpenAIConversationView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
-                ForEach(messages) { message in
+                ForEach(messages.filter({ $0.role != .system })) { message in
                     HStack {
                         if message.role == .assistant {
                             Text(message.roleString)

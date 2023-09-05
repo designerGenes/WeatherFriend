@@ -9,19 +9,19 @@ import Foundation
 import RealmSwift
 import RealmSwift
 
-struct SendableOpenAIConversationMessage: Codable {
-    var content: String
-    var role: String
+struct LambdaResponse: Codable {
+    let role: String
+    let content: Content
     
-    init(conversationMessage: OpenAIConversationMessage) {
-        self.content = conversationMessage.content
-        self.role = conversationMessage.roleString
+    struct Content: Codable {
+        let role: String
+        let content: String
     }
 }
 
 class OpenAIConversationMessage: Object, Codable, Identifiable {
     
-    @Persisted var timestamp: String
+    @Persisted var sessionTimestamp: String
     @Persisted var content: String
     @Persisted var roleString: String
     
@@ -34,20 +34,24 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
         }
     }
     enum CodingKeys: String, CodingKey {
-        case timestamp
+        case sessionTimestamp
         case content
         case role
     }
     
-    func toSendable() -> SendableOpenAIConversationMessage {
-        return SendableOpenAIConversationMessage(conversationMessage: self)
+    func toSendable() -> [String: String] {
+        return [
+            "role": self.roleString,
+            "content": self.content,
+            "sessionTimestamp": self.sessionTimestamp
+        ]
     }
     
-    convenience init(content: String, role: OpenAIRole, timestamp: String = Date().timeIntervalSince1970.description) {
+    convenience init(content: String, role: OpenAIRole, sessionTimestamp: String = Date().timeIntervalSince1970.description) {
         self.init()
         self.content = content
         self.role = role
-        self.timestamp = timestamp
+        self.sessionTimestamp = sessionTimestamp
     }
     
     // Decode
@@ -56,7 +60,7 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
         
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        timestamp = try container.decode(String.self, forKey: .timestamp)
+        sessionTimestamp = try container.decode(String.self, forKey: .sessionTimestamp)
         content = try container.decode(String.self, forKey: .content)
         roleString = try container.decode(String.self, forKey: .role)
     }
@@ -65,7 +69,7 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encode(timestamp, forKey: .timestamp)
+        try container.encode(sessionTimestamp, forKey: .sessionTimestamp)
         try container.encode(content, forKey: .content)
         try container.encode(roleString, forKey: .role)
     }
@@ -74,25 +78,28 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
 
 class OpenAIConversationMessageRepository: Repository {
     typealias T = OpenAIConversationMessage
+    let configuration = Realm.Configuration(deleteRealmIfMigrationNeeded: true)  // TMP! DEBUG!
+    var realm: Realm {
+        return try! Realm(configuration: configuration)
+    }
+        
 
     static let shared: OpenAIConversationMessageRepository = OpenAIConversationMessageRepository()
 
     init() {
-        // Initialization can be empty if you're using the default Realm
+        
     }
 
     func get(id: String) -> OpenAIConversationMessage? {
         autoreleasepool {
-            let realm = try! Realm()
             let message = realm.object(ofType: OpenAIConversationMessage.self, forPrimaryKey: id)
             return message?.detached() // Assuming you have a method to detach the object
         }
     }
 
-    func getAll(timestamp: String, role: OpenAIRole? = nil) -> [OpenAIConversationMessage] {
+    func getAll(sessionTimestamp: String, role: OpenAIRole? = nil) -> [OpenAIConversationMessage] {
         autoreleasepool {
-            let realm = try! Realm()
-            let messages = realm.objects(OpenAIConversationMessage.self).filter("timestamp == %@", timestamp)
+            let messages = realm.objects(OpenAIConversationMessage.self).filter("sessionTimestamp == %@", sessionTimestamp)
             if let role = role {
                 return Array(messages).filter({$0.role == role}).map { $0.detached() }
             }
@@ -102,7 +109,6 @@ class OpenAIConversationMessageRepository: Repository {
 
     func getAll() -> [OpenAIConversationMessage] {
         autoreleasepool {
-            let realm = try! Realm()
             let messages = realm.objects(OpenAIConversationMessage.self)
             return Array(messages).map { $0.detached() }
         }
@@ -111,7 +117,6 @@ class OpenAIConversationMessageRepository: Repository {
     func add(_ value: OpenAIConversationMessage) {
         autoreleasepool {
             do {
-                let realm = try! Realm()
                 try realm.write {
                     realm.add(value)
                 }
@@ -124,7 +129,6 @@ class OpenAIConversationMessageRepository: Repository {
     func update(_ value: OpenAIConversationMessage) {
         autoreleasepool {
             do {
-                let realm = try! Realm()
                 try realm.write {
                     realm.add(value, update: .modified)
                 }
@@ -136,7 +140,6 @@ class OpenAIConversationMessageRepository: Repository {
 
     func delete(id: String) {
         autoreleasepool {
-            let realm = try! Realm()
             guard let message = realm.object(ofType: OpenAIConversationMessage.self, forPrimaryKey: id) else {
                 return // error handling
             }

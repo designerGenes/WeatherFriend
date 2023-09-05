@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A80EE9A22AA1258500C5618E /* AppleWeatherController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A80EE9A12AA1258500C5618E /* AppleWeatherController.swift */; };
+		A80F6C2F2AA68DD4006EA9FF /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A80F6C2E2AA68DD4006EA9FF /* RealmSwift */; };
+		A80F6C322AA68E07006EA9FF /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = A80F6C312AA68E07006EA9FF /* SwiftyJSON */; };
 		A812DAA02A8A89B800AF5B07 /* CommandButtonIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DA9F2A8A89B800AF5B07 /* CommandButtonIcon.swift */; };
 		A812DAA32A8A8B1E00AF5B07 /* String+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA22A8A8B1E00AF5B07 /* String+Convenience.swift */; };
 		A812DAA52A8A8D4900AF5B07 /* Notification+Custom.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA42A8A8D4900AF5B07 /* Notification+Custom.swift */; };
@@ -22,7 +24,6 @@
 		A822D1432A99602E0012BA74 /* OpenAICommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D1422A99602E0012BA74 /* OpenAICommand.swift */; };
 		A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362812A8538A900B26935 /* WeatherViewModel.swift */; };
 		A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85122AA3DA53000EDEB7 /* Realm */; };
-		A84E85152AA3DA53000EDEB7 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85142AA3DA53000EDEB7 /* RealmSwift */; };
 		A84E85362AA50C8B000EDEB7 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */; };
 		A84E85382AA53187000EDEB7 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85372AA53187000EDEB7 /* UserSettings.swift */; };
 		A84E853A2AA536BA000EDEB7 /* Realm+Detached.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85392AA536BA000EDEB7 /* Realm+Detached.swift */; };
@@ -108,7 +109,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A84E85152AA3DA53000EDEB7 /* RealmSwift in Frameworks */,
+				A80F6C2F2AA68DD4006EA9FF /* RealmSwift in Frameworks */,
+				A80F6C322AA68E07006EA9FF /* SwiftyJSON in Frameworks */,
 				A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,6 +123,13 @@
 			children = (
 			);
 			path = ConversationHistory;
+			sourceTree = "<group>";
+		};
+		A80F6C252AA68D49006EA9FF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A812DA9D2A8A896F00AF5B07 /* Enums */ = {
@@ -186,6 +195,7 @@
 			children = (
 				A858C4A82A828F97004A5373 /* WeatherFriend */,
 				A858C4A72A828F97004A5373 /* Products */,
+				A80F6C252AA68D49006EA9FF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -330,7 +340,8 @@
 			name = WeatherFriend;
 			packageProductDependencies = (
 				A84E85122AA3DA53000EDEB7 /* Realm */,
-				A84E85142AA3DA53000EDEB7 /* RealmSwift */,
+				A80F6C2E2AA68DD4006EA9FF /* RealmSwift */,
+				A80F6C312AA68E07006EA9FF /* SwiftyJSON */,
 			);
 			productName = 08_08_23_WeatherChallenge;
 			productReference = A858C4A62A828F97004A5373 /* WeatherFriend.app */;
@@ -362,6 +373,7 @@
 			mainGroup = A858C49D2A828F97004A5373;
 			packageReferences = (
 				A84E85112AA3DA53000EDEB7 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				A80F6C302AA68E07006EA9FF /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 			);
 			productRefGroup = A858C4A72A828F97004A5373 /* Products */;
 			projectDirPath = "";
@@ -665,6 +677,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A80F6C302AA68E07006EA9FF /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
 		A84E85112AA3DA53000EDEB7 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -676,15 +696,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A80F6C2E2AA68DD4006EA9FF /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A84E85112AA3DA53000EDEB7 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		A80F6C312AA68E07006EA9FF /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A80F6C302AA68E07006EA9FF /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
 		A84E85122AA3DA53000EDEB7 /* Realm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A84E85112AA3DA53000EDEB7 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = Realm;
-		};
-		A84E85142AA3DA53000EDEB7 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A84E85112AA3DA53000EDEB7 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

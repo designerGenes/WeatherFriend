@@ -42,13 +42,13 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
     private func submitZipcodeAndInitConversation() async throws -> Bool {
-        let timestamp = Date().timeIntervalSince1970.description
+        let sessionTimestamp = Date().timeIntervalSince1970.description
         guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
             return false
         }
       
-      try? await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather, zipCode: zipCode, command: conversationCommand, timestamp: timestamp)
-      self.messages = self.messageRepository.getAll(timestamp: timestamp)
+      try? await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather, zipCode: zipCode, command: conversationCommand, sessionTimestamp: sessionTimestamp)
+      self.messages = self.messageRepository.getAll(sessionTimestamp: sessionTimestamp)
       return true
     }
     
