@@ -48,7 +48,7 @@ struct MainTextField: View {
 struct WeatherView<ViewModel: WeatherViewModelType>: View {
     @StateObject var viewModel: ViewModel
     @Environment(\.colorScheme) var colorScheme
-    
+        
     var body: some View {
         GeometryReader { geo in
             ZStack {
@@ -59,9 +59,15 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {
-                    MainTextField(colorScheme: colorScheme, textFieldValue: $viewModel.zipCode)
-                        .frame(width: geo.size.width * 0.95)
-                        .position(x: geo.size.width / 2, y: geo.size.height / 2)
+                    LockableTextField(text: $viewModel.zipCode,
+                                      checkFunction: { value in
+                        return value.allSatisfy({ $0.isNumber }) && value.count == 5
+                    },
+                                      onLockFunction: {
+                        print("locked textfield")
+                    })
+                    .frame(width: geo.size.width * 0.95)
+                    .position(x: geo.size.width / 2, y: geo.size.height / 2)
                 }
                 
                 if !viewModel.messages.isEmpty {

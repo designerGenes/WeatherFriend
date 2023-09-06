@@ -41,6 +41,8 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
+    
+    
     init(usesFahrenheit: Bool = true) {
         self.usesFahrenheit = usesFahrenheit
         

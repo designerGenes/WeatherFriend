@@ -81,6 +81,7 @@ final class OpenAIController: OpenAIControllerType {
                 }
                 
             })
+            .store(in: &cancellables)
         }
     }
     
