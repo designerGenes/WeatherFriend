@@ -22,8 +22,15 @@ final class OpenAIController: OpenAIControllerType {
     
     var currentConversationTimestamp: String = Date().timeIntervalSince1970.description
     
-    private func compressedMessageHistory(sessionTimestamp: String) -> [OpenAIConversationMessage] {
-        return OpenAIConversationMessageRepository.shared.getAll(sessionTimestamp: sessionTimestamp, role: .assistant)
+    private func compressedMessageHistory(sessionTimestamp: String) async -> [OpenAIConversationMessage] {
+      let messageHistory = await withCheckedContinuation { continuation in
+        DispatchQueue.main.async {
+          let messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp, role: .assistant)
+          continuation.resume(returning: messages)
+        }
+      }
+
+      return messageHistory
     }
     
     private var lambdaURL: URL {
@@ -32,74 +39,43 @@ final class OpenAIController: OpenAIControllerType {
     }
     
     func sendMessage(message: OpenAIConversationMessage) async throws {
-        OpenAIConversationMessageRepository.shared.add(message)
-        let sessionTimestamp = message.sessionTimestamp
-        let messageHistory = compressedMessageHistory(sessionTimestamp: currentConversationTimestamp)
-        
-        let model = "gpt-3.5-turbo"
-        var messageContent: String = ""
-        do {
-            let jsonData = try JSONEncoder().encode(message.content)
-            messageContent = String(data: jsonData, encoding: .utf8) ?? ""
-            
-        } catch {
-            
-        }
-        
-        
-        
-        
+        let messageHistory = await compressedMessageHistory(sessionTimestamp: currentConversationTimestamp)
+
         let body: [String: Any] = [
-            "model": model,
-            "messages": [
-                [
-                "role": "assistant",
-                "content": "here is a content message from the assistant",
-                "sessionTimestamp": "123451243531"
-                ]
-            ],
-            "newMessage": [
-                "role": message.roleString,
-                "content": message.content.replacingOccurrences(of: "\'", with: "\\'"),
-                "sessionTimestamp": "123451243531"
-            ]
+            "model": "gpt-3.5-turbo",
+            "messages": messageHistory.map({$0.toSendable()}),
+            "newMessage": message.toSendable()
         ]
         
-        let url = "https://su6ww0a8yj.execute-api.us-west-2.amazonaws.com/prod/WeatherFriend"
-
-        let parameters: [String: Any] = [
-            "model": "gpt-3.5-turbo",
-            "messages": [
-                [
-                    "role": "assistant",
-                    "content": "here is a content message from the assistant",
-                    "sessionTimestamp": "12345678987654321"
-                ]
-            ],
-            "newMessage": [
-                "role": "user",
-                "content": "here is a content message from the user",
-                "sessionTimestamp": "12345678987654321"
-            ]
-        ]
-
-        AF.request(url,
+        AF.request(lambdaURL.absoluteString,
                    method: .post,
                    parameters: body,
                    encoding: JSONEncoding.default,
                    headers: ["Content-Type": "application/json"])
-        .responseJSON { response in
-            let result = response.result
-            switch result {
-            case .success(let res):
-                print(res)
+        .publishDecodable(type: LambdaResponse.self, queue: .main, decoder: JSONDecoder())
+        .receive(on: DispatchQueue.main)
+        .sink(receiveCompletion: { completion in
+            switch completion {
             case .failure(let error):
                 print(error.localizedDescription)
+            case .finished:
                 break
             }
-        }
+        }, receiveValue: { lambdaResponse in
+            guard let lambdaResponseValue = lambdaResponse.value else {
+                return // error handling
+            }
+            let receivedMessage = OpenAIConversationMessage.fromLambdaResponse(lambdaResponseValue, sessionTimestamp: message.sessionTimestamp)
+            do {
+                try OpenAIConversationMessageRepository.add(values: [message, receivedMessage])
+            } catch {
+                print(error)
+            }
+            
+        })
+        .store(in: &cancellables)
     }
-    
+            
     func sendOpeningMessage(weather: WeatherType, zipCode: String, command: OpenAICommand, sessionTimestamp: String) async throws {
         // personality : prime D : set scene : command
         let personality = OpenAIPersonality.jim.fullText()
@@ -107,7 +83,7 @@ final class OpenAIController: OpenAIControllerType {
         let command = command.fullText()
         let scene = weather.setScene()
         let messageText = "\(personality)  \(primeDirective) \(scene) in the zipcode of \(zipCode).  \(command)"
-        var message = OpenAIConversationMessage(content: messageText, role: .system, sessionTimestamp: sessionTimestamp) // auto generate sessionTimestamp
+        let message = OpenAIConversationMessage(content: messageText, role: .system, sessionTimestamp: sessionTimestamp) // auto generate sessionTimestamp
         
         return try await sendMessage(message: message)
     }

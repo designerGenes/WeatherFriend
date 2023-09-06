@@ -37,18 +37,15 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var messages: [OpenAIConversationMessage] = []
     @Published var isShowingShelf: Bool = false
     @Published var conversationCommand: OpenAICommand = .whatToDo
-    private let messageRepository = OpenAIConversationMessageRepository.shared
+    
     
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
     private func submitZipcodeAndInitConversation() async throws -> Bool {
-        let sessionTimestamp = Date().timeIntervalSince1970.description
-        guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
-            return false
-        }
+        
+        
       
-      try? await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather, zipCode: zipCode, command: conversationCommand, sessionTimestamp: sessionTimestamp)
-      self.messages = self.messageRepository.getAll(sessionTimestamp: sessionTimestamp)
+      
       return true
     }
     
@@ -61,13 +58,22 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
                 guard debouncedZipCode.count == 5 else {
                     return
                 }
-                // hide textfield
                 
-                // make initial query
-                OpenAIController.sharedInstance.currentConversationTimestamp = Date().timeIntervalSince1970.description
-                let submissionTask = Task {
-                    try? await self.submitZipcodeAndInitConversation()
+                let weatherTask = Task {
+                    guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: self.zipCode) else {
+                        return
+                    }
+    
+                    let sessionTimestamp = Date().timeIntervalSince1970.description
+                    OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
+                    
+                    try? await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather, zipCode: self.zipCode, command: self.conversationCommand, sessionTimestamp: sessionTimestamp)
+                    await MainActor.run {
+                        self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp)
+                    }
+                    
                 }
+                
             }
             .store(in: &cancellables)
         
