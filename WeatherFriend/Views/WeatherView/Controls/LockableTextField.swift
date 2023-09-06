@@ -10,29 +10,20 @@ import Combine
 
 struct LockableTextField: View {
     @Binding var text: String
-    @State var internalText: String = ""
-    @State var isLocked: Bool = false
-    var textSubject = CurrentValueSubject<String, Never>("")
-    @State var cancellable: AnyCancellable?
-    
-    var checkFunction: (String) -> Bool = { value in
-        return value.allSatisfy({ $0.isNumber }) && value.count == 5
-    }
-    
+    @State private var isLocked: Bool = false
+    var checkFunction: (String) -> Bool = { value in return value.allSatisfy({$0.isNumber}) && value.count == 5 }
     var onLockFunction: () -> Void = {}
     
     var body: some View {
         HStack {
-            if isLocked {
+            if checkFunction(text) == true {
                 HStack {
                     Spacer()
                         .frame(width:4)
-                    Text(internalText)
+                    Text(text)
                         .foregroundColor(.gray)
                     Spacer()
                     Button(action: {
-                        self.isLocked = false
-                        self.internalText = ""
                         self.text = ""  // Update external binding
                     }) {
                         Image(systemName: "xmark.circle")
@@ -46,37 +37,18 @@ struct LockableTextField: View {
                     Color.lightGray
                         .cornerRadius(6)
                 }
-                
+                .onAppear {
+                    self.onLockFunction()
+                }
             } else {
-                TextField("Enter Zip Code", text: $internalText)
-                    
-                    .frame(height: 42)
+                TextField("Enter Zip Code", text: $text)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .onChange(of: internalText) { newValue in
-                        text = newValue  // Update external binding
-                        textSubject.send(newValue)  // Send new value to our subject
-                    }
             }
         }
         .padding()
-        .frame(width: UIScreen.main.bounds.width, alignment: .leading)
-        
-        .onAppear {
-            self.internalText = self.text  // Initialize internal state from external binding
-            
-            self.cancellable = textSubject
-                .sink { newValue in
-                    if self.checkFunction(newValue) {
-                        self.isLocked = true
-                        self.onLockFunction()
-                    }
-                }
-        }
-        .onDisappear {
-            self.cancellable?.cancel()
-        }
     }
 }
+
 
 
 
