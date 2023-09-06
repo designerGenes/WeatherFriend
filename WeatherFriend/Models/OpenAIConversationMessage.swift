@@ -78,6 +78,9 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
 }
 
 
+import RealmSwift
+
+@MainActor
 final class OpenAIConversationMessageRepository {
     
     // Single Realm instance
@@ -96,9 +99,7 @@ final class OpenAIConversationMessageRepository {
         let messages = OpenAIConversationMessageRepository.realm.objects(OpenAIConversationMessage.self).filter("sessionTimestamp == %@", sessionTimestamp)
         
         if let role = role {
-            
             return Array(messages).filter({$0.role == role}).map { $0.detached() }
-            
         }
         
         return Array(messages).map { $0.detached() }
@@ -110,30 +111,24 @@ final class OpenAIConversationMessageRepository {
     }
     
     static func add(values: [T]) throws {
-        DispatchQueue.main.async {
-            do {
-                try self.realm.write {
-                    
-                    self.realm.add(values)
-                }
-            } catch {
-                // error handling
+        do {
+            try self.realm.write {
+                self.realm.add(values)
             }
-            
+        } catch {
+            // error handling
+            print("Error adding values: \(error)")
         }
-        
     }
     
     static func add(_ value: T) throws {
-        DispatchQueue.main.async {
-            do {
-                try self.realm.write {
-                    self.realm.add(value)
-                }
-            } catch {
-                // error handling
+        do {
+            try self.realm.write {
+                self.realm.add(value)
             }
-            
+        } catch {
+            // error handling
+            print("Error adding value: \(error)")
         }
     }
     
@@ -142,16 +137,15 @@ final class OpenAIConversationMessageRepository {
             return
         }
         
-        DispatchQueue.main.async {
-            do {
-                try self.realm.write {
-                    self.realm.delete(object)
-                }
-            } catch {
-                // error handling
+        do {
+            try self.realm.write {
+                self.realm.delete(object)
             }
-            
+        } catch {
+            // error handling
+            print("Error deleting object: \(error)")
         }
     }
 }
+
 
