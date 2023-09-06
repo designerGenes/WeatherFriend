@@ -11,12 +11,7 @@ import RealmSwift
 
 struct LambdaResponse: Codable {
     let role: String
-    let content: Content
-    
-    struct Content: Codable {
-        let role: String
-        let content: String
-    }
+    let content: String
 }
 
 class OpenAIConversationMessage: Object, Codable, Identifiable {
@@ -39,7 +34,7 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
         case role
     }
     
-    func toSendable() -> [String: String] {
+    func toSendable() -> [String: Any] {
         return [
             "role": self.roleString,
             "content": self.content,

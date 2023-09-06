@@ -7,6 +7,8 @@
 
 import Foundation
 import SwiftyJSON
+import Alamofire
+import Combine
 
 
 
@@ -16,10 +18,11 @@ protocol OpenAIControllerType {
 
 final class OpenAIController: OpenAIControllerType {
     static let sharedInstance = OpenAIController()
+    private var cancellables: Set<AnyCancellable> = Set()
     
     var currentConversationTimestamp: String = Date().timeIntervalSince1970.description
     
-    func compressedMessageHistory(sessionTimestamp: String) -> [OpenAIConversationMessage] {
+    private func compressedMessageHistory(sessionTimestamp: String) -> [OpenAIConversationMessage] {
         return OpenAIConversationMessageRepository.shared.getAll(sessionTimestamp: sessionTimestamp, role: .assistant)
     }
     
@@ -28,61 +31,72 @@ final class OpenAIController: OpenAIControllerType {
         return URL(string: contentUrls[PlistKey.awsBaseURL.rawValue]!)!
     }
     
-    func handleReceivedMessage(message: OpenAIConversationMessage) {
-        OpenAIConversationMessageRepository.shared.add(message)
-            
-    }
-    
     func sendMessage(message: OpenAIConversationMessage) async throws {
-        /**
-         {
-             "model": "gpt-3.5-turbo",
-             "messages": [{
-                 "role": "system",
-                 "content": "you are a cowboy"
-             }],
-             "newMessage": {
-                 "role": "user",
-                 "content": "Hey there partner"
-             }
-         }
-         
-         */
-        
         OpenAIConversationMessageRepository.shared.add(message)
         let sessionTimestamp = message.sessionTimestamp
-        var request = URLRequest(url: lambdaURL)
-        request.setHTTPMethod(.POST)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         let messageHistory = compressedMessageHistory(sessionTimestamp: currentConversationTimestamp)
         
         let model = "gpt-3.5-turbo"
-        let body: JSON = [
-            "model": model,
-            "messages": JSON(messageHistory.map({$0.toSendable()})),
-            "newMessage": JSON(message.toSendable())
-        ]
-        
-        
-        
-        print("sending messages: \(messageHistory.map({$0.content}))")
-        print("sending new message: \(message.content)")
-        request.httpBody = try body.rawData()
+        var messageContent: String = ""
         do {
-            print("sending request:\n\(request.description)")
-            let (data, response) = try await URLSession.shared.data(for: request)
-            guard let httpResponse = response as? HTTPURLResponse, (200..<300).contains(httpResponse.statusCode) else {
-                print(response.description)
-                return // error handling
-            }
-            guard let receivedMessage = try? JSONDecoder().decode(LambdaResponse.self, from: data) else {
-                return
-            }
-            let decodedMessage = OpenAIConversationMessage(content: receivedMessage.content.content, role: OpenAIRole(rawValue: receivedMessage.content.role)!, sessionTimestamp: sessionTimestamp)
+            let jsonData = try JSONEncoder().encode(message.content)
+            messageContent = String(data: jsonData, encoding: .utf8) ?? ""
             
-            handleReceivedMessage(message: decodedMessage)
         } catch {
             
+        }
+        
+        
+        
+        
+        let body: [String: Any] = [
+            "model": model,
+            "messages": [
+                [
+                "role": "assistant",
+                "content": "here is a content message from the assistant",
+                "sessionTimestamp": "123451243531"
+                ]
+            ],
+            "newMessage": [
+                "role": message.roleString,
+                "content": message.content.replacingOccurrences(of: "\'", with: "\\'"),
+                "sessionTimestamp": "123451243531"
+            ]
+        ]
+        
+        let url = "https://su6ww0a8yj.execute-api.us-west-2.amazonaws.com/prod/WeatherFriend"
+
+        let parameters: [String: Any] = [
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                [
+                    "role": "assistant",
+                    "content": "here is a content message from the assistant",
+                    "sessionTimestamp": "12345678987654321"
+                ]
+            ],
+            "newMessage": [
+                "role": "user",
+                "content": "here is a content message from the user",
+                "sessionTimestamp": "12345678987654321"
+            ]
+        ]
+
+        AF.request(url,
+                   method: .post,
+                   parameters: body,
+                   encoding: JSONEncoding.default,
+                   headers: ["Content-Type": "application/json"])
+        .responseJSON { response in
+            let result = response.result
+            switch result {
+            case .success(let res):
+                print(res)
+            case .failure(let error):
+                print(error.localizedDescription)
+                break
+            }
         }
     }
     

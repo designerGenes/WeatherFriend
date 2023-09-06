@@ -44,6 +44,7 @@
 		A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520A2A92E2090081C962 /* OpenAIModel.swift */; };
 		A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */; };
 		A8D1520F2A938D400081C962 /* UserDefaultsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D1520E2A938D400081C962 /* UserDefaultsController.swift */; };
+		A8D3E92B2AA74D470057B35A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A8D3E92A2AA74D470057B35A /* Alamofire */; };
 		A8E262142A9E02AE0048E95E /* OpenAI.json in Resources */ = {isa = PBXBuildFile; fileRef = A8E262122A9E02AE0048E95E /* OpenAI.json */; };
 		A8E2621B2A9E08190048E95E /* OpenAIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E2621A2A9E08190048E95E /* OpenAIController.swift */; };
 		A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262232A9E64030048E95E /* OpenAIRole.swift */; };
@@ -110,6 +111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A80F6C2F2AA68DD4006EA9FF /* RealmSwift in Frameworks */,
+				A8D3E92B2AA74D470057B35A /* Alamofire in Frameworks */,
 				A80F6C322AA68E07006EA9FF /* SwiftyJSON in Frameworks */,
 				A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */,
 			);
@@ -342,6 +344,7 @@
 				A84E85122AA3DA53000EDEB7 /* Realm */,
 				A80F6C2E2AA68DD4006EA9FF /* RealmSwift */,
 				A80F6C312AA68E07006EA9FF /* SwiftyJSON */,
+				A8D3E92A2AA74D470057B35A /* Alamofire */,
 			);
 			productName = 08_08_23_WeatherChallenge;
 			productReference = A858C4A62A828F97004A5373 /* WeatherFriend.app */;
@@ -374,6 +377,7 @@
 			packageReferences = (
 				A84E85112AA3DA53000EDEB7 /* XCRemoteSwiftPackageReference "realm-swift" */,
 				A80F6C302AA68E07006EA9FF /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				A8D3E9292AA74D470057B35A /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = A858C4A72A828F97004A5373 /* Products */;
 			projectDirPath = "";
@@ -693,6 +697,14 @@
 				kind = branch;
 			};
 		};
+		A8D3E9292AA74D470057B35A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -710,6 +722,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A84E85112AA3DA53000EDEB7 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = Realm;
+		};
+		A8D3E92A2AA74D470057B35A /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A8D3E9292AA74D470057B35A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
