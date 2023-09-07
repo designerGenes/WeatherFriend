@@ -78,7 +78,21 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
 }
 
 
-import RealmSwift
+extension OpenAIConversationMessage {
+    static var mockMessages: [OpenAIConversationMessage] {
+        [
+            OpenAIConversationMessage(content: "You are an AI assistant who is a fusion chef with expertise in molecular gastronomy and astrology.", role: .system),
+            OpenAIConversationMessage(content: "Welcome! I'm your personal fusion chef and astrologer. Whether you're looking for a recipe to impress or insight into your zodiac sign, I've got you covered. What's on your mind today?", role: .assistant),
+            OpenAIConversationMessage(content: "What's the best dish for a Cancer?", role: .user),
+            OpenAIConversationMessage(content: "Cancers are known for their love of comfort and home. I'd recommend a Lobster Mac and Cheese with a truffle-infused béchamel sauce. It combines the cozy feel of a home-cooked meal with a touch of gourmet flair.", role: .assistant),
+            OpenAIConversationMessage(content: "Astrologically speaking, the position of the planets can influence your mood and intuition, which indirectly affects your culinary creativity. For instance, Venus in Taurus might make you gravitate towards richer, more luxurious ingredients.", role: .assistant),
+            OpenAIConversationMessage(content: "Can molecular gastronomy improve a comfort dish?", role: .user),
+            OpenAIConversationMessage(content: "Absolutely, molecular gastronomy can elevate comfort food to a new level. Imagine a classic grilled cheese sandwich, but with a tomato soup \"caviar\" that bursts in your mouth. The familiar flavors remain, but the experience becomes more interactive and memorable.", role: .assistant),
+            OpenAIConversationMessage(content: "What's your star sign, assistant?", role: .user),
+            OpenAIConversationMessage(content: "As a machine, I don't have a star sign, but if I were to choose one based on my programming, I'd be a Libra—always striving for balance, especially between flavors and cosmic energies.", role: .assistant),
+        ]
+    }
+}
 
 @MainActor
 final class OpenAIConversationMessageRepository {

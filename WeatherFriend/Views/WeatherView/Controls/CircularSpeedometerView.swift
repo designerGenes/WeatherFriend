@@ -13,6 +13,8 @@ struct CircularSpeedometerView: View {
         case fahrenheit
         case percent
         case plain
+        case milesPerHour
+        case kilometersPerHour
     }
     
     var title: String
@@ -47,6 +49,10 @@ struct CircularSpeedometerView: View {
             return "\(Int(value))%"
         case .plain:
             return "\(Int(value))"
+        case .milesPerHour:
+            return "\(Int(value)) mph"
+        case .kilometersPerHour:
+            return "\(Int(value)) kph"
         }
     }
     

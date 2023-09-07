@@ -17,14 +17,16 @@ protocol WeatherViewModelType: ObservableObject {
     var zipCode: String { get set }
     var messages: [OpenAIConversationMessage] { get set }
     var isShowingMessages: Bool { get set }
+    var weather: WeatherType? { get set }
     
 }
 
 class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = "90210"
-    @Published var messages: [OpenAIConversationMessage] = []
+    @Published var messages: [OpenAIConversationMessage] = OpenAIConversationMessage.mockMessages
     @Published var isShowingMessages: Bool = false
+    @Published var weather: WeatherType? = MockWeatherType.mock()
     
     static func mock() -> MockWeatherViewModel {
         return MockWeatherViewModel()
@@ -37,6 +39,7 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var messages: [OpenAIConversationMessage] = []
     @Published var isShowingMessages: Bool = false
     @Published var conversationCommand: OpenAICommand = .whatToDo
+    @Published var weather: WeatherType?
     
     
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
@@ -58,6 +61,8 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
                         guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: self.zipCode) else {
                             return
                         }
+                        
+                        self.weather = weather
                         let sessionTimestamp = Date().timeIntervalSince1970.description
                         OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
                         try await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather,

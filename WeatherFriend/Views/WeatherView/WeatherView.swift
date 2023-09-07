@@ -27,7 +27,49 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
     
     var BackgroundGradient: some View {
         LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
+    }
     
+    var WeatherSpeedometersView: some View {
+        AnyView(
+            HStack(alignment: .top, spacing: 24) {
+                Spacer()
+                if let weather = viewModel.weather {
+                    CircularSpeedometerView(title: "Temp",
+                                            value: weather.temperature.value,
+                                            maxValue: viewModel.usesFahrenheit ? Double(130) : Double(130).toCelsius,
+                                            threshold: viewModel.usesFahrenheit ? Double(100) : Double(100).toCelsius,
+                                            unit: viewModel.usesFahrenheit ? .fahrenheit : .celsius,
+                                            color: .blue,
+                                            maxValueColor: .red)
+                    .frame(width: 96, height: 96)
+                    
+                    CircularSpeedometerView(title: "Wind",
+                                            value: weather.windSpeed.value,
+                                            maxValue: 100,
+                                            threshold: 20,
+                                            unit: .milesPerHour,
+                                            color: .green,
+                                            maxValueColor: .orange)
+                    .frame(width: 96, height: 96)
+                    
+                    CircularSpeedometerView(title: "Humidity",
+                                            value: weather.humidity,
+                                            maxValue: 100,
+                                            threshold: 50,
+                                            unit: .percent,
+                                            color: .darkBlue,
+                                            maxValueColor: .lighterDarkBlue)
+                    .frame(width: 96, height: 96)
+                } else {
+                    Text("")
+                }
+                Spacer()
+            }
+                .padding([.leading, .trailing], 24)
+                .padding([.top], 10)
+                .frame(height: 80)
+                .background(Color.formGray)
+        )
     }
     
     var body: some View {
@@ -44,19 +86,21 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                     viewModel.isShowingMessages = true
                 })
                 .frame(width: geo.size.width * 0.95)
-                .position(x: geo.size.width / 2, y: (geo.size.height / 2) - (viewModel.isShowingMessages ? 45 : 0))
+                .position(x: geo.size.width / 2, y: (geo.size.height / 2) - (viewModel.isShowingMessages ? 145 : 0))
                 
                 
-                OpenAIConversationView(messages: $viewModel.messages)
-                    .opacity(0.9)
-                    .frame(width: geo.size.width, height: geo.size.height / 2)
-                    .position(x: geo.size.width / 2, y: viewModel.isShowingMessages ? geo.size.height * 0.75 : geo.size.height * 1.5)
-                    .animation(.easeInOut, value: 0.35)
-                
-                
-                
-                
+                VStack {
+                    viewModel.weather != nil ? WeatherSpeedometersView : nil
+                    viewModel.isShowingMessages ?
+                    OpenAIConversationView(messages: $viewModel.messages)
+                        .opacity(0.9)
+                        .frame(width: geo.size.width, height: geo.size.height / 2)
                     
+                        .animation(.easeInOut, value: 0.35) :
+                    nil
+                }
+                .position(x: geo.size.width / 2, y: viewModel.isShowingMessages ? geo.size.height * 0.75 : geo.size.height * 1.5)
+                
             }
         }
         .ignoresSafeArea()
