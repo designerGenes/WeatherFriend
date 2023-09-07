@@ -16,7 +16,7 @@ protocol WeatherViewModelType: ObservableObject {
     var usesFahrenheit: Bool { get set }
     var zipCode: String { get set }
     var messages: [OpenAIConversationMessage] { get set }
-    var isShowingShelf: Bool { get set }
+    var isShowingMessages: Bool { get set }
     
 }
 
@@ -24,7 +24,7 @@ class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = "90210"
     @Published var messages: [OpenAIConversationMessage] = []
-    @Published var isShowingShelf: Bool = false
+    @Published var isShowingMessages: Bool = false
     
     static func mock() -> MockWeatherViewModel {
         return MockWeatherViewModel()
@@ -35,7 +35,7 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = ""
     @Published var messages: [OpenAIConversationMessage] = []
-    @Published var isShowingShelf: Bool = false
+    @Published var isShowingMessages: Bool = false
     @Published var conversationCommand: OpenAICommand = .whatToDo
     
     

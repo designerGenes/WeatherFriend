@@ -21,70 +21,31 @@
 import SwiftUI
 import Combine
 
-struct DynamicBackgroundView: View {
-    var body: some View {
-        Image.city_dark
-            .resizable()
-    }
-}
-
-struct MainTextField: View {
-    @State var colorScheme: ColorScheme
-    @Binding var textFieldValue: String
-    
-    var body: some View {
-        TextField("Enter zip code", text: $textFieldValue)
-            .foregroundColor(Color.primary)
-            .lineLimit(1)
-            .keyboardType(.numberPad)
-            .disableAutocorrection(true)
-            .frame(height: 44)
-            .padding(EdgeInsets(top: 0, leading: 6, bottom: 0, trailing: 6))
-            .background(Color(UIColor.secondarySystemBackground))
-            .cornerRadius(12)
-    }
-}
-
 struct WeatherView<ViewModel: WeatherViewModelType>: View {
     @StateObject var viewModel: ViewModel
     @Environment(\.colorScheme) var colorScheme
-        
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
-                if !viewModel.messages.isEmpty {
-                    DynamicBackgroundView()
-                } else {
-                    LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
-                }
                 
-                VStack(alignment: .leading, spacing: 12) {
-                    LockableTextField(text: $viewModel.zipCode,
-                                      checkFunction: { value in
-                        return value.allSatisfy({ $0.isNumber }) && value.count == 5
-                    },
-                                      onLockFunction: {
-                        print("locked textfield")
-                    })
-                    .frame(width: geo.size.width * 0.95)
-                    .position(x: geo.size.width / 2, y: geo.size.height / 2)
-                }
+                LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
                 
-                if !viewModel.messages.isEmpty {
-                    VStack {
-                        Spacer()
-                        OpenAIConversationView(messages: $viewModel.messages)
-                            .frame(width: geo.size.width, height: 260)
-                            .opacity(0.8)
-                    }
-                    VStack(alignment: .leading) {
-                        Spacer().frame(height: 80)
-                        HStack {
-                            Spacer()
-                        }.padding([.leading], 16)
-                        Spacer()
-                    }
-                }
+                LockableTextField(text: $viewModel.zipCode,
+                                  checkFunction: { value in
+                    return value.allSatisfy({ $0.isNumber }) && value.count == 5
+                },
+                                  onLockFunction: {
+                    print("locked textfield")
+                })
+                .frame(width: geo.size.width * 0.95)
+                .position(x: geo.size.width / 2, y: (geo.size.height / 2) - (viewModel.isShowingMessages ? 45 : 0))
+                
+                
+                OpenAIConversationView(messages: $viewModel.messages)
+                    .frame(width: geo.size.width, height: geo.size.height / 2)
+                    .position(x: geo.size.width / 2, y: viewModel.isShowingMessages ? geo.size.height * 0.75 : geo.size.height * 1.5)
+                    .opacity(0.8)
             }
         }
         .ignoresSafeArea()
