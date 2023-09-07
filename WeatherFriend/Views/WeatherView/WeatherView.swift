@@ -25,27 +25,38 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
     @StateObject var viewModel: ViewModel
     @Environment(\.colorScheme) var colorScheme
     
+    var BackgroundGradient: some View {
+        LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
+    
+    }
+    
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 
-                LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
+                BackgroundGradient
                 
                 LockableTextField(text: $viewModel.zipCode,
                                   checkFunction: { value in
                     return value.allSatisfy({ $0.isNumber }) && value.count == 5
                 },
                                   onLockFunction: {
-                    print("locked textfield")
+                    viewModel.isShowingMessages = true
                 })
                 .frame(width: geo.size.width * 0.95)
                 .position(x: geo.size.width / 2, y: (geo.size.height / 2) - (viewModel.isShowingMessages ? 45 : 0))
                 
                 
                 OpenAIConversationView(messages: $viewModel.messages)
+                    .opacity(0.9)
                     .frame(width: geo.size.width, height: geo.size.height / 2)
                     .position(x: geo.size.width / 2, y: viewModel.isShowingMessages ? geo.size.height * 0.75 : geo.size.height * 1.5)
-                    .opacity(0.8)
+                    .animation(.easeInOut, value: 0.35)
+                
+                
+                
+                
+                    
             }
         }
         .ignoresSafeArea()

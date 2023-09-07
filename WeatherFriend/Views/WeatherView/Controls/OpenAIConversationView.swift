@@ -1,6 +1,34 @@
 import UIKit
 import SwiftUI
 
+struct TintChangingButton: View {
+    @State private var isPressed = false
+    var iconImage: Image? =  nil
+    var title: String? = nil
+    var action: (() -> Void)? = nil
+    
+    var body: some View {
+        Button(action: {
+            action?()
+        }) {
+            HStack(spacing: 2) {
+                Text(title ?? "")
+                    .foregroundStyle(isPressed ? .gray : .white)
+                if let iconImage = iconImage {
+                    iconImage
+                        .renderingMode(.template)
+                        .foregroundColor(isPressed ? .gray : .white)
+                        .gesture(DragGesture(minimumDistance: 0)
+                            .onChanged { _ in self.isPressed = true }
+                            .onEnded { _ in self.isPressed = false })
+                } else {
+                    Spacer()
+                }
+            }
+            
+        }
+    }
+}
 
 
 struct OpenAIConversationView: View {
@@ -12,28 +40,61 @@ struct OpenAIConversationView: View {
     ]
     @Binding var messages: [OpenAIConversationMessage]
     
+    var filteredMessages: [OpenAIConversationMessage] {
+        messages.filter({ message in rolesToHide.filter({$0 == message.role}).isEmpty })
+    }
+    
+    
+    var ControlBar: some View {
+        HStack {
+            Spacer()
+            Group {
+                TintChangingButton(iconImage: Image(systemName: "checkmark.circle"), title: "YES") {
+                    
+                }
+                TintChangingButton(iconImage: Image(systemName: "x.circle"), title: "NO") {
+                    
+                }
+                TintChangingButton(iconImage: Image(systemName: "ellipsis.bubble.fill"), title: "RETRY") {
+                    
+                }
+            }
+            .fontWeight(.bold)
+            .foregroundColor(.white)
+            .padding()
+            .cornerRadius(8)
+            
+        }
+        .background {
+            Color.darkBlue
+        }
+    }
+    
     var body: some View {
         GeometryReader { geo in
-            ScrollView {
-                VStack(alignment: .leading) {
-                    ForEach(messages.filter({ message in rolesToHide.filter({$0 == message.role}).isEmpty })) { message in
+            VStack(alignment: .leading) {
+                ScrollView {
+                    ForEach(filteredMessages) { message in
                         HStack {
                             VStack {
                                 Text(message.roleString)
                                     .foregroundColor(roleColors[message.role])
-                                .frame(width: geo.size.width * 0.2, alignment: .leading)
+                                    .frame(width: geo.size.width * 0.2, alignment: .trailing)
                                 Spacer()
                             }
-                            
-                            
                             Text(message.content)
+                            Spacer()
                         }
-                        .padding(.horizontal)
+                        .frame(width: geo.size.width)
+                        
                         .padding(.vertical, 8)
                     }
                 }
-                .padding()
+                .clipped()
+                
+                ControlBar
             }
+            
         }
         .background {
             Color.white
@@ -56,6 +117,12 @@ struct OpenAIConversationView_Preivews: PreviewProvider {
                 OpenAIConversationMessage(content: "What's your star sign, assistant?", role: .user),
                 OpenAIConversationMessage(content: "As a machine, I don't have a star sign, but if I were to choose one based on my programming, I'd be a Libra—always striving for balance, especially between flavors and cosmic energies.", role: .assistant),
             ]))
+            .frame(height: 320)
+        }
+        .background {
+            Color.darkBlue
+                .ignoresSafeArea()
         }
     }
+    
 }
