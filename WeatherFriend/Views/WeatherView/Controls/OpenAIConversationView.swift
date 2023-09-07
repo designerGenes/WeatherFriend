@@ -1,34 +1,7 @@
 import UIKit
 import SwiftUI
 
-struct TintChangingButton: View {
-    @State private var isPressed = false
-    var iconImage: Image? =  nil
-    var title: String? = nil
-    var action: (() -> Void)? = nil
-    
-    var body: some View {
-        Button(action: {
-            action?()
-        }) {
-            HStack(spacing: 2) {
-                Text(title ?? "")
-                    .foregroundStyle(isPressed ? .gray : .white)
-                if let iconImage = iconImage {
-                    iconImage
-                        .renderingMode(.template)
-                        .foregroundColor(isPressed ? .gray : .white)
-                        .gesture(DragGesture(minimumDistance: 0)
-                            .onChanged { _ in self.isPressed = true }
-                            .onEnded { _ in self.isPressed = false })
-                } else {
-                    Spacer()
-                }
-            }
-            
-        }
-    }
-}
+
 
 
 struct OpenAIConversationView: View {
@@ -49,20 +22,19 @@ struct OpenAIConversationView: View {
         HStack {
             Spacer()
             Group {
-                TintChangingButton(iconImage: Image(systemName: "checkmark.circle"), title: "YES") {
+                TintChangingButton(iconImage: Image(systemName: "checkmark.circle"), title: OpenAICommand.yes.rawValue.uppercased()) {
                     
                 }
-                TintChangingButton(iconImage: Image(systemName: "x.circle"), title: "NO") {
+                TintChangingButton(iconImage: Image(systemName: "x.circle"), title: OpenAICommand.no.rawValue.uppercased()) {
                     
                 }
-                TintChangingButton(iconImage: Image(systemName: "ellipsis.bubble.fill"), title: "RETRY") {
+                TintChangingButton(iconImage: Image(systemName: "ellipsis.bubble.fill"), title: OpenAICommand.retry.rawValue.uppercased()) {
                     
                 }
             }
             .fontWeight(.bold)
             .foregroundColor(.white)
             .padding()
-            .cornerRadius(8)
             
         }
         .background {
@@ -103,7 +75,7 @@ struct OpenAIConversationView: View {
     }
 }
 
-struct OpenAIConversationView_Preivews: PreviewProvider {
+struct OpenAIConversationView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             OpenAIConversationView(messages: .constant([

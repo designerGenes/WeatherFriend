@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import SwiftUI
+import CoreGraphics
 
 // extension to UIColor that generate from hex string like "323843" or "#323843"
 
@@ -67,9 +68,32 @@ extension Color {
     init(hex: String) {
         self.init(UIColor(hex: hex))
     }
+    
+    func components() -> (red: CGFloat, green: CGFloat, blue: CGFloat)? {
+        let uiColor = UIColor(self)
+        
+        var red: CGFloat = 0.0
+        var green: CGFloat = 0.0
+        var blue: CGFloat = 0.0
+        var alpha: CGFloat = 0.0
+        
+        let success = uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        return success ? (red: red, green: green, blue: blue) : nil
+    }
+    
+    var red: CGFloat {
+        UIColor(self).ciColor.red
+    }
+    var green: CGFloat {
+        UIColor(self).ciColor.green
+    }
+    
+    var blue: CGFloat {
+        UIColor(self).ciColor.blue
+    }
 }
 
-// extension to Color to set document pallette.  Three static properties which return Colors that have hex values of 323843, ECA800, and F6F9FA
+// extension to Color to set document pallette.
 extension Color {
     static var darkBlue: Color {
         return Color(hex: "323843")

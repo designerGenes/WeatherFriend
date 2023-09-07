@@ -16,14 +16,14 @@ enum OpenAICommand: String {
         return entireObject["commands"]!
     }
     
-    case yes, no, tryAgain, whatToDo, whatToWear, whatToEat
+    case yes, no, retry, whatToDo, whatToWear, whatToEat
     
     func fullText() -> String {
         let key: String
         switch self {
         case .no: key = "COMMAND_NO"
         case .yes: key = "COMMAND_YES"
-        case .tryAgain: key = "COMMAND_TRY_AGAIN"
+        case .retry: key = "COMMAND_TRY_AGAIN"
         case .whatToDo: key = "COMMAND_WHAT_TO_DO"
         case .whatToWear: key = "COMMAND_WHAT_TO_WEAR"
         case .whatToEat: key = "COMMAND_WHAT_TO_EAT"
