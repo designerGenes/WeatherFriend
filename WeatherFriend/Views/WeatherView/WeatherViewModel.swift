@@ -18,16 +18,30 @@ protocol WeatherViewModelType: ObservableObject {
     var messages: [OpenAIConversationMessage] { get set }
     var isShowingMessages: Bool { get set }
     var weather: WeatherType? { get set }
+    func reset() async
+    func submitZipcode(zipCode: String)
     
+}
+
+extension WeatherViewModelType {
+    func reset() async {
+        await MainActor.run {
+            self.messages.removeAll()
+            self.weather = nil
+            self.isShowingMessages = false
+        }
+    }
 }
 
 class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
     @Published var usesFahrenheit: Bool = true
-    @Published var zipCode: String = "90210"
+    @Published var zipCode: String = "1234"
     @Published var messages: [OpenAIConversationMessage] = OpenAIConversationMessage.mockMessages
-    @Published var isShowingMessages: Bool = false
+    @Published var isShowingMessages: Bool = true
     @Published var weather: WeatherType? = MockWeatherType.mock()
-    
+    func submitZipcode(zipCode: String) {
+        //
+    }
     static func mock() -> MockWeatherViewModel {
         return MockWeatherViewModel()
     }
@@ -44,48 +58,33 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
-    
+    func submitZipcode(zipCode: String) {
+        Task {
+            do {
+                guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
+                    return
+                }
+                
+                self.weather = weather
+                let sessionTimestamp = Date().timeIntervalSince1970.description
+                OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
+                try await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather,
+                                                                             zipCode: zipCode,
+                                                                             command: self.conversationCommand,
+                                                                             sessionTimestamp: sessionTimestamp)
+                
+                await MainActor.run {
+                    self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp)
+                }
+            } catch {
+                await MainActor.run {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
     
     init(usesFahrenheit: Bool = true) {
         self.usesFahrenheit = usesFahrenheit
-        
-        $zipCode
-            .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)
-        
-            .sink { debouncedZipCode in
-                guard debouncedZipCode.allSatisfy({ $0.isNumber }) && debouncedZipCode.count == 5 else {
-                    return
-                }
-                Task {
-                    do {
-                        guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: self.zipCode) else {
-                            return
-                        }
-                        
-                        self.weather = weather
-                        let sessionTimestamp = Date().timeIntervalSince1970.description
-                        OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
-                        try await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather,
-                                                                                     zipCode: self.zipCode,
-                                                                                     command: self.conversationCommand,
-                                                                                     sessionTimestamp: sessionTimestamp)
-                        
-                        await MainActor.run {
-                            self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp)
-                        }
-                    } catch {
-                        await MainActor.run {
-                            print(error.localizedDescription)
-                        }
-                    }
-                    
-                    
-                    
-                    
-                    
-                }
-            }
-            .store(in: &cancellables)
-        
     }
 }

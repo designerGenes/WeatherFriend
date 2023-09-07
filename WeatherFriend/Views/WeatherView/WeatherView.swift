@@ -72,40 +72,60 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
         )
     }
     
+    func yPosition(geo: GeometryProxy) -> CGFloat {
+        let yPosition: CGFloat
+        if viewModel.weather != nil && viewModel.isShowingMessages {
+            yPosition = (geo.size.height / 2) - 145
+        } else if viewModel.isShowingMessages {
+            yPosition = (geo.size.height / 2) - 120
+        } else {
+            yPosition = geo.size.height / 2
+        }
+        return yPosition
+    }
+    
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                
+        
+        ZStack(alignment: .center) {
+            GeometryReader { geo in
                 BackgroundGradient
-                
-                LockableTextField(text: $viewModel.zipCode,
-                                  checkFunction: { value in
-                    return value.allSatisfy({ $0.isNumber }) && value.count == 5
-                },
-                                  onLockFunction: {
-                    viewModel.isShowingMessages = true
-                })
-                .frame(width: geo.size.width * 0.95)
-                .position(x: geo.size.width / 2, y: (geo.size.height / 2) - (viewModel.isShowingMessages ? 145 : 0))
-                
-                
-                VStack {
-                    viewModel.weather != nil ? WeatherSpeedometersView : nil
-                    viewModel.isShowingMessages ?
-                    OpenAIConversationView(messages: $viewModel.messages)
-                        .opacity(0.9)
-                        .frame(width: geo.size.width, height: geo.size.height / 2)
                     
-                        .animation(.easeInOut, value: 0.35) :
-                    nil
+                VStack(alignment: .center) {
+                    Spacer()
+                    LockableTextField(text: $viewModel.zipCode,
+                                      checkFunction: { value in
+                        return value.allSatisfy({ $0.isNumber }) && value.count == 5
+                    },
+                                      onLockFunction: { zipCode in
+                        self.viewModel.submitZipcode(zipCode: zipCode)
+                    }, onClearFunction: {
+                        Task {
+                            await self.viewModel.reset()
+                        }
+                    })
+                    .frame(width: geo.size.width * 0.95)
+
+                    if viewModel.weather != nil {
+                        WeatherSpeedometersView
+                    }
+                    if viewModel.isShowingMessages && !viewModel.messages.isEmpty {
+                        OpenAIConversationView(messages: $viewModel.messages)
+                            .opacity(0.9)
+                            .frame(width: geo.size.width, height: geo.size.height / 2)
+                            .animation(.easeInOut, value: 0.35)
+                    }
                 }
-                .position(x: geo.size.width / 2, y: viewModel.isShowingMessages ? geo.size.height * 0.75 : geo.size.height * 1.5)
-                
+                .padding([.bottom], 32)
+                .frame(width: geo.size.width)
+                //                .position(x: geo.size.width / 2,
+                //                          y: (viewModel.weather != nil || viewModel.isShowingMessages) ? geo.size.height * 0.75 : geo.size.height)
             }
+            
         }
         .ignoresSafeArea()
     }
 }
+
 
 
 

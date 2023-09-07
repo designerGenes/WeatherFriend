@@ -9,22 +9,31 @@ import SwiftUI
 import Combine
 
 struct LockableTextField: View {
-    @Binding var text: String
-    @State private var isLocked: Bool = false
-    var checkFunction: (String) -> Bool = { value in return value.allSatisfy({$0.isNumber}) && value.count == 5 }
-    var onLockFunction: () -> Void = {}
-    
+    @Binding var text: String  // Removed default value
+    var checkFunction: (String) -> Bool = { value in value.allSatisfy({ $0.isNumber }) && value.count == 5 }
+    var onLockFunction: (String) -> Void = { _ in }
+    var onClearFunction: () -> Void = { }
+
+    func isLocked(text: String) -> Bool {
+        let isLocked = checkFunction(text)
+        if isLocked {
+            onLockFunction(text)
+        }
+        return isLocked
+    }
+
     var body: some View {
         HStack {
             if checkFunction(text) == true {
                 HStack {
                     Spacer()
-                        .frame(width:4)
+                        .frame(width: 4)
                     Text(text)
                         .foregroundColor(.gray)
                     Spacer()
                     Button(action: {
-                        self.text = ""  // Update external binding
+                        self.text = ""  // This will now update the external state
+                        onClearFunction()
                     }) {
                         Image(systemName: "xmark.circle")
                             .foregroundColor(.red)
@@ -34,11 +43,8 @@ struct LockableTextField: View {
                 }
                 .frame(height: 42)
                 .background {
-                    Color.lightGray
+                    Color.white
                         .cornerRadius(6)
-                }
-                .onAppear {
-                    self.onLockFunction()
                 }
             } else {
                 TextField("Enter Zip Code", text: $text)
@@ -52,17 +58,20 @@ struct LockableTextField: View {
 
 
 
+
+//
 struct LockableTextField_Previews: PreviewProvider {
-    static var previews: some View {
+
+    var preview: some View {
         VStack(spacing: 6) {
             LockableTextField(text: .constant("12345"), checkFunction: { value in
                 return value.allSatisfy({ $0.isNumber }) && value.count == 5
-            }, onLockFunction: {
+            }, onLockFunction: { _ in
                 print("locked")
             })
             LockableTextField(text: .constant("123"), checkFunction: { value in
                 return value.allSatisfy({ $0.isNumber }) && value.count == 5
-            }, onLockFunction: {
+            }, onLockFunction: { _ in
                 print("locked")
             })
             
@@ -70,5 +79,9 @@ struct LockableTextField_Previews: PreviewProvider {
         .background {
             Color.darkBlue
         }
+    }
+    
+    static var previews: some View {
+        LockableTextField_Previews().preview
     }
 }
