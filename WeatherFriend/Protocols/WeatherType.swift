@@ -41,7 +41,7 @@ struct MockWeatherType: WeatherType {
     
     
     static func mock() -> MockWeatherType {
-        return MockWeatherType(condition: WeatherCondition.breezy, humidity: 0.5, temperature: .init(value: 55, unit: .fahrenheit), windDirection: Wind.CompassDirection.east, windSpeed: Measurement(value: 10, unit: .metersPerSecond))
+        return MockWeatherType(condition: WeatherCondition.breezy, humidity: 40, temperature: .init(value: 55, unit: .fahrenheit), windDirection: Wind.CompassDirection.east, windSpeed: Measurement(value: 10, unit: .metersPerSecond))
     }
 }
 

@@ -26,7 +26,15 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
     @Environment(\.colorScheme) var colorScheme
     
     var BackgroundGradient: some View {
-        LinearGradient(colors: [Color.blueGradient1, Color.blueGradient2, Color.blueGradient3], startPoint: .top, endPoint: .bottom)
+        Image.rain_streets
+            .resizable()
+            .scaledToFill()
+            .edgesIgnoringSafeArea(.all)
+            .overlay(
+                LinearGradient(gradient: Gradient(colors: [Color.darkBlue, Color.lighterDarkBlue]), startPoint: .top, endPoint: .bottom)
+                    .opacity(0.2)
+            )
+
     }
     
     var WeatherSpeedometersView: some View {
@@ -97,7 +105,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                         return value.allSatisfy({ $0.isNumber }) && value.count == 5
                     },
                                       onLockFunction: { zipCode in
-                        self.viewModel.submitZipcode(zipCode: zipCode)
+//                        self.viewModel.submitZipcode(zipCode: zipCode)
                     }, onClearFunction: {
                         Task {
                             await self.viewModel.reset()
@@ -117,8 +125,6 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                 }
                 .padding([.bottom], 32)
                 .frame(width: geo.size.width)
-                //                .position(x: geo.size.width / 2,
-                //                          y: (viewModel.weather != nil || viewModel.isShowingMessages) ? geo.size.height * 0.75 : geo.size.height)
             }
             
         }

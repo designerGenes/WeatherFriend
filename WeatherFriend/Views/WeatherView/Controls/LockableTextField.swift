@@ -14,14 +14,6 @@ struct LockableTextField: View {
     var onLockFunction: (String) -> Void = { _ in }
     var onClearFunction: () -> Void = { }
 
-    func isLocked(text: String) -> Bool {
-        let isLocked = checkFunction(text)
-        if isLocked {
-            onLockFunction(text)
-        }
-        return isLocked
-    }
-
     var body: some View {
         HStack {
             if checkFunction(text) == true {

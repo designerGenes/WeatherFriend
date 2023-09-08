@@ -12,7 +12,7 @@ import WeatherKit
 
 typealias FullWeatherResponse = (advice: WeatherAdviceType?, snapshot: WeatherType?)
 
-protocol WeatherViewModelType: ObservableObject {
+protocol WeatherViewModelType: ObservableObject, OpenAIConversationViewDelegate {
     var usesFahrenheit: Bool { get set }
     var zipCode: String { get set }
     var messages: [OpenAIConversationMessage] { get set }
@@ -34,6 +34,13 @@ extension WeatherViewModelType {
 }
 
 class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
+    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) {
+        switch command {
+        default:
+            break
+        }
+    }
+    
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = "1234"
     @Published var messages: [OpenAIConversationMessage] = OpenAIConversationMessage.mockMessages
@@ -48,6 +55,20 @@ class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
 }
 
 class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
+    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) {
+        switch command {
+            
+        case .yes:
+            <#code#>
+        case .no:
+            <#code#>
+        case .retry:
+            <#code#>
+        default:
+            break
+        }
+    }
+    
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = ""
     @Published var messages: [OpenAIConversationMessage] = []
@@ -86,5 +107,14 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     
     init(usesFahrenheit: Bool = true) {
         self.usesFahrenheit = usesFahrenheit
+        $zipCode
+            .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
+            .sink { value in
+                guard value.allSatisfy({ $0.isNumber}) && value.count == 5 else {
+                    return
+                }
+                
+                self.submitZipcode(zipCode: value)
+            }
     }
 }

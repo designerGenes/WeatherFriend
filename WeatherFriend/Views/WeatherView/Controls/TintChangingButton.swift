@@ -9,10 +9,12 @@ import SwiftUI
 
 
 struct TintChangingButton: View {
-    @State private var isPressed = false
-    var iconImage: Image? =  nil
     var title: String? = nil
+    var iconImage: Image? =  nil
+    @State var isFrozen: Bool = false
     var action: (() -> Void)? = nil
+    @State private var isPressed: Bool = false
+    
     
     var body: some View {
         Button(action: {
@@ -20,11 +22,11 @@ struct TintChangingButton: View {
         }) {
             HStack(spacing: 2) {
                 Text(title ?? "")
-                    .foregroundStyle(isPressed ? .gray : .white)
+                    .foregroundStyle(isFrozen ? .gray : isPressed ? .clear : .black)
                 if let iconImage = iconImage {
                     iconImage
                         .renderingMode(.template)
-                        .foregroundColor(isPressed ? .gray : .white)
+                        .foregroundColor(isFrozen ? .gray : isPressed ? .clear : .black)
                         .gesture(DragGesture(minimumDistance: 0)
                             .onChanged { _ in self.isPressed = true }
                             .onEnded { _ in self.isPressed = false })
@@ -38,13 +40,13 @@ struct TintChangingButton: View {
     }
 }
 
-struct TintChangingButton_Preivews: PreviewProvider {
+struct TintChangingButton_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            TintChangingButton(title: "Hi Mrs Neutron")
+            TintChangingButton(title: "Hi Mrs Neutron", iconImage: Image(systemName: "xmark.circle.fill"))
         }
         .background {
-            Color.black
+            Color.gray
         }
     }
     

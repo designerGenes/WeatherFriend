@@ -77,19 +77,27 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
     }
 }
 
+extension OpenAIConversationMessage {
+    static var conversationOverMessage: OpenAIConversationMessage {
+        OpenAIConversationMessage(content: "This conversation has exceeded the token limit, but you can always start a new one!", role: .localSystem)
+    }
+}
+
 
 extension OpenAIConversationMessage {
     static var mockMessages: [OpenAIConversationMessage] {
         [
-            OpenAIConversationMessage(content: "You are an AI assistant who is a fusion chef with expertise in molecular gastronomy and astrology.", role: .system),
-            OpenAIConversationMessage(content: "Welcome! I'm your personal fusion chef and astrologer. Whether you're looking for a recipe to impress or insight into your zodiac sign, I've got you covered. What's on your mind today?", role: .assistant),
-            OpenAIConversationMessage(content: "What's the best dish for a Cancer?", role: .user),
-            OpenAIConversationMessage(content: "Cancers are known for their love of comfort and home. I'd recommend a Lobster Mac and Cheese with a truffle-infused béchamel sauce. It combines the cozy feel of a home-cooked meal with a touch of gourmet flair.", role: .assistant),
-            OpenAIConversationMessage(content: "Astrologically speaking, the position of the planets can influence your mood and intuition, which indirectly affects your culinary creativity. For instance, Venus in Taurus might make you gravitate towards richer, more luxurious ingredients.", role: .assistant),
-            OpenAIConversationMessage(content: "Can molecular gastronomy improve a comfort dish?", role: .user),
-            OpenAIConversationMessage(content: "Absolutely, molecular gastronomy can elevate comfort food to a new level. Imagine a classic grilled cheese sandwich, but with a tomato soup \"caviar\" that bursts in your mouth. The familiar flavors remain, but the experience becomes more interactive and memorable.", role: .assistant),
-            OpenAIConversationMessage(content: "What's your star sign, assistant?", role: .user),
-            OpenAIConversationMessage(content: "As a machine, I don't have a star sign, but if I were to choose one based on my programming, I'd be a Libra—always striving for balance, especially between flavors and cosmic energies.", role: .assistant),
+            OpenAIConversationMessage(content: "You are an AI assistant who is an expert in local activities and events, with a knack for trivia about pies and metals.", role: .system),
+            OpenAIConversationMessage(content: "What fun activities are there to do in the zip code 78666?", role: .user),
+            OpenAIConversationMessage(content: "In the 78666 zip code, you can enjoy a live music performance at the Harmony Hall or take a kayak tour down Wobble Creek. For food enthusiasts, there's the annual BBQ Fest at Tasty Meadows.", role: .assistant),
+            OpenAIConversationMessage(content: "That sounds interesting! What's special about the BBQ Fest at Tasty Meadows?", role: .user),
+            OpenAIConversationMessage(content: "The BBQ Fest at Tasty Meadows is an annual event featuring pitmasters from across the region. It's known for its IronSmoke competition, where chefs create BBQ dishes incorporating unique types of metal cookware.", role: .assistant),
+            OpenAIConversationMessage(content: "Metal cookware in a BBQ competition? How does that work?", role: .user),
+            OpenAIConversationMessage(content: "Yes, it's quite unique! In the IronSmoke competition, chefs must use at least one piece of metal cookware like a cast-iron skillet or copper grilling basket. This adds a layer of complexity as different metals interact with heat and flavor differently.", role: .assistant),
+            OpenAIConversationMessage(content: "That's fascinating. Speaking of metals, what's the best metal to use for baking pies?", role: .user),
+            OpenAIConversationMessage(content: "Ah, when it comes to baking pies, aluminum pie pans are often considered the best. They conduct heat evenly, which is crucial for a perfectly baked crust. However, glass and ceramic pans are also popular choices for their heat retention properties.", role: .assistant),
+            OpenAIConversationMessage(content: "Makes sense! Do you think aluminum pans could work in the IronSmoke competition?", role: .user),
+            OpenAIConversationMessage(content: "Aluminum pans could work, but they wouldn't be the ideal choice for BBQ due to their lower melting point and heat tolerance compared to cast iron or stainless steel. They're great for pies, but not for the high-heat conditions of a BBQ competition.", role: .assistant)
         ]
     }
 }

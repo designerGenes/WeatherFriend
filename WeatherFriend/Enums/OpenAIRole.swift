@@ -6,7 +6,9 @@
 //
 
 import Foundation
+import UIKit
 
 enum OpenAIRole: String {
     case user, system, assistant
+    case localSystem = "WF"
 }
