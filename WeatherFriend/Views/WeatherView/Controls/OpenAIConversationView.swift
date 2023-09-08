@@ -11,6 +11,7 @@ protocol OpenAIConversationViewType {
 
 struct OpenAIConversationView: View, OpenAIConversationViewType {
     @State var delegate: OpenAIConversationViewDelegate?
+    @Binding var isShowingConversationCommands: Bool
     @Binding var loadingProgress: Double
     @State var rolesToHide: [OpenAIRole] = [.system]
     @State var roleColors: [OpenAIRole : Color] = [
@@ -88,7 +89,9 @@ struct OpenAIConversationView: View, OpenAIConversationViewType {
                             .scaleEffect(1.5)
                             .padding(.vertical, 8)
                     }
-                    ControlBar
+                    if isShowingConversationCommands {
+                        ControlBar
+                    }
                 }
                 .clipped()
                 
@@ -130,6 +133,7 @@ struct OpenAIConversationView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             OpenAIConversationView(
+                isShowingConversationCommands: .constant(true),
                 loadingProgress: .constant(0.4),
                 messages: .constant([
                 OpenAIConversationMessage.mockMessages,

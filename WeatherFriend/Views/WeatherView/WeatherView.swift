@@ -62,8 +62,8 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                     
                     CircularSpeedometerView(title: "Humidity",
                                             value: weather.humidity,
-                                            maxValue: 100,
-                                            threshold: 50,
+                                            maxValue: 1,
+                                            threshold: 0.5,
                                             unit: .percent,
                                             color: .darkBlue,
                                             maxValueColor: .lighterDarkBlue)
@@ -117,7 +117,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                         WeatherSpeedometersView
                     }
                     if viewModel.isShowingMessages && !viewModel.messages.isEmpty {
-                        OpenAIConversationView(delegate: viewModel, loadingProgress: $viewModel.loadingProgress, messages: $viewModel.messages)
+                        OpenAIConversationView(delegate: viewModel, isShowingConversationCommands: $viewModel.isShowingConversationCommands, loadingProgress: $viewModel.loadingProgress, messages: $viewModel.messages)
                             .opacity(0.9)
                             .frame(width: geo.size.width, height: geo.size.height / 2)
                             .animation(.easeInOut, value: 0.35)

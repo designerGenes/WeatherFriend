@@ -17,6 +17,7 @@ protocol WeatherViewModelType: ObservableObject, OpenAIConversationViewDelegate 
     var zipCode: String { get set }
     var messages: [OpenAIConversationMessage] { get set }
     var isShowingMessages: Bool { get set }
+    var isShowingConversationCommands: Bool { get set }
     var loadingProgress: Double { get set }
     var weather: WeatherType? { get set }
     func reset() async
@@ -26,13 +27,12 @@ protocol WeatherViewModelType: ObservableObject, OpenAIConversationViewDelegate 
 }
 
 extension WeatherViewModelType {
-    func reset() async {
-        await MainActor.run {
-            self.messages.removeAll()
-            self.weather = nil
-            self.isShowingMessages = false
-            self.loadingProgress = -1
-        }
+    func reset() {
+        self.messages.removeAll()
+        self.weather = nil
+        self.isShowingMessages = false
+        self.loadingProgress = -1
+        self.isShowingConversationCommands = true
     }
 }
 
@@ -45,6 +45,7 @@ class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
     @Published var isShowingMessages: Bool = true
     @Published var weather: WeatherType? = MockWeatherType.mock()
     @Published var loadingProgress: Double = 0.6
+    @Published var isShowingConversationCommands: Bool = true
     
     func submitZipcode(zipCode: String) {
         //
@@ -66,12 +67,27 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var zipCode: String = ""
     @Published var messages: [OpenAIConversationMessage] = []
     @Published var isShowingMessages: Bool = false
+    @Published var isShowingConversationCommands: Bool = true
     @Published var loadingProgress: Double = -1
     @Published var conversationCommand: OpenAICommand = .whatToDo
     @Published var weather: WeatherType?
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
     func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async {
+        let conversationHistory = await OpenAIConversationMessageRepository.getAll(sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp, role: .user)
+        if conversationHistory.count > 5 {
+            let exceededMessage = OpenAIConversationMessage.conversationOverMessage
+            self.messages.append(exceededMessage)
+            self.isShowingConversationCommands = false
+            return
+        }
+        
+        if command == .retry {
+            self.reset()
+            await self.submitZipcode(zipCode: self.zipCode)
+            return
+        }
+        
         let conversationMessage = OpenAIConversationMessage(content: command.fullText(), role: .user, sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
         self.loadingProgress = 0.5
         await OpenAIController.sharedInstance.sendMessage(message: conversationMessage)

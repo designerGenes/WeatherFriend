@@ -46,7 +46,7 @@ struct CircularSpeedometerView: View {
         case .fahrenheit:
             return "\(Int(value))° F"
         case .percent:
-            return "\(Int(value))%"
+            return "\((value * 100).rounded())%"
         case .plain:
             return "\(Int(value))"
         case .milesPerHour:
