@@ -35,6 +35,10 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
         case role
     }
     
+    var isQuestion: Bool {
+        self.content.hasSuffix("?")
+    }
+    
     func toSendable() -> [String: Any] {
         return [
             "role": self.roleString,

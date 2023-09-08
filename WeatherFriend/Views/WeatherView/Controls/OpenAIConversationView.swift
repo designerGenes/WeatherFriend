@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 
 protocol OpenAIConversationViewDelegate {
-    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand)
+    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async
 }
 
 protocol OpenAIConversationViewType {
@@ -39,20 +39,26 @@ struct OpenAIConversationView: View, OpenAIConversationViewType {
                                    iconImage: Image(systemName: "checkmark.circle"),
                                    isFrozen: isLoading,
                                    action: {
-                    delegate?.didSubmitConversationCommand(view: self, command: .yes)
+                    Task {
+                        await delegate?.didSubmitConversationCommand(view: self, command: .yes)
+                    }
                 })
                 
                 TintChangingButton(title: OpenAICommand.no.rawValue.uppercased(),
                                    iconImage: Image(systemName: "x.circle"), 
                                    isFrozen: isLoading,
                                    action: {
-                    delegate?.didSubmitConversationCommand(view: self, command: .no)
+                    Task {
+                        await delegate?.didSubmitConversationCommand(view: self, command: .no)
+                    }
                 })
                 TintChangingButton(title: OpenAICommand.retry.rawValue.uppercased(),
                                    iconImage: Image(systemName: "ellipsis.bubble.fill"),
                                    isFrozen: isLoading,
                                    action: {
-                    delegate?.didSubmitConversationCommand(view: self, command: .retry)
+                    Task {
+                        await delegate?.didSubmitConversationCommand(view: self, command: .retry)
+                    }
                 })
             }
             .disabled(isLoading)

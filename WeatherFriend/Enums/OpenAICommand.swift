@@ -7,15 +7,27 @@
 
 import Foundation
 
+typealias DecodableHashable = Hashable & Decodable
 
-enum OpenAICommand: String {
-    static var dictionary: [String: String] {
-        let commandsObjectURL = Bundle.main.url(forResource: "OpenAI", withExtension: "json")!
-        let commandsObjectData = try! Data(contentsOf: commandsObjectURL)
-        let entireObject: [String: Dictionary<String, String>] = try! JSONDecoder().decode([String: Dictionary<String, String>].self, from: commandsObjectData)
-        return entireObject["commands"]!
+enum OpenAIConstant: String {
+    case commands, clarifiers, personalities
+    case systemMessages = "system_messages"
+    
+    static var dictionary: [String: Dictionary<String, Decodable>] {
+        let constantsObjectURL = Bundle.main.url(forResource: "OpenAI", withExtension: "json")!
+        let constantsObjectData = try! Data(contentsOf: constantsObjectURL)
+        
+        let entireObject: [String: [String: String]] = try! JSONDecoder().decode([String: [String: String]].self, from: constantsObjectData)
+        return entireObject
     }
     
+    static func constants<T>(named constant: OpenAIConstant) -> Dictionary<String, T> {
+        return dictionary[constant.rawValue]! as! Dictionary<String, T>
+    }
+}
+
+
+enum OpenAICommand: String {
     case yes, no, retry, whatToDo, whatToWear, whatToEat
     
     func fullText() -> String {
@@ -28,20 +40,24 @@ enum OpenAICommand: String {
         case .whatToWear: key = "COMMAND_WHAT_TO_WEAR"
         case .whatToEat: key = "COMMAND_WHAT_TO_EAT"
         }
-        return OpenAICommand.dictionary[key]!
+        return OpenAIConstant.constants(named: .commands)[key]!
     }
+}
+
+enum OpenAISystemMessage: String {
+    case localConversationHitLimit
     
-    
+    func fullText() -> String {
+        let key: String
+        switch self {
+        case .localConversationHitLimit: key = "LOCAL_CONVERSATION_HIT_LIMIT"
+        }
+        return OpenAIConstant.constants(named: .systemMessages)[key]!
+    }
+
 }
 
 enum OpenAIPersonality: String {
-    static var dictionary: [String: String] {
-        let personalityObjectURL = Bundle.main.url(forResource: "OpenAI", withExtension: "json")!
-        let personalityObjectData = try! Data(contentsOf: personalityObjectURL)
-        let entireObject: [String: Dictionary<String, String>] = try! JSONDecoder().decode([String: Dictionary<String, String>].self, from: personalityObjectData)
-        return entireObject["personalities"]!
-    }
-    
     case jim, pam, kev, pirate, cowboy, abuelita
     
     func fullText() -> String {
@@ -55,18 +71,11 @@ enum OpenAIPersonality: String {
         case .kev: key = "PERSONALITY_KEV"
             
         }
-        return OpenAIPersonality.dictionary[key]!
+        return OpenAIConstant.constants(named: .personalities)[key]!
     }
 }
 
 enum OpenAIClarifier: String {
-    static var dictionary: [String: String] {
-        let clarifierObjectURL = Bundle.main.url(forResource: "OpenAI", withExtension: "json")!
-        let clarifierObjectData = try! Data(contentsOf: clarifierObjectURL)
-        let entireObject: [String: Dictionary<String, String>] = try! JSONDecoder().decode([String: Dictionary<String, String>].self, from: clarifierObjectData)
-        return entireObject["clarifiers"]!
-    }
-    
     case primeDirective, setScene
     
     func fullText() -> String {
@@ -75,6 +84,6 @@ enum OpenAIClarifier: String {
         case .primeDirective: key = "CLARIFIER_PRIME_DIRECTIVE"
         case .setScene: key = "CLARIFIER_SET_SCENE"
         }
-        return try! OpenAIClarifier.dictionary[key]!
+        return OpenAIConstant.constants(named: .clarifiers)[key]!
     }
 }

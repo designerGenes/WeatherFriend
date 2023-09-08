@@ -20,6 +20,7 @@ protocol WeatherViewModelType: ObservableObject, OpenAIConversationViewDelegate 
     var weather: WeatherType? { get set }
     func reset() async
     func submitZipcode(zipCode: String)
+    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async
     
 }
 
@@ -34,7 +35,7 @@ extension WeatherViewModelType {
 }
 
 class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
-    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) {
+    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async {
         switch command {
         default:
             break
@@ -55,19 +56,8 @@ class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
 }
 
 class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
-    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) {
-        switch command {
-            
-        case .yes:
-            <#code#>
-        case .no:
-            <#code#>
-        case .retry:
-            <#code#>
-        default:
-            break
-        }
-    }
+
+    
     
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = ""
@@ -75,11 +65,37 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var isShowingMessages: Bool = false
     @Published var conversationCommand: OpenAICommand = .whatToDo
     @Published var weather: WeatherType?
-    
-    
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
+    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async {
+        var conversationMessage: OpenAIConversationMessage?
+        switch command {
+        case .yes:
+            conversationMessage = OpenAIConversationMessage(content: OpenAICommand.yes.fullText(), role: .user)
+        case .no:
+            conversationMessage = OpenAIConversationMessage(content: OpenAICommand.no.fullText(), role: .user)
+        case .retry:
+            conversationMessage = OpenAIConversationMessage(content: OpenAICommand.retry.fullText(), role: .user)
+        default:
+            break
+        }
+        conversationMessage?.sessionTimestamp = OpenAIController.sharedInstance.currentConversationTimestamp
+        guard let conversationMessage = conversationMessage else {
+            return // error handling?
+        }
+        try? await OpenAIController.sharedInstance.sendMessage(message: conversationMessage)
+        await MainActor.run {
+            self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
+        }
+    }
+    
     func submitZipcode(zipCode: String) {
+        
+        Future<Any, Never> { completion in
+            
+        }
+        
+        
         Task {
             do {
                 guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
@@ -103,6 +119,7 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
                 }
             }
         }
+        
     }
     
     init(usesFahrenheit: Bool = true) {
@@ -116,5 +133,6 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
                 
                 self.submitZipcode(zipCode: value)
             }
+            .store(in: &cancellables)
     }
 }
