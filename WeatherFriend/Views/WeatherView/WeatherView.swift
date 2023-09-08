@@ -105,7 +105,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                         return value.allSatisfy({ $0.isNumber }) && value.count == 5
                     },
                                       onLockFunction: { zipCode in
-//                        self.viewModel.submitZipcode(zipCode: zipCode)
+                        //
                     }, onClearFunction: {
                         Task {
                             await self.viewModel.reset()
@@ -117,7 +117,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                         WeatherSpeedometersView
                     }
                     if viewModel.isShowingMessages && !viewModel.messages.isEmpty {
-                        OpenAIConversationView(messages: $viewModel.messages)
+                        OpenAIConversationView(delegate: viewModel, loadingProgress: $viewModel.loadingProgress, messages: $viewModel.messages)
                             .opacity(0.9)
                             .frame(width: geo.size.width, height: geo.size.height / 2)
                             .animation(.easeInOut, value: 0.35)

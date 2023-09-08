@@ -6,11 +6,12 @@ protocol OpenAIConversationViewDelegate {
 }
 
 protocol OpenAIConversationViewType {
-    
+    var loadingProgress: Double { get set }
 }
 
 struct OpenAIConversationView: View, OpenAIConversationViewType {
-    @State var loadingProgress: Double = -1
+    @State var delegate: OpenAIConversationViewDelegate?
+    @Binding var loadingProgress: Double
     @State var rolesToHide: [OpenAIRole] = [.system]
     @State var roleColors: [OpenAIRole : Color] = [
         .assistant: Color.blue,
@@ -24,7 +25,6 @@ struct OpenAIConversationView: View, OpenAIConversationViewType {
         return loadingProgress >= 0 && loadingProgress < 1
     }
     
-    var delegate: OpenAIConversationViewDelegate?
     
     var filteredMessages: [OpenAIConversationMessage] {
         messages.filter({ message in rolesToHide.filter({$0 == message.role}).isEmpty })
@@ -83,7 +83,10 @@ struct OpenAIConversationView: View, OpenAIConversationViewType {
                         .padding(.vertical, 8)
                     }
                     if isLoading {
-                        ProgressView(value: loadingProgress, total: 100)
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .gray))
+                            .scaleEffect(1.5)
+                            .padding(.vertical, 8)
                     }
                     ControlBar
                 }
@@ -126,7 +129,9 @@ struct OpenAIMessageView: View {
 struct OpenAIConversationView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            OpenAIConversationView(messages: .constant([
+            OpenAIConversationView(
+                loadingProgress: .constant(0.4),
+                messages: .constant([
                 OpenAIConversationMessage.mockMessages,
                 [OpenAIConversationMessage.conversationOverMessage],
             ].flatMap({$0})))

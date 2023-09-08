@@ -17,9 +17,10 @@ protocol WeatherViewModelType: ObservableObject, OpenAIConversationViewDelegate 
     var zipCode: String { get set }
     var messages: [OpenAIConversationMessage] { get set }
     var isShowingMessages: Bool { get set }
+    var loadingProgress: Double { get set }
     var weather: WeatherType? { get set }
     func reset() async
-    func submitZipcode(zipCode: String)
+    func submitZipcode(zipCode: String) async
     func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async
     
 }
@@ -30,28 +31,33 @@ extension WeatherViewModelType {
             self.messages.removeAll()
             self.weather = nil
             self.isShowingMessages = false
+            self.loadingProgress = -1
         }
     }
 }
 
 class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
-    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async {
-        switch command {
-        default:
-            break
-        }
-    }
+    
     
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = "1234"
     @Published var messages: [OpenAIConversationMessage] = OpenAIConversationMessage.mockMessages
     @Published var isShowingMessages: Bool = true
     @Published var weather: WeatherType? = MockWeatherType.mock()
+    @Published var loadingProgress: Double = 0.6
+    
     func submitZipcode(zipCode: String) {
         //
     }
     static func mock() -> MockWeatherViewModel {
         return MockWeatherViewModel()
+    }
+    
+    func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async {
+        switch command {
+        default:
+            break
+        }
     }
 }
 
@@ -63,62 +69,52 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     @Published var zipCode: String = ""
     @Published var messages: [OpenAIConversationMessage] = []
     @Published var isShowingMessages: Bool = false
+    @Published var loadingProgress: Double = -1
     @Published var conversationCommand: OpenAICommand = .whatToDo
     @Published var weather: WeatherType?
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
     func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async {
-        var conversationMessage: OpenAIConversationMessage?
-        switch command {
-        case .yes:
-            conversationMessage = OpenAIConversationMessage(content: OpenAICommand.yes.fullText(), role: .user)
-        case .no:
-            conversationMessage = OpenAIConversationMessage(content: OpenAICommand.no.fullText(), role: .user)
-        case .retry:
-            conversationMessage = OpenAIConversationMessage(content: OpenAICommand.retry.fullText(), role: .user)
-        default:
-            break
+        do {
+            let conversationMessage = OpenAIConversationMessage(content: command.fullText(), role: .user, sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
+            self.loadingProgress = 0.25
+            try await OpenAIController.sharedInstance.sendMessage(message: conversationMessage)
+            self.loadingProgress = 0.75
+            await MainActor.run {
+                self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
+                self.loadingProgress = 1
+            }
+        } catch {
+            print(error.localizedDescription)
         }
-        conversationMessage?.sessionTimestamp = OpenAIController.sharedInstance.currentConversationTimestamp
-        guard let conversationMessage = conversationMessage else {
-            return // error handling?
-        }
-        try? await OpenAIController.sharedInstance.sendMessage(message: conversationMessage)
-        await MainActor.run {
-            self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
-        }
+        
     }
     
-    func submitZipcode(zipCode: String) {
-        
-        Future<Any, Never> { completion in
+    func submitZipcode(zipCode: String) async {
+        do {
+            self.loadingProgress = 0.25
+            guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
+                return
+            }
             
-        }
-        
-        
-        Task {
-            do {
-                guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
-                    return
-                }
-                
-                self.weather = weather
-                let sessionTimestamp = Date().timeIntervalSince1970.description
-                OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
-                try await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather,
-                                                                             zipCode: zipCode,
-                                                                             command: self.conversationCommand,
-                                                                             sessionTimestamp: sessionTimestamp)
-                
-                await MainActor.run {
-                    self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp)
-                }
-            } catch {
-                await MainActor.run {
-                    print(error.localizedDescription)
-                }
+            self.weather = weather
+            let sessionTimestamp = Date().timeIntervalSince1970.description
+            OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
+            try await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather,
+                                                                         zipCode: zipCode,
+                                                                         command: self.conversationCommand,
+                                                                         sessionTimestamp: sessionTimestamp)
+            self.loadingProgress = 0.75
+            await MainActor.run {
+                self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp)
+                self.loadingProgress = 1
+            }
+        } catch {
+            await MainActor.run {
+                print(error.localizedDescription)
             }
         }
+        
         
     }
     
@@ -130,8 +126,9 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
                 guard value.allSatisfy({ $0.isNumber}) && value.count == 5 else {
                     return
                 }
-                
-                self.submitZipcode(zipCode: value)
+                Task {
+                    await self.submitZipcode(zipCode: value)
+                }
             }
             .store(in: &cancellables)
     }
