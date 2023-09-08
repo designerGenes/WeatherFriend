@@ -62,9 +62,6 @@ class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
 }
 
 class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
-
-    
-    
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = ""
     @Published var messages: [OpenAIConversationMessage] = []
@@ -75,47 +72,33 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     private var cancellables: Set<AnyCancellable> = Set<AnyCancellable>()
     
     func didSubmitConversationCommand(view: OpenAIConversationViewType, command: OpenAICommand) async {
-        do {
-            let conversationMessage = OpenAIConversationMessage(content: command.fullText(), role: .user, sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
-            self.loadingProgress = 0.25
-            try await OpenAIController.sharedInstance.sendMessage(message: conversationMessage)
-            self.loadingProgress = 0.75
-            await MainActor.run {
-                self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
-                self.loadingProgress = 1
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-        
+        let conversationMessage = OpenAIConversationMessage(content: command.fullText(), role: .user, sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
+        self.loadingProgress = 0.5
+        await OpenAIController.sharedInstance.sendMessage(message: conversationMessage)
+        self.loadingProgress = 0.75
+        self.messages = await OpenAIConversationMessageRepository.getAll(sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
+        self.isShowingMessages = true
+        self.loadingProgress = -1
     }
     
     func submitZipcode(zipCode: String) async {
-        do {
-            self.loadingProgress = 0.25
-            guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
-                return
-            }
-            
-            self.weather = weather
-            let sessionTimestamp = Date().timeIntervalSince1970.description
-            OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
-            try await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather,
-                                                                         zipCode: zipCode,
-                                                                         command: self.conversationCommand,
-                                                                         sessionTimestamp: sessionTimestamp)
-            self.loadingProgress = 0.75
-            await MainActor.run {
-                self.messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp)
-                self.loadingProgress = 1
-            }
-        } catch {
-            await MainActor.run {
-                print(error.localizedDescription)
-            }
+        self.loadingProgress = 0.25
+        guard let weather = try? await AppleWeatherController.sharedInstance.getWeather(forZipCode: zipCode) else {
+            self.loadingProgress = -1
+            return
         }
         
-        
+        self.weather = weather
+        let sessionTimestamp = Date().timeIntervalSince1970.description
+        OpenAIController.sharedInstance.currentConversationTimestamp = sessionTimestamp
+        await OpenAIController.sharedInstance.sendOpeningMessage(weather: weather,
+                                                                     zipCode: zipCode,
+                                                                     command: conversationCommand,
+                                                                     sessionTimestamp: sessionTimestamp)
+        self.loadingProgress = 0.75
+        self.messages = await OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp)
+        self.isShowingMessages = true
+        self.loadingProgress = -1
     }
     
     init(usesFahrenheit: Bool = true) {

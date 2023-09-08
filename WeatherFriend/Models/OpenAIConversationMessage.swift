@@ -42,7 +42,7 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
     func toSendable() -> [String: Any] {
         return [
             "role": self.roleString,
-            "content": JSON(parseJSON: content).rawString() ?? "",
+            "content": content.replacingOccurrences(of: "\'", with: "\\'"),
             "sessionTimestamp": self.sessionTimestamp
         ]
     }
@@ -83,7 +83,8 @@ class OpenAIConversationMessage: Object, Codable, Identifiable {
 
 extension OpenAIConversationMessage {
     static var conversationOverMessage: OpenAIConversationMessage {
-        OpenAIConversationMessage(content: "This conversation has exceeded the token limit, but you can always start a new one!", role: .localSystem)
+        
+        OpenAIConversationMessage(content: OpenAISystemMessage.localConversationHitLimit.fullText(), role: .localSystem, sessionTimestamp: OpenAIController.sharedInstance.currentConversationTimestamp)
     }
 }
 

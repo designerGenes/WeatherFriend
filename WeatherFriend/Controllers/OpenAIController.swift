@@ -45,47 +45,42 @@ final class OpenAIController: OpenAIControllerType {
         try? await OpenAIConversationMessageRepository.add(values: [sentMessage, responseMessage])
     }
     
-    func sendMessage(message: OpenAIConversationMessage) async throws  {
+    func sendMessage(message sentMessage: OpenAIConversationMessage) async  {
         let messageHistory = await compressedMessageHistory(sessionTimestamp: currentConversationTimestamp)
         
         let body: [String: Any] = [
             "model": "gpt-3.5-turbo",
             "messages": messageHistory.map({$0.toSendable()}),
-            "newMessage": message.toSendable()
+            "newMessage": sentMessage.toSendable()
         ]
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            AF.request(lambdaURL.absoluteString,
+        
+        let requestFuture = Future<LambdaResponse, Error> { promise in
+            AF.request(self.lambdaURL.absoluteString,
                        method: .post,
                        parameters: body,
                        encoding: JSONEncoding.default,
                        headers: ["Content-Type": "application/json"])
-            .publishDecodable(type: LambdaResponse.self, queue: .main, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .finished:
-                    break
+            .responseDecodable(of: LambdaResponse.self) { result in
+                switch result.result {
+                case .success(let response):
+                    promise(.success(response))
                 case .failure(let error):
-                    continuation.resume(throwing: NetworkErrorType.networkError(error))
+                    promise(.failure(NetworkErrorType.networkError(error)))
                 }
-            }, receiveValue: { lambdaResponse in
-                guard let lambdaResponseValue = lambdaResponse.value else {
-                    continuation.resume(throwing: NetworkErrorType.someError)
-                    return
-                }
-                
-                let receivedMessage = OpenAIConversationMessage.fromLambdaResponse(lambdaResponseValue, sessionTimestamp: message.sessionTimestamp)
-                Task {
-                    await self.didReceiveResponse(responseMessage: receivedMessage, sentMessage: message)
-                    continuation.resume(returning: ())
-                }
-                
-            })
-            .store(in: &cancellables)
+            }
+            
+            
         }
+        
+        guard let lambdaResponse = try? await requestFuture.value else {
+            return
+        }
+        
+        let receivedMessage = OpenAIConversationMessage.fromLambdaResponse(lambdaResponse, sessionTimestamp: sentMessage.sessionTimestamp)
+        try? await OpenAIConversationMessageRepository.add(values: [sentMessage, receivedMessage])
     }
     
-    func sendOpeningMessage(weather: WeatherType, zipCode: String, command: OpenAICommand, sessionTimestamp: String) async throws {
+    func sendOpeningMessage(weather: WeatherType, zipCode: String, command: OpenAICommand, sessionTimestamp: String) async {
         // personality : prime D : set scene : command
         let personality = OpenAIPersonality.jim.fullText()
         let primeDirective = OpenAIClarifier.primeDirective.fullText()
@@ -94,6 +89,6 @@ final class OpenAIController: OpenAIControllerType {
         let messageText = "\(personality)  \(primeDirective) \(scene) in the zipcode of \(zipCode).  \(command)"
         let message = OpenAIConversationMessage(content: messageText, role: .system, sessionTimestamp: sessionTimestamp) // auto generate sessionTimestamp
         
-        try await sendMessage(message: message)
+        await sendMessage(message: message)
     }
 }
