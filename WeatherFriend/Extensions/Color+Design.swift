@@ -36,12 +36,30 @@ extension UIColor {
         UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 1)
     }
     
-    static var backgroundMain: UIColor {
-        themedColor(colorIfLight: .white, colorIfDark: .darkModeBackground, defaultColor: .systemBackground)
+    
+    // VARIABLE COLORS DEPENDING ON THEME
+    static var primaryBackgroundColor: UIColor {
+        themedColor(colorIfLight: ColorPalette.light.primaryBackgroundColor,
+                    colorIfDark: ColorPalette.dark.primaryBackgroundColor,
+                    defaultColor: .systemBackground)
     }
     
-    static var buttonTextMain: UIColor {
-        themedColor(colorIfLight: .systemBlue, colorIfDark: .white)
+    static var primaryLinkButtonColor: UIColor {
+        themedColor(colorIfLight: ColorPalette.light.primaryLinkButtonColor,
+                    colorIfDark: ColorPalette.dark.primaryLinkButtonColor,
+                    defaultColor: .systemBlue)
+    }
+    
+    static var complimentaryBackgroundColor: UIColor {
+        themedColor(colorIfLight: ColorPalette.light.complimentaryBackground,
+                    colorIfDark: ColorPalette.dark.complimentaryBackground,
+                    defaultColor: .systemGray)
+    }
+    
+    static var primaryTextColor: UIColor {
+        themedColor(colorIfLight: ColorPalette.light.primaryTextColor,
+                    colorIfDark: ColorPalette.dark.primaryTextColor,
+                    defaultColor: .black)
     }
     
     static func themedColor(colorIfLight: UIColor, colorIfDark: UIColor, defaultColor: UIColor = .systemBackground) -> UIColor {
@@ -51,14 +69,6 @@ extension UIColor {
             return defaultColor // TODO: better handling if this is reachable
         }
         return theme == .dark ? colorIfDark : colorIfLight
-    }
-    
-    static var settingsBackgroundMain: UIColor {
-        themedColor(colorIfLight: .formBackgroundLight, colorIfDark: .darkModeBackground, defaultColor: .formBackgroundLight)
-    }
-    
-    static var textForegroundMain: UIColor {
-        themedColor(colorIfLight: .black, colorIfDark: .white, defaultColor: .black)
     }
 }
 
@@ -121,10 +131,6 @@ extension Color {
     
     static var blueGradient3: Color {
         return Color(hex: "1A1F2E")
-    }
-    
-    static var formGray: Color {
-        return Color(uiColor: UIColor.formBackgroundLight)
     }
     
 }

@@ -18,7 +18,11 @@ protocol SettingsViewModelType: ObservableObject {
 }
 
 class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
-    @Published var theme: ColorTheme = .system
+    @Published var theme: ColorTheme = .system {
+        didSet {
+            UserDefaultsController.set(key: .theme, value: theme.rawValue)
+        }
+    }
     @Published var gptModel: OpenAIModel = .three_five
     @Published var maxTokens = 124
     @Published var customOpenAPIKey = ""

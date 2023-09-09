@@ -21,7 +21,7 @@ struct LockableTextField: View {
                     Spacer()
                         .frame(width: 4)
                     Text(text)
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color(uiColor: .primaryTextColor))
                     Spacer()
                     Button(action: {
                         self.text = ""  // This will now update the external state

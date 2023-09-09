@@ -64,7 +64,7 @@ struct OpenAIConversationView: View, OpenAIConversationViewType {
             }
             .disabled(isLoading)
             .fontWeight(.bold)
-            .foregroundColor(.white)
+            .foregroundColor(Color(uiColor: .primaryBackgroundColor))
             .padding()
             
         }

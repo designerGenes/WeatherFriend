@@ -26,7 +26,7 @@ struct TintChangingButton: View {
                 if let iconImage = iconImage {
                     iconImage
                         .renderingMode(.template)
-                        .foregroundColor(isFrozen ? .gray : isPressed ? .clear : .black)
+                        .foregroundColor(isFrozen ? .gray : isPressed ? .clear : Color(uiColor: .primaryLinkButtonColor))
                         .gesture(DragGesture(minimumDistance: 0)
                             .onChanged { _ in self.isPressed = true }
                             .onEnded { _ in self.isPressed = false })

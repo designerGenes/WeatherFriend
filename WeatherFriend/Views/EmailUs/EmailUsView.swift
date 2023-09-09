@@ -15,7 +15,7 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     @ObservedObject var keyboardObserver = KeyboardObserver()
     
     var BlurredBackground: some View {
-        Color.gray
+        Color(uiColor: .complimentaryBackgroundColor)
             .blur(radius: 20)
             .animation(.easeInOut, value: 0.25)
             .ignoresSafeArea()
@@ -42,7 +42,7 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
         }
         .padding()
         .cornerRadius(10)
-        .foregroundColor(.white)
+        .foregroundColor(Color(uiColor: .primaryBackgroundColor))
     }
     
     var body: some View {
@@ -51,17 +51,17 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
             BlurredBackground
             VStack(spacing: 20) {
                 TextEditor(text: $viewModel.text)
-                    .foregroundColor(.primary)
+                    .foregroundColor(Color(uiColor: .primaryTextColor))
                     .font(.body)
                     .padding()
-                    .background(Color(UIColor.secondarySystemBackground))
+                    .background(Color(uiColor: .primaryBackgroundColor))
                     .cornerRadius(10)
                 
                 
                 ControlRow
             }
             
-            .background(Color.primary)
+            .background(Color(uiColor: .primaryBackgroundColor))
             .cornerRadius(10)
             .frame(maxHeight: UIScreen.main.bounds.height / 2)
             .offset(y: -keyboardObserver.keyboardHeight)
@@ -85,7 +85,7 @@ struct EmailUsView_Previews: PreviewProvider {
         VStack {
             EmailUsView(viewModel: MockEmailUsViewModel(namedError: .settings_email_error, isShowing: true, text: "This is a test email"), isShowing: .constant(true))
         }
-        .background(Color.black)
+        .background(Color(uiColor: .primaryBackgroundColor))
     }
     
 }

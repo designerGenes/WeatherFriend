@@ -16,7 +16,6 @@
 		A812DAAB2A8A8D5600AF5B07 /* OpenAIConversationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA62A8A8D5600AF5B07 /* OpenAIConversationView.swift */; };
 		A812DAAC2A8A8D5600AF5B07 /* CommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA72A8A8D5600AF5B07 /* CommandBar.swift */; };
 		A812DAAD2A8A8D5600AF5B07 /* SaddleCommandBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA82A8A8D5600AF5B07 /* SaddleCommandBar.swift */; };
-		A812DAAE2A8A8D5600AF5B07 /* CurrentTemperatureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAA92A8A8D5600AF5B07 /* CurrentTemperatureView.swift */; };
 		A812DAAF2A8A8D5600AF5B07 /* StackText.swift in Sources */ = {isa = PBXBuildFile; fileRef = A812DAAA2A8A8D5600AF5B07 /* StackText.swift */; };
 		A822D13C2A97EAA50012BA74 /* NamedError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D13B2A97EAA50012BA74 /* NamedError.swift */; };
 		A822D13F2A97EDD20012BA74 /* EmailUsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D13E2A97EDD20012BA74 /* EmailUsViewModel.swift */; };
@@ -70,7 +69,6 @@
 		A812DAA62A8A8D5600AF5B07 /* OpenAIConversationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenAIConversationView.swift; sourceTree = "<group>"; };
 		A812DAA72A8A8D5600AF5B07 /* CommandBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommandBar.swift; sourceTree = "<group>"; };
 		A812DAA82A8A8D5600AF5B07 /* SaddleCommandBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaddleCommandBar.swift; sourceTree = "<group>"; };
-		A812DAA92A8A8D5600AF5B07 /* CurrentTemperatureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentTemperatureView.swift; sourceTree = "<group>"; };
 		A812DAAA2A8A8D5600AF5B07 /* StackText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StackText.swift; sourceTree = "<group>"; };
 		A822D13B2A97EAA50012BA74 /* NamedError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedError.swift; sourceTree = "<group>"; };
 		A822D13E2A97EDD20012BA74 /* EmailUsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailUsViewModel.swift; sourceTree = "<group>"; };
@@ -268,7 +266,6 @@
 			isa = PBXGroup;
 			children = (
 				A812DAA72A8A8D5600AF5B07 /* CommandBar.swift */,
-				A812DAA92A8A8D5600AF5B07 /* CurrentTemperatureView.swift */,
 				A812DAA82A8A8D5600AF5B07 /* SaddleCommandBar.swift */,
 				A812DAAA2A8A8D5600AF5B07 /* StackText.swift */,
 				A8D3E92C2AA9004D0057B35A /* LockableTextField.swift */,
@@ -431,7 +428,6 @@
 				A84E85382AA53187000EDEB7 /* UserSettings.swift in Sources */,
 				A84E853A2AA536BA000EDEB7 /* Realm+Detached.swift in Sources */,
 				A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */,
-				A812DAAE2A8A8D5600AF5B07 /* CurrentTemperatureView.swift in Sources */,
 				A8D152072A92D36F0081C962 /* SettingsView.swift in Sources */,
 				A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */,
 				A8D152032A92D31F0081C962 /* Screen.swift in Sources */,

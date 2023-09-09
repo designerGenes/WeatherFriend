@@ -76,7 +76,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                 .padding([.leading, .trailing], 24)
                 .padding([.top], 10)
                 .frame(height: 80)
-                .background(Color.formGray)
+                .background(Color(uiColor: .complimentaryBackgroundColor))
         )
     }
     

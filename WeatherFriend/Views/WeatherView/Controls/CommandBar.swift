@@ -19,7 +19,7 @@ struct CommandBar: View {
                 })
                 .buttonStyle(.borderless)
                 .frame(width: 32, height: 32)
-                .foregroundColor(.white)
+                .foregroundColor(Color(uiColor: .primaryBackgroundColor))
             }
         }
         .padding([.leading, .trailing], 32)
@@ -32,7 +32,7 @@ struct CommandBar: View {
 struct CommandBar_Previews: PreviewProvider {
     static var previews: some View {
         CommandBar(selectedScreen: .constant(.main))
-            .background(Color.formGray)
+            .background(Color(uiColor: .complimentaryBackgroundColor))
     }
 }
 #endif

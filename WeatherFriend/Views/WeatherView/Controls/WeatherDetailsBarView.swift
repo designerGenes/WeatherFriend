@@ -77,7 +77,7 @@ struct WeatherDetailsBarView: View {
         .frame(height: 144)
         
         .background {
-            Color.formGray
+            Color(uiColor: .complimentaryBackgroundColor)
         }
     }
 }

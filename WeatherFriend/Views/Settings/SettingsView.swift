@@ -25,7 +25,7 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
     
     var body: some View {
         ZStack {
-            Color(uiColor: UIColor.settingsBackgroundMain)
+            Color(uiColor: UIColor.complimentaryBackgroundColor)
                 .ignoresSafeArea()
             
             VStack {
@@ -33,14 +33,9 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
                     .frame(height: 64)
                 Form {
                     Picker("Theme", selection: $viewModel.theme) {
-                        Text(ColorTheme.light.rawValue.capitalized).tag(ColorTheme.light.rawValue)
-                        Text(ColorTheme.dark.rawValue.capitalized).tag(ColorTheme.dark.rawValue)
-                        Text(ColorTheme.system.rawValue.capitalized).tag(ColorTheme.system.rawValue)
-                    }
-                    .onChange(of: viewModel.theme) { newValue in
-                        
-                        viewModel.theme = newValue
-                        UserDefaultsController.set(key: .theme, value: newValue.rawValue)
+                        ForEach([ColorTheme.light, .dark, .system], id: \.self) { theme in
+                            Text(theme.rawValue.capitalized).tag(theme)
+                        }
                     }
                     .pickerStyle(.menu)
                     
@@ -53,10 +48,7 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
                     }
                     if let namedError = viewModel.namedError {
                         Section(header: Text("Error")) {
-                            
-                            
                             Text(namedError.rawValue).foregroundStyle(.secondary)
-                            
                                 .multilineTextAlignment(.center)
                                 .padding([.leading, .trailing], 4)
                                 .border(.clear, width: 1)
@@ -80,7 +72,7 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
             if showingEmailUs {
                 EmailUsView(viewModel: EmailUsViewModel(), isShowing: $showingEmailUs)
             }
-                
+            
         }
         .onTapGesture {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
