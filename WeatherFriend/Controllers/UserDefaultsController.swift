@@ -12,6 +12,8 @@ enum UserDefaultsKey: String {
     case theme = "com.designergenes.weatherfriend.theme"
     case gptModel = "com.designergenes.weatherfriend.gptModel"
     case gptMaxTokens = "com.designergenes.weatherfriend.gptMaxTokens"
+    case backgroundLastChangedTimestamp = "com.designergenes.backgroundLastChangedTimestamp"
+    case backgroundLastImageName = "com.designergenes.backgroundLastImageName"
 }
 
 enum KeychainKey: String {

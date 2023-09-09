@@ -24,11 +24,25 @@ import Combine
 struct WeatherView<ViewModel: WeatherViewModelType>: View {
     @StateObject var viewModel: ViewModel
     
+    var FillImage: Image {
+        let currentTimestamp = Date().timeIntervalSince1970
+        let savedTimestamp = UserDefaults.standard.double(forKey: UserDefaultsKey.backgroundLastChangedTimestamp.rawValue)
+        
+        // if no timestamp saved OR timestamp is past threshold
+        if savedTimestamp <= 0 || currentTimestamp - savedTimestamp > 5 { //1000 * 60 * 5 {
+            // will only happen if timestamp is past threshold
+            UserDefaults.standard.set(Image.backgroundNames.randomElement(), forKey: UserDefaultsKey.backgroundLastImageName.rawValue)
+            UserDefaults.standard.set(currentTimestamp, forKey: UserDefaultsKey.backgroundLastChangedTimestamp.rawValue)
+        }
+        let savedImageName = UserDefaults.standard.string(forKey: UserDefaultsKey.backgroundLastImageName.rawValue)
+        return Image(uiImage: UIImage(named: savedImageName!)!)
+    }
+    
     var BackgroundGradient: some View {
         
         ZStack {
             
-            Image.rain_streets
+            FillImage
                 .resizable()
                 .scaledToFill()
                 .overlay(
@@ -40,7 +54,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                 Spacer()
                     .frame(height: 64)
                 FlickeringLogoView(text: "WeatherFriend",
-                                   foregroundColor: Color(uiColor: .complimentaryBackgroundColor),
+                                   foregroundColor: Color(uiColor: .white),
                                    font: Font.custom("Sacramento-Regular", size: 48))
                 Spacer()
             }

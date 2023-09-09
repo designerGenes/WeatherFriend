@@ -35,7 +35,7 @@ struct LockableTextField: View {
                 }
                 .frame(height: 42)
                 .background {
-                    Color.white
+                    Color(uiColor: .primaryBackgroundColor)
                         .cornerRadius(6)
                 }
             } else {

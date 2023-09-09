@@ -18,38 +18,9 @@ import SwiftUI
  */
 
 extension Image {
-
-    static var mountains_evening: Image {
-        return Image(uiImage: UIImage(named: "mountains_evening")!)
-    }
     
-    static var mountains_day: Image {
-        return Image(uiImage: UIImage(named: "mountains_day")!)
-    }
-    
-    static var mountains_cold: Image {
-        return Image(uiImage: UIImage(named: "mountains_cold")!)
-    }
-    
-    static var forest_dark: Image {
-        return Image(uiImage: UIImage(named: "forest_dark")!)
-    }
-    
-    static var city_dark: Image {
-        return Image(uiImage: UIImage(named: "city_dark")!)
-    }
-    
-    /* static variables for images with these asset names: sundown_neighborhood, snow_sunny, snow_streets, snow_car_window, rain_window, rain_streets, mountains_evening, city_dark */
     static var sundown_neighborhood: Image {
         return Image(uiImage: UIImage(named: "sundown_neighborhood")!)
-    }
-    
-    static var snow_sunny: Image {
-        return Image(uiImage: UIImage(named: "snow_sunny")!)
-    }
-    
-    static var snow_streets: Image {
-        return Image(uiImage: UIImage(named: "snow_streets")!)
     }
     
     static var snow_car_window: Image {
@@ -64,10 +35,15 @@ extension Image {
         return Image(uiImage: UIImage(named: "rain_streets")!)
     }
     
+    static var forest_dark: Image {
+        return Image(uiImage: UIImage(named: "forest_dark")!)
+    }
     
+    static var backgroundNames: [String] {
+        return ["sundown_neighborhood", "snow_car_window", "rain_window", "rain_streets", "forest_dark"]
+    }
     
-    
-    
-    
-    
+    static func randomBackground() -> Image {
+        return Image(uiImage: UIImage(named: backgroundNames.randomElement()!)!)
+    }
 }
