@@ -15,28 +15,75 @@ protocol AppleWeatherControllerType {
     static var sharedInstance: Self { get }
 }
 
-final class AppleWeatherController: AppleWeatherControllerType {
-    static var sharedInstance = AppleWeatherController()
-    
-    private func zipcodeToLocation(_ zipcode: String) async -> CLLocation? {
-        let geocoder = CLGeocoder()
-        let addresses = try? await geocoder.geocodeAddressString(zipcode)
-        
-        guard let addresses = addresses, let location = addresses.first?.location else {
-            return nil
-        }
-        return location
-    
+final class AppleWeatherController: NSObject, AppleWeatherControllerType {
+
+  static var sharedInstance = AppleWeatherController()
+  
+  private let locationManager = CLLocationManager()
+
+  private func zipcodeToLocation(_ zipcode: String) async -> CLLocation? {
+    locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+    let geocoder = CLGeocoder()
+    let addresses = try? await geocoder.geocodeAddressString(zipcode)
+
+    guard let addresses = addresses, let location = addresses.first?.location else {
+      return nil
     }
-    
-    
-    
-    func getWeather(forZipCode zip: String) async throws -> WeatherType? {
-        guard let location = await zipcodeToLocation(zip) else {
-            return nil
-        }
-        let service = WeatherService()
-        let weather = try await service.weather(for: location)
-        return weather.currentWeather
+
+    return location
+
+  }
+
+  func getWeather(forZipCode zip: String) async throws -> WeatherType? {
+
+    // Request location
+    locationManager.requestLocation()
+
+    // Handle errors
+    locationManager.delegate = self
+
+    // Wait for valid location
+    guard let location = await zipcodeToLocation(zip) else {
+      throw LocationError.invalidCoordinate
+    }
+
+    let service = WeatherService()
+
+    // Only fetch weather with valid coordinate
+    let weather = try await service.weather(for: location)
+
+    return weather.currentWeather
+
+  }
+
+}
+
+// Location manager delegate
+extension AppleWeatherController: CLLocationManagerDelegate {
+
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    // Handle location error
+  }
+
+  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+      switch manager.authorizationStatus {
+      case .authorizedAlways:
+          break
+      case .notDetermined:
+          break
+      case .denied:
+          break
+      case .authorizedWhenInUse:
+          break
+      case .restricted:
+          break
+      @unknown default:
+          break
       }
+  }
+
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    // Use valid location coordinate
+  }
+
 }

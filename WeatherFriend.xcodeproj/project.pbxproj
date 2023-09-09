@@ -22,6 +22,7 @@
 		A822D13F2A97EDD20012BA74 /* EmailUsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D13E2A97EDD20012BA74 /* EmailUsViewModel.swift */; };
 		A822D1412A994E350012BA74 /* Bundle+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D1402A994E350012BA74 /* Bundle+Assets.swift */; };
 		A822D1432A99602E0012BA74 /* OpenAICommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D1422A99602E0012BA74 /* OpenAICommand.swift */; };
+		A841D4B12AAC96AF00207AB2 /* LocationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A841D4B02AAC96AF00207AB2 /* LocationError.swift */; };
 		A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362812A8538A900B26935 /* WeatherViewModel.swift */; };
 		A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85122AA3DA53000EDEB7 /* Realm */; };
 		A84E85362AA50C8B000EDEB7 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */; };
@@ -75,6 +76,7 @@
 		A822D13E2A97EDD20012BA74 /* EmailUsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailUsViewModel.swift; sourceTree = "<group>"; };
 		A822D1402A994E350012BA74 /* Bundle+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Assets.swift"; sourceTree = "<group>"; };
 		A822D1422A99602E0012BA74 /* OpenAICommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAICommand.swift; sourceTree = "<group>"; };
+		A841D4B02AAC96AF00207AB2 /* LocationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationError.swift; sourceTree = "<group>"; };
 		A84362812A8538A900B26935 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		A84E85372AA53187000EDEB7 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				A8D152022A92D31F0081C962 /* Screen.swift */,
 				A8D1520C2A92FD8B0081C962 /* ColorTheme.swift */,
 				A822D13B2A97EAA50012BA74 /* NamedError.swift */,
+				A841D4B02AAC96AF00207AB2 /* LocationError.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -440,6 +443,7 @@
 				A8D3E9312AAA2F510057B35A /* WeatherDetailsBarView.swift in Sources */,
 				A8C6173D2A94074C004DC600 /* SettingsViewModel.swift in Sources */,
 				A8D1520F2A938D400081C962 /* UserDefaultsController.swift in Sources */,
+				A841D4B12AAC96AF00207AB2 /* LocationError.swift in Sources */,
 				A8B2E2522A8292A400A1B0EE /* Image+Design.swift in Sources */,
 				A8C6173F2A942AB1004DC600 /* MaxTokensRow.swift in Sources */,
 				A812DAAD2A8A8D5600AF5B07 /* SaddleCommandBar.swift in Sources */,

@@ -26,23 +26,17 @@ final class OpenAIController: OpenAIControllerType {
     var currentConversationTimestamp: String = Date().timeIntervalSince1970.description
     
     private func compressedMessageHistory(sessionTimestamp: String) async -> [OpenAIConversationMessage] {
-        let messageHistory = await withCheckedContinuation { continuation in
+        return await withCheckedContinuation { continuation in
             DispatchQueue.main.async {
                 let messages = OpenAIConversationMessageRepository.getAll(sessionTimestamp: sessionTimestamp, role: .assistant)
                 continuation.resume(returning: messages)
             }
         }
-        
-        return messageHistory
     }
     
     private var lambdaURL: URL {
         let contentUrls: [String: String] = Bundle.main.plistValue(for: .contentURLs)
         return URL(string: contentUrls[PlistKey.awsBaseURL.rawValue]!)!
-    }
-    
-    private func didReceiveResponse(responseMessage: OpenAIConversationMessage, sentMessage: OpenAIConversationMessage) async {
-        try? await OpenAIConversationMessageRepository.add(values: [sentMessage, responseMessage])
     }
     
     func sendMessage(message sentMessage: OpenAIConversationMessage) async  {

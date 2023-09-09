@@ -28,11 +28,14 @@ protocol WeatherViewModelType: ObservableObject, OpenAIConversationViewDelegate 
 
 extension WeatherViewModelType {
     func reset() {
-        self.messages.removeAll()
-        self.weather = nil
-        self.isShowingMessages = false
-        self.loadingProgress = -1
-        self.isShowingConversationCommands = true
+        DispatchQueue.main.async {
+            self.messages.removeAll()
+            self.weather = nil
+            self.isShowingMessages = false
+            self.loadingProgress = -1
+            self.isShowingConversationCommands = true
+        }
+        
     }
 }
 
