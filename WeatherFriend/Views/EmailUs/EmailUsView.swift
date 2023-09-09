@@ -8,6 +8,39 @@
 import SwiftUI
 import Combine
 
+struct CustomTextEditor: UIViewRepresentable {
+    @Binding var text: String
+    @State var textColor: UIColor
+
+    func makeUIView(context: Context) -> UITextView {
+        let textView = UITextView()
+        textView.delegate = context.coordinator
+        textView.backgroundColor = UIColor.clear // Set background color here
+        textView.textColor = textColor
+        return textView
+    }
+
+    func updateUIView(_ uiView: UITextView, context: Context) {
+        uiView.text = text
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UITextViewDelegate {
+        var parent: CustomTextEditor
+
+        init(_ parent: CustomTextEditor) {
+            self.parent = parent
+        }
+
+        func textViewDidChange(_ textView: UITextView) {
+            parent.text = textView.text
+        }
+    }
+}
+
 struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     @StateObject var viewModel: ViewModel
     @Binding var isShowing: Bool
@@ -15,10 +48,9 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     @ObservedObject var keyboardObserver = KeyboardObserver()
     
     var BlurredBackground: some View {
-        Color(uiColor: .complimentaryBackgroundColor)
-            .blur(radius: 20)
+        Color(uiColor: .darkGray)
+            .blur(radius: 1)
             .animation(.easeInOut, value: 0.25)
-            .ignoresSafeArea()
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
@@ -27,16 +59,18 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     var ControlRow: some View {
         HStack {
             Spacer()
-            
-            Button("Submit") {
-                viewModel.sendEmail()
-                isShowing = false
+            Group {
+                Button("Submit") {
+                    viewModel.sendEmail()
+                    isShowing = false
+                }
+                
+                Button("Cancel") {
+                    isShowing = false
+                }
+                
             }
-            .font(.headline)
-            
-            Button("Cancel") {
-                isShowing = false
-            }
+            .foregroundColor(Color(uiColor: .primaryLinkButtonColor))
             .font(.headline)
             
         }
@@ -46,26 +80,33 @@ struct EmailUsView<ViewModel: EmailUsViewModelType>: View {
     }
     
     var body: some View {
-        
         ZStack {
             BlurredBackground
-            VStack(spacing: 20) {
-                TextEditor(text: $viewModel.text)
-                    .foregroundColor(Color(uiColor: .primaryTextColor))
-                    .font(.body)
-                    .padding()
+                .ignoresSafeArea()
+            ScrollView {
+                VStack {
+                    HStack {
+                        Text("Email the developer")
+                            .font(.title)
+                        Spacer()
+                    }
+                    .padding([.leading, .trailing], 8)
+                    VStack(spacing: 20) {
+                        CustomTextEditor(text: $viewModel.text, textColor: UIColor.primaryTextColor)
+                            .padding([.leading, .trailing], 8)
+                        ControlRow
+                    }
                     .background(Color(uiColor: .primaryBackgroundColor))
                     .cornerRadius(10)
-                
-                
-                ControlRow
+                    .frame(maxHeight: UIScreen.main.bounds.height / 2)
+                    .offset(y: -keyboardObserver.keyboardHeight)
+                    .animation(.easeInOut, value: keyboardObserver.keyboardHeight)
+                    
+                }
+                .offset(y: -keyboardObserver.keyboardHeight)
+                .frame(height: UIScreen.main.bounds.height - keyboardObserver.keyboardHeight)
+                .animation(.easeOut(duration: 0.16))
             }
-            
-            .background(Color(uiColor: .primaryBackgroundColor))
-            .cornerRadius(10)
-            .frame(maxHeight: UIScreen.main.bounds.height / 2)
-            .offset(y: -keyboardObserver.keyboardHeight)
-            .animation(.easeInOut, value: keyboardObserver.keyboardHeight)
             
         }
         

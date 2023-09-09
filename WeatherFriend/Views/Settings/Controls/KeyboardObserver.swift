@@ -10,20 +10,20 @@ import Combine
 
 class KeyboardObserver: ObservableObject {
     @Published var keyboardHeight: CGFloat = 0
-    var cancellableSet: Set<AnyCancellable> = []
-
+    
     init() {
-        let keyboardWillShow = NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
-            .map { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0 }
-
-        let keyboardWillHide = NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
-            .map { _ in CGFloat(0) }
-
-        let keyboardHeightPublisher = Publishers.Merge(keyboardWillShow, keyboardWillHide)
-
-        keyboardHeightPublisher
-            .subscribe(on: RunLoop.main)
-            .assign(to: \.keyboardHeight, on: self)
-            .store(in: &cancellableSet)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        if let rect = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            keyboardHeight = rect.height
+        }
+    }
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        keyboardHeight = 0
     }
 }
+
