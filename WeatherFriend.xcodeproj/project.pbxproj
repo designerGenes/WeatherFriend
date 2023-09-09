@@ -25,6 +25,7 @@
 		A841D4B52AAD056800207AB2 /* Font+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A841D4B42AAD056800207AB2 /* Font+Assets.swift */; };
 		A841D4B92AAD0BD800207AB2 /* Sacramento-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A841D4B82AAD0BD800207AB2 /* Sacramento-Regular.ttf */; };
 		A841D4BB2AAD0CE900207AB2 /* FlickeringLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A841D4BA2AAD0CE900207AB2 /* FlickeringLogoView.swift */; };
+		A841D4BD2AAD1FAF00207AB2 /* SectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A841D4BC2AAD1FAF00207AB2 /* SectionView.swift */; };
 		A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362812A8538A900B26935 /* WeatherViewModel.swift */; };
 		A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85122AA3DA53000EDEB7 /* Realm */; };
 		A84E85362AA50C8B000EDEB7 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */; };
@@ -80,6 +81,7 @@
 		A841D4B42AAD056800207AB2 /* Font+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Assets.swift"; sourceTree = "<group>"; };
 		A841D4B82AAD0BD800207AB2 /* Sacramento-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sacramento-Regular.ttf"; sourceTree = "<group>"; };
 		A841D4BA2AAD0CE900207AB2 /* FlickeringLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickeringLogoView.swift; sourceTree = "<group>"; };
+		A841D4BC2AAD1FAF00207AB2 /* SectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionView.swift; sourceTree = "<group>"; };
 		A84362812A8538A900B26935 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		A84E85372AA53187000EDEB7 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			children = (
 				A8C6173E2A942AB1004DC600 /* MaxTokensRow.swift */,
 				A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */,
+				A841D4BC2AAD1FAF00207AB2 /* SectionView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -454,6 +457,7 @@
 				A8D3E92D2AA9004D0057B35A /* LockableTextField.swift in Sources */,
 				A858C4AA2A828F97004A5373 /* WeatherFriend.swift in Sources */,
 				A8D152092A92D3740081C962 /* ChartsView.swift in Sources */,
+				A841D4BD2AAD1FAF00207AB2 /* SectionView.swift in Sources */,
 				A812DAA52A8A8D4900AF5B07 /* Notification+Custom.swift in Sources */,
 				A812DAAC2A8A8D5600AF5B07 /* CommandBar.swift in Sources */,
 				A822D1412A994E350012BA74 /* Bundle+Assets.swift in Sources */,

@@ -1,29 +1,31 @@
 import SwiftUI
 
-struct SectionView<Content: View>: View {
-    let title: String
-    let content: () -> Content
-    
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(title)
-                .font(.footnote)
-                .foregroundStyle(Color(uiColor: .primaryTextColor).opacity(0.6))
-                .padding([.leading], 8)
-            content()
-        }
-        
-        .background(Color.clear)
-    }
-}
+
 
 struct SettingsView<ViewModel: SettingsViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State var showingEmailUs: Bool = false
+    @State var showingAboutApp: Bool = false
+    
+    func AboutUsSection() -> some View {
+        return VStack(alignment: .leading) {
+            Spacer()
+                .frame(height:42)
+            Group {
+                Text("About WeatherFriend").font(.headline)
+                Text("Hey there! WeatherFriend is your go-to buddy for making the most out of any weather. Just pop in your zip code and let us suggest fun activities, cool places to visit, and even what to wear. We're here to add a little sunshine (or warm rain) to your day!").font(.body)
+            }
+            .padding([.leading, .trailing], 8)
+            .foregroundStyle(Color(uiColor: .primaryTextColor))
+            Spacer()
+                .frame(height:42)
+        }
+        .background(Color(uiColor: .complimentaryBackgroundColor))
+    }
     
     func NamedErrorSection(namedError: NamedError) -> some View {
         return
-        Section(header: Text("Error")) {
+        VStack {
             Text(namedError.rawValue).foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding([.leading, .trailing], 4)
@@ -38,6 +40,7 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
                 }
             }
         }
+        .background(Color(uiColor: .primaryBackgroundColor))
     }
     
     var body: some View {
@@ -51,24 +54,37 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
             }
             
             SectionView(title: "System") {
-                HStack {
-                    Text("Theme")
-                        .foregroundColor(Color(uiColor: .primaryTextColor))
-                    
-                    Spacer()
-                    Picker("Theme", selection: $viewModel.colorTheme) {
-                        ForEach([ColorTheme.light, .dark], id: \.self) { theme in
-                            Text(theme.rawValue.capitalized).tag(theme)
+                VStack {
+                    Group {
+                        HStack {
+                            Text("Theme")
+                                .foregroundStyle(Color(uiColor: .primaryTextColor))
+                            Spacer()
+                            Picker("Theme", selection: $viewModel.colorTheme) {
+                                ForEach([ColorTheme.light, .dark], id: \.self) { theme in
+                                    Text(theme.rawValue.capitalized).tag(theme)
+                                    
+                                }
+                            }
                             
                         }
+                                                
+                        HStack {
+                            Text("API Key")
+                                .foregroundStyle(Color(uiColor: .primaryTextColor))
+                            Spacer()
+                            Text("Coming soon")
+                                .foregroundStyle(Color.gray)
+                        }
                     }
+                    .padding([.leading, .trailing], 8)
+                    .frame(minHeight: 40)
                     .foregroundColor(Color(uiColor: .primaryTextColor))
                     .background(Color(uiColor: .complimentaryBackgroundColor))
                     .pickerStyle(.menu)
-                    .frame(minHeight: 40)
+                    
+                    
                 }
-                .padding([.leading, .trailing], 8)
-                .background(Color(uiColor: .complimentaryBackgroundColor))
             }
             
             Spacer()
@@ -80,6 +96,9 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
                         HStack {
                             Text("About WeatherFriend")
                             Spacer()
+                        }
+                        .onTapGesture {
+                            self.showingAboutApp.toggle()
                         }
                         HStack {
                             Text("Contact DesignerGenes")
@@ -99,6 +118,8 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
             }
             if let namedError = viewModel.namedError {
                 NamedErrorSection(namedError: namedError)
+            } else if showingAboutApp {
+                AboutUsSection()
             }
             Spacer()
         }
