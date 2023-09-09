@@ -11,11 +11,18 @@ import UIKit
 /**
  A color palette is a collection of related colors, based on a theme
  */
-struct ColorPalette {
-    var primaryBackgroundColor: UIColor  // background of large bodies
-    var primaryTextColor: UIColor // foreground color of text on complimentary
-    var complimentaryBackground: UIColor // row color set against primary background
-    var primaryLinkButtonColor: UIColor // color of links and button text
+class ColorPalette: ObservableObject {
+    @Published var primaryBackgroundColor: UIColor  // background of large bodies
+    @Published var primaryTextColor: UIColor // foreground color of text on complimentary
+    @Published var complimentaryBackground: UIColor // row color set against primary background
+    @Published var primaryLinkButtonColor: UIColor // color of links and button text
+    
+    init(primaryBackgroundColor: UIColor, primaryTextColor: UIColor, complimentaryBackground: UIColor, primaryLinkButtonColor: UIColor) {
+        self.primaryBackgroundColor = primaryBackgroundColor
+        self.primaryTextColor = primaryTextColor
+        self.complimentaryBackground = complimentaryBackground
+        self.primaryLinkButtonColor = primaryLinkButtonColor
+    }
 }
 
 extension ColorPalette {
@@ -40,14 +47,12 @@ extension ColorPalette {
  A color theme is what delineates palettes from each other, based on a role
  */
 enum ColorTheme: String, CaseIterable {
-    case light, dark, system
+    case light, dark
     
     var palette: ColorPalette {
         switch self {
-        case .light: ColorPalette.light
-        case .dark: ColorPalette.dark
-        case .system: ColorPalette.light // update this to accurately reflect the system setting for light/dark mode
-            
+        case .light: return ColorPalette.light
+        case .dark: return ColorPalette.dark
         }
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 
 protocol SettingsViewModelType: ObservableObject {
-    var theme: ColorTheme { get set }
+    var colorTheme: ColorTheme { get set }
     var gptModel: OpenAIModel { get set }
     var maxTokens: Int { get set }
     var customOpenAPIKey: String { get set }
@@ -18,9 +18,9 @@ protocol SettingsViewModelType: ObservableObject {
 }
 
 class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
-    @Published var theme: ColorTheme = .system {
-        didSet {
-            UserDefaultsController.set(key: .theme, value: theme.rawValue)
+    @Published var colorTheme: ColorTheme = .light {
+        willSet {
+            UserDefaultsController.set(key: .theme, value: newValue.rawValue)
         }
     }
     @Published var gptModel: OpenAIModel = .three_five
@@ -29,25 +29,56 @@ class MockSettingsViewModel: ObservableObject, SettingsViewModelType {
     @Published var namedError: NamedError? = nil
     
     static func mock() -> MockSettingsViewModel {
-        let viewModel = MockSettingsViewModel()
-        viewModel.theme = .system
-        viewModel.gptModel = .three_five
-        viewModel.maxTokens = 124
-        viewModel.customOpenAPIKey = ""
-        return viewModel
+        var mockColorTheme: ColorTheme = .light
+        let savedColorThemeString: String? = UserDefaultsController.get(key: .theme)
+        if let savedColorThemeString = savedColorThemeString, let colorTheme = ColorTheme(rawValue: savedColorThemeString) {
+            mockColorTheme = colorTheme
+        }
+        var out = MockSettingsViewModel()
+        out.colorTheme = mockColorTheme
+        return out
     }
     
+    init() {
+        if let savedGptModelString: String = UserDefaultsController.get(key: .gptModel, default: OpenAIModel.three_five.rawValue),
+           let gptModel = OpenAIModel(rawValue: savedGptModelString) {
+            self.gptModel = gptModel
+        }
+    }
 }
 
-
-
-
-
 class SettingsViewModel: ObservableObject, SettingsViewModelType {
-    @Published var theme: ColorTheme = .system
+    @Published var colorTheme: ColorTheme = .light {
+        willSet {
+            UserDefaultsController.set(key: .theme, value: newValue.rawValue)
+        }
+    }
+
     @Published var gptModel: OpenAIModel = .three_five
     @Published var maxTokens = 124
     @Published var customOpenAPIKey = ""
     @Published var namedError: NamedError? = nil
-    let apikeyRegexString = #"sk-[a-zA-Z0-9]{42}\b"#
+    
+    init() {
+        
+        
+        if let savedGptModelString: String = UserDefaultsController.get(key: .gptModel, default: OpenAIModel.three_five.rawValue),
+           let gptModel = OpenAIModel(rawValue: savedGptModelString) {
+            self.gptModel = gptModel
+        }
+        
+        if let savedMaxTokens: Int = UserDefaultsController.get(key: .gptMaxTokens, default: 124) {
+            self.maxTokens = savedMaxTokens
+        }
+        
+        if let savedCustomOpenAPIKey: String = KeychainController.get(key: .openAPIKey) {
+            self.customOpenAPIKey = savedCustomOpenAPIKey
+        }
+        
+
+        let savedColorThemeString: String? = UserDefaultsController.get(key: .theme)
+        if let savedColorThemeString = savedColorThemeString, let colorTheme = ColorTheme(rawValue: savedColorThemeString) {
+            self.colorTheme = colorTheme
+        }
+    }
 }

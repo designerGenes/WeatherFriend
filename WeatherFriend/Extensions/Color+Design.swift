@@ -10,7 +10,7 @@ import UIKit
 import SwiftUI
 import CoreGraphics
 
-// extension to UIColor that generate from hex string like "323843" or "#323843"
+// a THEME can be dark or light
 
 extension UIColor {
     convenience init(hex: String) {
@@ -27,16 +27,7 @@ extension UIColor {
         
         self.init(red: r, green: g, blue: b, alpha: 1.0)
     }
-    
-    static var formBackgroundLight: UIColor {
-        UIColor(hex: "F2F2F7")
-    }
-    
-    static var darkModeBackground: UIColor {
-        UIColor(red: 28/255, green: 28/255, blue: 30/255, alpha: 1)
-    }
-    
-    
+
     // VARIABLE COLORS DEPENDING ON THEME
     static var primaryBackgroundColor: UIColor {
         themedColor(colorIfLight: ColorPalette.light.primaryBackgroundColor,
@@ -63,12 +54,15 @@ extension UIColor {
     }
     
     static func themedColor(colorIfLight: UIColor, colorIfDark: UIColor, defaultColor: UIColor = .systemBackground) -> UIColor {
-        guard let theme = UserDefaultsController.get(key: .theme, default: .system, conversionFunction: { rawTheme in
-            ColorTheme(rawValue: rawTheme as! String) ?? .system
-        }) else {
-            return defaultColor // TODO: better handling if this is reachable
+        // 1. if value is found in UserDefaults, go with that
+        // 2. otherwise go with system
+        if let themeString = UserDefaultsController.get(key: .theme, default: ColorTheme.light.rawValue), let theme = ColorTheme(rawValue: themeString) {
+            switch theme {
+            case .dark: return colorIfDark
+            case .light: return colorIfLight
+            }
         }
-        return theme == .dark ? colorIfDark : colorIfLight
+        return defaultColor
     }
 }
 

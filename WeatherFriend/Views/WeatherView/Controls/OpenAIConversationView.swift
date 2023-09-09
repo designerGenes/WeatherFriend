@@ -64,12 +64,12 @@ struct OpenAIConversationView: View, OpenAIConversationViewType {
             }
             .disabled(isLoading)
             .fontWeight(.bold)
-            .foregroundColor(Color(uiColor: .primaryBackgroundColor))
+            
             .padding()
             
         }
         .background {
-            Color.clear
+            Color(uiColor: .primaryBackgroundColor)
         }
     }
     
@@ -94,13 +94,11 @@ struct OpenAIConversationView: View, OpenAIConversationViewType {
                     }
                 }
                 .clipped()
-                
-                
             }
             
         }
         .background {
-            Color.white
+            Color(uiColor: .primaryBackgroundColor)
         }
         
     }
@@ -122,6 +120,7 @@ struct OpenAIMessageView: View {
                     Spacer()
                 }
                 Text(message.content)
+                    .foregroundStyle(Color(uiColor: .primaryTextColor))
                 Spacer()
             }
             

@@ -62,7 +62,7 @@ struct CircularSpeedometerView: View {
                 Circle()
                     .stroke(lineWidth: 10)
                     .opacity(0.3)
-                    .foregroundColor(.darkBlue.opacity(1))
+                    .foregroundColor(.lightGray.opacity(1))
                 
                 Circle()
                     .trim(from: 0.0, to: CGFloat(min(value / maxValue, 1.0)))

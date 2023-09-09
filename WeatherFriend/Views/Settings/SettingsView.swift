@@ -1,73 +1,108 @@
 import SwiftUI
 
+struct SectionView<Content: View>: View {
+    let title: String
+    let content: () -> Content
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(title)
+                .font(.footnote)
+                .foregroundStyle(Color(uiColor: .primaryTextColor).opacity(0.6))
+                .padding([.leading], 8)
+            content()
+        }
+        
+        .background(Color.clear)
+    }
+}
 
 struct SettingsView<ViewModel: SettingsViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @ObservedObject var keyboardObserver = KeyboardObserver()
     @State var showingEmailUs: Bool = false
     
-    init(viewModel: ViewModel) {
-        self.viewModel = viewModel
-        viewModel.theme = UserDefaultsController.get(key: .theme, default: .system) {
-            ColorTheme(rawValue: $0 as! String)!
-        } ?? .system
-        
-        viewModel.gptModel = UserDefaultsController.get(key: .gptModel, default: .three_five) {
-            OpenAIModel(rawValue: $0 as! String)!
-        } ?? .three_five
-        
-        viewModel.maxTokens = UserDefaultsController.get(key: .gptMaxTokens, default: 124) {
-            $0 as! Int
-        } ?? 124
-        
-        viewModel.customOpenAPIKey = KeychainController.get(key: .openAPIKey) ?? ""
+    func NamedErrorSection(namedError: NamedError) -> some View {
+        return
+        Section(header: Text("Error")) {
+            Text(namedError.rawValue).foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding([.leading, .trailing], 4)
+                .border(.clear, width: 1)
+                .background {
+                    Color.clear
+                }
+            HStack(spacing: 6) {
+                Spacer()
+                Button("Dismiss") {
+                    viewModel.namedError = nil
+                }
+            }
+        }
     }
     
     var body: some View {
-        ZStack {
-            Color(uiColor: UIColor.complimentaryBackgroundColor)
-                .ignoresSafeArea()
-            
-            VStack {
+        VStack(spacing: 0) {
+            HStack {
+                Text("Settings")
+                    .font(.largeTitle.bold())
+                    .foregroundColor(Color(uiColor: .primaryTextColor))
+                    .padding()
                 Spacer()
-                    .frame(height: 64)
-                Form {
-                    Picker("Theme", selection: $viewModel.theme) {
-                        ForEach([ColorTheme.light, .dark, .system], id: \.self) { theme in
-                            Text(theme.rawValue.capitalized).tag(theme)
-                        }
-                    }
-                    .pickerStyle(.menu)
+            }
+            
+            SectionView(title: "System") {
+                HStack {
+                    Text("Theme")
+                        .foregroundColor(Color(uiColor: .primaryTextColor))
                     
-                    Section(header: Text("App")) {
-                        Text("About WeatherFriend")
-                        Text("Contact DesignerGenes")
-                            .onTapGesture {
-                                self.showingEmailUs = true
-                            }
-                    }
-                    if let namedError = viewModel.namedError {
-                        Section(header: Text("Error")) {
-                            Text(namedError.rawValue).foregroundStyle(.secondary)
-                                .multilineTextAlignment(.center)
-                                .padding([.leading, .trailing], 4)
-                                .border(.clear, width: 1)
-                                .background {
-                                    Color.clear
-                                }
-                            HStack(spacing: 6) {
-                                Spacer()
-                                Button("Dismiss") {
-                                    viewModel.namedError = nil
-                                }
-                            }
+                    Spacer()
+                    Picker("Theme", selection: $viewModel.colorTheme) {
+                        ForEach([ColorTheme.light, .dark], id: \.self) { theme in
+                            Text(theme.rawValue.capitalized).tag(theme)
+                            
                         }
                     }
+                    .foregroundColor(Color(uiColor: .primaryTextColor))
+                    .background(Color(uiColor: .complimentaryBackgroundColor))
+                    .pickerStyle(.menu)
+                    .frame(minHeight: 40)
                 }
+                .padding([.leading, .trailing], 8)
+                .background(Color(uiColor: .complimentaryBackgroundColor))
+            }
+            
+            Spacer()
+                .frame(height: 24)
                 
+            SectionView(title: "Other") {
+                VStack(spacing: 0) {
+                    Group {
+                        HStack {
+                            Text("About WeatherFriend")
+                            Spacer()
+                        }
+                        HStack {
+                            Text("Contact DesignerGenes")
+                                .onTapGesture {
+                                    self.showingEmailUs = true
+                                }
+                            Spacer()
+                        }
+                    }
+                    .frame(minHeight: 40)
+                    .padding([.leading, .trailing], 8)
+                    .background(Color(uiColor: .complimentaryBackgroundColor))
+                }
+                .foregroundColor(Color(uiColor: .primaryTextColor))
+                .listRowBackground(Color(uiColor: .complimentaryBackgroundColor))
                 
             }
+            if let namedError = viewModel.namedError {
+                NamedErrorSection(namedError: namedError)
+            }
+            Spacer()
         }
+        .background(Color(uiColor: .primaryBackgroundColor))
         .overlay {
             if showingEmailUs {
                 EmailUsView(viewModel: EmailUsViewModel(), isShowing: $showingEmailUs)
@@ -79,12 +114,12 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
         }
     }
 }
-
-
+    
+    
 #if DEBUG
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView<MockSettingsViewModel>(viewModel: MockSettingsViewModel.mock())
+    struct SettingsView_Previews: PreviewProvider {
+        static var previews: some View {
+            SettingsView<MockSettingsViewModel>(viewModel: MockSettingsViewModel.mock())
+        }
     }
-}
 #endif

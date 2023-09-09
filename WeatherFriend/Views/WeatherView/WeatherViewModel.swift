@@ -40,8 +40,6 @@ extension WeatherViewModelType {
 }
 
 class MockWeatherViewModel: ObservableObject, WeatherViewModelType {
-    
-    
     @Published var usesFahrenheit: Bool = true
     @Published var zipCode: String = "1234"
     @Published var messages: [OpenAIConversationMessage] = OpenAIConversationMessage.mockMessages
@@ -122,6 +120,7 @@ class WeatherViewViewModel: ObservableObject, WeatherViewModelType {
     
     init(usesFahrenheit: Bool = true) {
         self.usesFahrenheit = usesFahrenheit
+        
         $zipCode
             .debounce(for: .seconds(0.5), scheduler: RunLoop.main)
             .sink { value in

@@ -49,7 +49,6 @@
 		A8D3E92B2AA74D470057B35A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = A8D3E92A2AA74D470057B35A /* Alamofire */; };
 		A8D3E92D2AA9004D0057B35A /* LockableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D3E92C2AA9004D0057B35A /* LockableTextField.swift */; };
 		A8D3E92F2AAA23950057B35A /* TintChangingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D3E92E2AAA23950057B35A /* TintChangingButton.swift */; };
-		A8D3E9312AAA2F510057B35A /* WeatherDetailsBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D3E9302AAA2F510057B35A /* WeatherDetailsBarView.swift */; };
 		A8E262142A9E02AE0048E95E /* OpenAI.json in Resources */ = {isa = PBXBuildFile; fileRef = A8E262122A9E02AE0048E95E /* OpenAI.json */; };
 		A8E2621B2A9E08190048E95E /* OpenAIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E2621A2A9E08190048E95E /* OpenAIController.swift */; };
 		A8E262242A9E64030048E95E /* OpenAIRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E262232A9E64030048E95E /* OpenAIRole.swift */; };
@@ -101,7 +100,6 @@
 		A8D1520E2A938D400081C962 /* UserDefaultsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsController.swift; sourceTree = "<group>"; };
 		A8D3E92C2AA9004D0057B35A /* LockableTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockableTextField.swift; sourceTree = "<group>"; };
 		A8D3E92E2AAA23950057B35A /* TintChangingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TintChangingButton.swift; sourceTree = "<group>"; };
-		A8D3E9302AAA2F510057B35A /* WeatherDetailsBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherDetailsBarView.swift; sourceTree = "<group>"; };
 		A8E262122A9E02AE0048E95E /* OpenAI.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OpenAI.json; sourceTree = "<group>"; };
 		A8E2621A2A9E08190048E95E /* OpenAIController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIController.swift; sourceTree = "<group>"; };
 		A8E262232A9E64030048E95E /* OpenAIRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIRole.swift; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 				A812DAAA2A8A8D5600AF5B07 /* StackText.swift */,
 				A8D3E92C2AA9004D0057B35A /* LockableTextField.swift */,
 				A812DAA62A8A8D5600AF5B07 /* OpenAIConversationView.swift */,
-				A8D3E9302AAA2F510057B35A /* WeatherDetailsBarView.swift */,
 				A89D0E9C2AAA491900CD7802 /* CircularSpeedometerView.swift */,
 				A8D3E92E2AAA23950057B35A /* TintChangingButton.swift */,
 			);
@@ -436,7 +433,6 @@
 				A812DAA32A8A8B1E00AF5B07 /* String+Convenience.swift in Sources */,
 				A812DAAF2A8A8D5600AF5B07 /* StackText.swift in Sources */,
 				A89D0E9F2AAA4B4A00CD7802 /* Double+Conversion.swift in Sources */,
-				A8D3E9312AAA2F510057B35A /* WeatherDetailsBarView.swift in Sources */,
 				A8C6173D2A94074C004DC600 /* SettingsViewModel.swift in Sources */,
 				A8D1520F2A938D400081C962 /* UserDefaultsController.swift in Sources */,
 				A841D4B12AAC96AF00207AB2 /* LocationError.swift in Sources */,

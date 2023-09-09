@@ -10,7 +10,7 @@ struct BackboneTabView: View {
                 case .main:
                     WeatherView(viewModel: WeatherViewViewModel())
                 case .settings:
-                    SettingsView(viewModel: MockSettingsViewModel.mock())
+                    SettingsView(viewModel: SettingsViewModel())
                 }
                 CommandBar(selectedScreen: $activeScreen)
                     .frame(height: 30)
