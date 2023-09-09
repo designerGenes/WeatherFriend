@@ -52,7 +52,8 @@ struct SettingsView<ViewModel: SettingsViewModelType>: View {
                     .padding()
                 Spacer()
             }
-            
+            Spacer()
+                .frame(height: 64)
             SectionView(title: "System") {
                 VStack {
                     Group {

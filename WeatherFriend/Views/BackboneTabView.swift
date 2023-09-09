@@ -14,6 +14,7 @@ struct BackboneTabView: View {
                 }
                 CommandBar(selectedScreen: $activeScreen)
                     .frame(height: 30)
+                    .offset(y: 56)
                 .padding()
         }
     }

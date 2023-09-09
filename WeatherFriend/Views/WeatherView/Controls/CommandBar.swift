@@ -19,7 +19,7 @@ struct CommandBar: View {
                 })
                 .buttonStyle(.borderless)
                 .frame(width: 32, height: 32)
-                .foregroundColor(Color(uiColor: .primaryBackgroundColor))
+                .foregroundColor(Color(uiColor: .primaryTextColor))
             }
         }
         .padding([.leading, .trailing], 32)

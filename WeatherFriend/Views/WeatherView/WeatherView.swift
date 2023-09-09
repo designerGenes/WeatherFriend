@@ -29,7 +29,7 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
         let savedTimestamp = UserDefaults.standard.double(forKey: UserDefaultsKey.backgroundLastChangedTimestamp.rawValue)
         
         // if no timestamp saved OR timestamp is past threshold
-        if savedTimestamp <= 0 || currentTimestamp - savedTimestamp > 5 { //1000 * 60 * 5 {
+        if savedTimestamp <= 0 || currentTimestamp - savedTimestamp > 1000 * 60 * 5 {
             // will only happen if timestamp is past threshold
             UserDefaults.standard.set(Image.backgroundNames.randomElement(), forKey: UserDefaultsKey.backgroundLastImageName.rawValue)
             UserDefaults.standard.set(currentTimestamp, forKey: UserDefaultsKey.backgroundLastChangedTimestamp.rawValue)
@@ -39,16 +39,13 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
     }
     
     var BackgroundGradient: some View {
-        
         ZStack {
-            
             FillImage
                 .resizable()
                 .scaledToFill()
                 .overlay(
                     LinearGradient(gradient: Gradient(colors: [Color.darkBlue, Color.lighterDarkBlue]), startPoint: .top, endPoint: .bottom)
                         .opacity(0.2)
-                    
             )
             VStack {
                 Spacer()
@@ -62,8 +59,6 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
         }
         .ignoresSafeArea()
         .frame(maxWidth: UIScreen.main.bounds.width)
-        
-
     }
     
     var WeatherSpeedometersView: some View {
