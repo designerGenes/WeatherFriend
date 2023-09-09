@@ -25,6 +25,7 @@ struct CircularSpeedometerView: View {
     var color: Color
     @State private var showTitle: Bool = false
     var maxValueColor: Color?
+    var textColor: Color = Color(uiColor: .primaryTextColor)
     
     var shouldUseMaxValueColor: Bool {
         switch unit {
@@ -62,7 +63,7 @@ struct CircularSpeedometerView: View {
                 Circle()
                     .stroke(lineWidth: 10)
                     .opacity(0.3)
-                    .foregroundColor(.lightGray.opacity(1))
+                    .foregroundColor(currentFillColor.opacity(0.3))
                 
                 Circle()
                     .trim(from: 0.0, to: CGFloat(min(value / maxValue, 1.0)))
@@ -76,6 +77,7 @@ struct CircularSpeedometerView: View {
             
             Text(showTitle ? title : formattedValue)
                 .multilineTextAlignment(.center)
+                .foregroundStyle(textColor)
         }
         .gesture(DragGesture(minimumDistance: 0)
             .onChanged({ _ in

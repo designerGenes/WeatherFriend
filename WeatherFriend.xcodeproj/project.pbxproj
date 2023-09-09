@@ -22,6 +22,9 @@
 		A822D1412A994E350012BA74 /* Bundle+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D1402A994E350012BA74 /* Bundle+Assets.swift */; };
 		A822D1432A99602E0012BA74 /* OpenAICommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = A822D1422A99602E0012BA74 /* OpenAICommand.swift */; };
 		A841D4B12AAC96AF00207AB2 /* LocationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A841D4B02AAC96AF00207AB2 /* LocationError.swift */; };
+		A841D4B52AAD056800207AB2 /* Font+Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A841D4B42AAD056800207AB2 /* Font+Assets.swift */; };
+		A841D4B92AAD0BD800207AB2 /* Sacramento-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A841D4B82AAD0BD800207AB2 /* Sacramento-Regular.ttf */; };
+		A841D4BB2AAD0CE900207AB2 /* FlickeringLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A841D4BA2AAD0CE900207AB2 /* FlickeringLogoView.swift */; };
 		A84362822A8538A900B26935 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84362812A8538A900B26935 /* WeatherViewModel.swift */; };
 		A84E85132AA3DA53000EDEB7 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A84E85122AA3DA53000EDEB7 /* Realm */; };
 		A84E85362AA50C8B000EDEB7 /* KeyboardObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */; };
@@ -74,6 +77,9 @@
 		A822D1402A994E350012BA74 /* Bundle+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Assets.swift"; sourceTree = "<group>"; };
 		A822D1422A99602E0012BA74 /* OpenAICommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAICommand.swift; sourceTree = "<group>"; };
 		A841D4B02AAC96AF00207AB2 /* LocationError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationError.swift; sourceTree = "<group>"; };
+		A841D4B42AAD056800207AB2 /* Font+Assets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Assets.swift"; sourceTree = "<group>"; };
+		A841D4B82AAD0BD800207AB2 /* Sacramento-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sacramento-Regular.ttf"; sourceTree = "<group>"; };
+		A841D4BA2AAD0CE900207AB2 /* FlickeringLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickeringLogoView.swift; sourceTree = "<group>"; };
 		A84362812A8538A900B26935 /* WeatherViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		A84E85352AA50C8B000EDEB7 /* KeyboardObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardObserver.swift; sourceTree = "<group>"; };
 		A84E85372AA53187000EDEB7 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
@@ -162,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				A812DAA42A8A8D4900AF5B07 /* Notification+Custom.swift */,
+				A841D4B42AAD056800207AB2 /* Font+Assets.swift */,
 				A812DAA22A8A8B1E00AF5B07 /* String+Convenience.swift */,
 				A8B2E2512A8292A400A1B0EE /* Image+Design.swift */,
 				A891B11F2A8291CA00A1C5F8 /* Color+Design.swift */,
@@ -270,6 +277,7 @@
 				A812DAA62A8A8D5600AF5B07 /* OpenAIConversationView.swift */,
 				A89D0E9C2AAA491900CD7802 /* CircularSpeedometerView.swift */,
 				A8D3E92E2AAA23950057B35A /* TintChangingButton.swift */,
+				A841D4BA2AAD0CE900207AB2 /* FlickeringLogoView.swift */,
 			);
 			path = Controls;
 			sourceTree = "<group>";
@@ -312,6 +320,7 @@
 		A8E262112A9E021B0048E95E /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				A841D4B82AAD0BD800207AB2 /* Sacramento-Regular.ttf */,
 				A8E262122A9E02AE0048E95E /* OpenAI.json */,
 			);
 			path = Assets;
@@ -408,6 +417,7 @@
 				A858C4B12A828F98004A5373 /* Preview Assets.xcassets in Resources */,
 				A858C4AE2A828F98004A5373 /* Assets.xcassets in Resources */,
 				A8E262142A9E02AE0048E95E /* OpenAI.json in Resources */,
+				A841D4B92AAD0BD800207AB2 /* Sacramento-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +429,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A8E539B52A8D4B7600BC16FF /* PlistKey.swift in Sources */,
+				A841D4B52AAD056800207AB2 /* Font+Assets.swift in Sources */,
 				A858C4AC2A828F97004A5373 /* WeatherView.swift in Sources */,
 				A822D13C2A97EAA50012BA74 /* NamedError.swift in Sources */,
 				A8E927C82A8C0F8F00450C52 /* BackboneTabView.swift in Sources */,
@@ -456,6 +467,7 @@
 				A8C617432A942C1E004DC600 /* AboutView.swift in Sources */,
 				A891B1202A8291CA00A1C5F8 /* Color+Design.swift in Sources */,
 				A8D1520D2A92FD8B0081C962 /* ColorTheme.swift in Sources */,
+				A841D4BB2AAD0CE900207AB2 /* FlickeringLogoView.swift in Sources */,
 				A8FBF0832A8EC6390072B9E6 /* WeatherType.swift in Sources */,
 				A8D3E92F2AAA23950057B35A /* TintChangingButton.swift in Sources */,
 				A8D1520B2A92E2090081C962 /* OpenAIModel.swift in Sources */,

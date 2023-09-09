@@ -25,14 +25,30 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
     @StateObject var viewModel: ViewModel
     
     var BackgroundGradient: some View {
-        Image.rain_streets
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-            .overlay(
-                LinearGradient(gradient: Gradient(colors: [Color.darkBlue, Color.lighterDarkBlue]), startPoint: .top, endPoint: .bottom)
-                    .opacity(0.2)
+        
+        ZStack {
+            
+            Image.rain_streets
+                .resizable()
+                .scaledToFill()
+                .overlay(
+                    LinearGradient(gradient: Gradient(colors: [Color.darkBlue, Color.lighterDarkBlue]), startPoint: .top, endPoint: .bottom)
+                        .opacity(0.2)
+                    
             )
+            VStack {
+                Spacer()
+                    .frame(height: 64)
+                FlickeringLogoView(text: "WeatherFriend",
+                                   foregroundColor: Color(uiColor: .complimentaryBackgroundColor),
+                                   font: Font.custom("Sacramento-Regular", size: 48))
+                Spacer()
+            }
+                
+        }
+        .ignoresSafeArea()
+        .frame(maxWidth: UIScreen.main.bounds.width)
+        
 
     }
     
@@ -74,21 +90,9 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
             .padding([.leading, .trailing], 24)
             .padding([.top], 10)
             .frame(height: 80)
-            .background(Color(uiColor: .primaryBackgroundColor))
+            .background(Color(uiColor: .primaryBackgroundColor).opacity(0.9))
     }
-    
-    func yPosition(geo: GeometryProxy) -> CGFloat {
-        let yPosition: CGFloat
-        if viewModel.weather != nil && viewModel.isShowingMessages {
-            yPosition = (geo.size.height / 2) - 145
-        } else if viewModel.isShowingMessages {
-            yPosition = (geo.size.height / 2) - 120
-        } else {
-            yPosition = geo.size.height / 2
-        }
-        return yPosition
-    }
-    
+        
     var body: some View {
         ZStack(alignment: .center) {
             GeometryReader { geo in
@@ -113,10 +117,12 @@ struct WeatherView<ViewModel: WeatherViewModelType>: View {
                         WeatherSpeedometersView
                     }
                     if viewModel.isShowingMessages && !viewModel.messages.isEmpty {
+                    
                         OpenAIConversationView(delegate: viewModel, isShowingConversationCommands: $viewModel.isShowingConversationCommands, loadingProgress: $viewModel.loadingProgress, messages: $viewModel.messages)
                             .opacity(0.9)
                             .frame(width: geo.size.width, height: geo.size.height / 2)
-                            .animation(.easeInOut, value: 0.35)
+                        .animation(.easeInOut, value: 0.35)
+                        
                     }
                 }
                 .padding([.bottom], 32)
